@@ -1,0 +1,247 @@
+import type { Metadata } from 'next';
+import { Mail, Clock, ArrowRight } from 'lucide-react';
+import GsapReveal from '@/components/GsapReveal';
+import WordReveal from '@/components/WordReveal';
+
+export const metadata: Metadata = {
+  title: '문의',
+  description: '알티스토에 문의하세요.',
+};
+
+const channels = [
+  {
+    icon: Mail,
+    label: '이메일 문의',
+    value: 'connect@altisto.me',
+    desc: '영업일 기준 24시간 이내 답변드립니다.',
+    href: 'mailto:connect@altisto.me',
+    color: '#1d4ed8',
+    bg: '#eff6ff',
+  },
+];
+
+const faqs = [
+  {
+    q: '견적 문의는 어떻게 하나요?',
+    a: '이메일로 프로젝트 내용을 간단히 보내주시면 24시간 이내에 견적을 안내드립니다.',
+  },
+  {
+    q: '입점·파트너십 제안은요?',
+    a: '플랫폼 입점이나 제휴 제안도 동일한 채널로 연락주시면 담당자가 검토 후 연락드립니다.',
+  },
+  {
+    q: '크리에이터로 등록하고 싶어요.',
+    a: '알티 플랫폼 정식 오픈 시 크리에이터 등록이 가능합니다. 현재는 이메일로 사전 신청을 받고 있습니다.',
+  },
+];
+
+export default function ContactPage() {
+  return (
+    <main className="flex-1 pt-[68px]">
+
+      {/* ━━━━━━━━━━━━━━ HERO ━━━━━━━━━━━━━━ */}
+      <section className="relative bg-white border-b border-[#e5e7eb] px-6 md:px-10 overflow-hidden py-24 flex items-center">
+
+        {/* 유성우 장식 */}
+        <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+          <svg width="600" height="480" viewBox="0 0 600 480" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+            <defs>
+              <path id="cp1" d="M 640,60  C 500,42  360,88  220,62  C 110,44  40,58  -20,54" />
+              <path id="cp2" d="M 640,145 C 500,127 360,173 220,147 C 110,129 40,143 -20,139" />
+              <path id="cp3" d="M 640,240 C 500,220 360,268 220,242 C 110,224 40,238 -20,234" />
+              <path id="cp4" d="M 640,330 C 500,312 360,356 220,330 C 110,312 40,326 -20,322" />
+              <path id="cp5" d="M 640,415 C 500,397 360,441 220,415 C 110,397 40,411 -20,407" />
+            </defs>
+            {["M 640,60  C 500,42  360,88  220,62  C 110,44  40,58  -20,54",
+              "M 640,145 C 500,127 360,173 220,147 C 110,129 40,143 -20,139",
+              "M 640,240 C 500,220 360,268 220,242 C 110,224 40,238 -20,234",
+              "M 640,330 C 500,312 360,356 220,330 C 110,312 40,326 -20,322",
+              "M 640,415 C 500,397 360,441 220,415 C 110,397 40,411 -20,407",
+            ].map((d, i) => (
+              <path key={i} d={d} stroke="#dbeafe" strokeWidth="1" strokeDasharray="3 11" strokeLinecap="round" opacity={0.7 - i * 0.1} />
+            ))}
+            <path d="M0,-18 L4.5,-4.5 L18,0 L4.5,4.5 L0,18 L-4.5,4.5 L-18,0 L-4.5,-4.5 Z" fill="#1d4ed8">
+              <animateMotion dur="5s" begin="0s" repeatCount="indefinite" rotate="auto"><mpath href="#cp1" /></animateMotion>
+              <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.06;0.88;1" dur="5s" begin="0s" repeatCount="indefinite" />
+            </path>
+            <path d="M0,-13 L3.2,-3.2 L13,0 L3.2,3.2 L0,13 L-3.2,3.2 L-13,0 L-3.2,-3.2 Z" fill="#7c3aed">
+              <animateMotion dur="4.6s" begin="1.0s" repeatCount="indefinite" rotate="auto"><mpath href="#cp2" /></animateMotion>
+              <animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.07;0.88;1" dur="4.6s" begin="1.0s" repeatCount="indefinite" />
+            </path>
+            <path d="M0,-10 L2.5,-2.5 L10,0 L2.5,2.5 L0,10 L-2.5,2.5 L-10,0 L-2.5,-2.5 Z" fill="#ec4899">
+              <animateMotion dur="4.1s" begin="2.1s" repeatCount="indefinite" rotate="auto"><mpath href="#cp3" /></animateMotion>
+              <animate attributeName="opacity" values="0;0.75;0.75;0" keyTimes="0;0.07;0.88;1" dur="4.1s" begin="2.1s" repeatCount="indefinite" />
+            </path>
+            <path d="M0,-7 L1.7,-1.7 L7,0 L1.7,1.7 L0,7 L-1.7,1.7 L-7,0 L-1.7,-1.7 Z" fill="#06b6d4">
+              <animateMotion dur="3.6s" begin="0.5s" repeatCount="indefinite" rotate="auto"><mpath href="#cp4" /></animateMotion>
+              <animate attributeName="opacity" values="0;0.70;0.70;0" keyTimes="0;0.08;0.88;1" dur="3.6s" begin="0.5s" repeatCount="indefinite" />
+            </path>
+            <path d="M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z" fill="#f59e0b">
+              <animateMotion dur="3.2s" begin="1.6s" repeatCount="indefinite" rotate="auto"><mpath href="#cp5" /></animateMotion>
+              <animate attributeName="opacity" values="0;0.65;0.65;0" keyTimes="0;0.08;0.88;1" dur="3.2s" begin="1.6s" repeatCount="indefinite" />
+            </path>
+          </svg>
+        </div>
+
+        <div className="relative z-10 mx-auto w-full max-w-screen-xl flex flex-col items-start text-left pl-[8vw]">
+          <GsapReveal type="clip-up" delay={0}>
+            <h1 className="mb-4 font-extrabold tracking-[-0.03em] leading-[1.1] text-[#0d1117] text-[clamp(1.6rem,3vw,2.4rem)]">
+              문의
+            </h1>
+          </GsapReveal>
+          <GsapReveal type="fade-up" delay={0.15}>
+            <div className="mb-4 h-px w-8 bg-[#d1d5db]" />
+          </GsapReveal>
+          <GsapReveal type="fade-up" delay={0.25}>
+            <p className="max-w-sm text-[12px] leading-[1.9] text-[#6b7280]">
+              프로젝트 견적, 플랫폼 입점, 파트너십 제안 등<br />
+              어떤 내용이든 편하게 연락주세요.
+            </p>
+          </GsapReveal>
+        </div>
+
+      </section>
+
+      {/* ━━━━━━━━━━━━━━ CHANNELS ━━━━━━━━━━━━━━ */}
+      <section className="bg-white border-b border-[#e5e7eb] px-6 md:px-10 py-24">
+        <div className="mx-auto max-w-screen-xl">
+
+          <GsapReveal type="fade-up">
+            <p className="mb-12 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-[#9ca3af]">
+              문의 채널
+            </p>
+          </GsapReveal>
+
+          <div className="grid grid-cols-1 gap-6 max-w-md mx-auto">
+            {channels.map((ch, i) => (
+              <GsapReveal key={ch.label} type="scale-in" delay={i * 0.12}>
+                <a
+                  href={ch.href}
+                  target={ch.href.startsWith('http') ? '_blank' : undefined}
+                  rel={ch.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="group relative flex flex-col gap-5 rounded-2xl border border-[#e5e7eb]
+                    bg-white p-7 hover:border-[#d1d5db] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)]
+                    transition-all duration-300"
+                >
+                  {/* 호버 글로우 */}
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100
+                    transition-opacity duration-300 pointer-events-none"
+                    style={{ background: `radial-gradient(ellipse at 50% 0%, ${ch.color}08 0%, transparent 70%)` }} />
+
+                  {/* 아이콘 */}
+                  <div className="h-11 w-11 rounded-xl grid place-items-center transition-transform
+                    duration-300 group-hover:scale-110"
+                    style={{ backgroundColor: ch.bg }}>
+                    <ch.icon size={20} style={{ color: ch.color }} strokeWidth={1.8} />
+                  </div>
+
+                  {/* 텍스트 */}
+                  <div className="flex flex-col gap-1 flex-1">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#9ca3af]">{ch.label}</p>
+                    <p className="text-[17px] font-semibold text-[#0d1117] group-hover:text-[#1d4ed8]
+                      transition-colors">{ch.value}</p>
+                    <p className="mt-1 text-[13px] leading-[1.7] text-[#6b7280]">{ch.desc}</p>
+                  </div>
+
+                  {/* 화살표 */}
+                  <ArrowRight size={16} className="text-[#d1d5db] group-hover:text-[#1d4ed8]
+                    group-hover:translate-x-1 transition-all duration-300 self-end" />
+                </a>
+              </GsapReveal>
+            ))}
+          </div>
+
+          {/* 응답 시간 뱃지 */}
+          <GsapReveal type="fade-up" delay={0.3} className="mt-10 flex justify-center">
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-[#e5e7eb]
+              bg-white px-5 py-2.5">
+              <Clock size={13} className="text-[#9ca3af]" />
+              <span className="text-[12px] text-[#6b7280]">영업일 기준 <strong className="text-[#0d1117] font-semibold">24시간</strong> 이내 답변</span>
+            </div>
+          </GsapReveal>
+        </div>
+      </section>
+
+      {/* ━━━━━━━━━━━━━━ FAQ ━━━━━━━━━━━━━━ */}
+      <section className="bg-white px-6 md:px-10 py-24">
+        <div className="mx-auto max-w-screen-xl max-w-2xl">
+
+          <GsapReveal type="fade-up" delay={0.05}>
+            <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.35em] text-[#9ca3af]">FAQ</p>
+          </GsapReveal>
+
+          <GsapReveal type="clip-up" delay={0.15}>
+            <h2 className="mb-12 text-[clamp(1.4rem,3vw,1.9rem)] font-extrabold tracking-[-0.02em] text-[#0d1117]">
+              자주 묻는 질문
+            </h2>
+          </GsapReveal>
+
+          <div className="flex flex-col gap-4">
+            {faqs.map((item, i) => (
+              <GsapReveal key={i} type="fade-up" delay={0.2 + i * 0.1}>
+                <div className="rounded-2xl border border-[#e5e7eb] bg-white p-7">
+                  <div className="flex items-start gap-4">
+                    <span className="flex-shrink-0 h-6 w-6 rounded-full bg-[#eff6ff] grid place-items-center
+                      text-[10px] font-bold text-[#1d4ed8] mt-0.5">Q</span>
+                    <div className="flex flex-col gap-2">
+                      <p className="text-[15px] font-semibold text-[#0d1117] leading-snug">{item.q}</p>
+                      <p className="text-[13px] leading-[1.8] text-[#6b7280]">{item.a}</p>
+                    </div>
+                  </div>
+                </div>
+              </GsapReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ━━━━━━━━━━━━━━ CTA BOTTOM ━━━━━━━━━━━━━━ */}
+      <section className="relative bg-white border-t border-[#e5e7eb] px-6 md:px-10 py-24 overflow-hidden">
+
+        {/* 글로우 */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2
+          w-[500px] h-[300px] rounded-full bg-[#1d4ed8] opacity-[0.05] blur-[80px] pointer-events-none" />
+
+        <div className="relative z-10 mx-auto max-w-screen-xl text-center">
+
+          <GsapReveal type="scale-in">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#1d4ed8"
+              className="mx-auto mb-6"
+              style={{ animation: 'star-twinkle 2.4s 0s ease-in-out infinite' }}>
+              <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z" />
+            </svg>
+          </GsapReveal>
+
+          <div className="mb-4">
+            <WordReveal
+              text="함께 만들어 가요"
+              className="text-[clamp(1.5rem,3.5vw,2.2rem)] font-extrabold tracking-[-0.02em] text-[#0d1117]"
+              delay={0.1}
+              stagger={0.1}
+            />
+          </div>
+
+          <GsapReveal type="fade-up" delay={0.3}>
+            <p className="mb-8 text-[14px] leading-[1.9] text-[#6b7280] max-w-sm mx-auto">
+              좋은 아이디어와 열정이 있다면<br />
+              언제든지 문을 두드려 주세요.
+            </p>
+          </GsapReveal>
+
+          <GsapReveal type="fade-up" delay={0.4}>
+            <a
+              href="mailto:connect@altisto.me"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#0d1117] px-7 py-3.5
+                text-[14px] font-semibold text-white hover:bg-[#1d4ed8] transition-colors duration-300"
+            >
+              <Mail size={15} />
+              이메일 보내기
+            </a>
+          </GsapReveal>
+
+        </div>
+      </section>
+
+    </main>
+  );
+}

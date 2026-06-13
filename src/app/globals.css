@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+/* ── LeafChat 미리보기 루프 애니메이션 ── */
+@keyframes lc-msg-1 {
+  0%          { opacity: 0; transform: translateY(10px); }
+  8%          { opacity: 1; transform: translateY(0); }
+  62%         { opacity: 1; transform: translateY(0); }
+  74%         { opacity: 0; }
+  100%        { opacity: 0; }
+}
+@keyframes lc-msg-2 {
+  0%, 20%     { opacity: 0; transform: translateY(10px); }
+  28%         { opacity: 1; transform: translateY(0); }
+  62%         { opacity: 1; transform: translateY(0); }
+  74%         { opacity: 0; }
+  100%        { opacity: 0; }
+}
+@keyframes lc-msg-3 {
+  0%, 35%     { opacity: 0; transform: translateY(10px); }
+  43%         { opacity: 1; transform: translateY(0); }
+  62%         { opacity: 1; transform: translateY(0); }
+  74%         { opacity: 0; }
+  100%        { opacity: 0; }
+}
+@keyframes lc-msg-4 {
+  0%, 50%     { opacity: 0; transform: translateY(10px); }
+  58%         { opacity: 1; transform: translateY(0); }
+  62%         { opacity: 1; transform: translateY(0); }
+  74%         { opacity: 0; }
+  100%        { opacity: 0; }
+}
+@keyframes lc-typing {
+  0%, 64%     { opacity: 0; }
+  70%         { opacity: 1; }
+  78%         { opacity: 1; }
+  86%         { opacity: 0; }
+  100%        { opacity: 0; }
+}
+@keyframes lc-dot {
+  0%, 100%    { transform: translateY(0); }
+  33%         { transform: translateY(-5px); }
+}
+@keyframes lc-online {
+  0%, 100%    { opacity: 1; transform: scale(1); }
+  50%         { opacity: 0.3; transform: scale(0.7); }
+}
+
+/* ── 손글씨 드로우 ── */
+@keyframes handwrite {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0%   0 0); }
+}
+
+/* ── 타이핑 커서 깜빡임 ── */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── 미션 섹션 애니메이션 ── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes star-twinkle {
+  0%, 100% { transform: scale(1) rotate(0deg);   opacity: 1; }
+  50%       { transform: scale(1.4) rotate(20deg); opacity: 0.4; }
+}
+@keyframes line-expand {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+@keyframes quote-pop {
+  from { opacity: 0; transform: scale(0.7) translateY(10px); }
+  to   { opacity: 0.1; transform: scale(1) translateY(0); }
+}
+
+/* ── 히어로 별 궤적 애니메이션 ── */
+@keyframes star-rise {
+  0%   { transform: translateY(0px) rotate(0deg) scale(1);   opacity: 0; }
+  10%  { opacity: 1; }
+  85%  { opacity: 0.6; }
+  100% { transform: translateY(-340px) rotate(90deg) scale(0.4); opacity: 0; }
+}
+@keyframes star-trail-fade {
+  0%   { opacity: 0; transform: translateY(0px) scale(1); }
+  15%  { opacity: 0.25; }
+  100% { opacity: 0;   transform: translateY(-280px) scale(0.3); }
+}
+@keyframes star-pulse {
+  0%, 100% { transform: scale(1) rotate(0deg);   opacity: 0.9; }
+  50%       { transform: scale(1.15) rotate(45deg); opacity: 1; }
+}
+
+/* ── 로딩 화면 ── */
+@keyframes loader-text-fill {
+  0%        { clip-path: inset(100% 0 0 0); }
+  70%       { clip-path: inset(0 0 0 0); }
+  100%      { clip-path: inset(0 0 0 0); }
+}
+/* ── 모바일 성능 최적화 ── */
+@media (max-width: 767px) {
+  /* LeafChat 메시지 루프 — GPU 페인트 최소화 */
+  .lc-anim-off {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  /* 무한 반복 CSS 애니메이션 비활성화 */
+  @keyframes star-twinkle   { 0%, 100% { opacity: 0.2; transform: scale(1); } }
+  @keyframes star-rise      { 0%, 100% { opacity: 0; } }
+  @keyframes star-trail-fade{ 0%, 100% { opacity: 0; } }
+  @keyframes star-pulse     { 0%, 100% { opacity: 0.6; } }
+  @keyframes lc-online      { 0%, 100% { opacity: 1; } }
+  @keyframes lc-dot         { 0%, 100% { transform: translateY(0); } }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: #ffffff;
+    color: #0d1117;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+      "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(29, 78, 216, 0.14);
+  }
+}
