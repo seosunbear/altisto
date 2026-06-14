@@ -7,9 +7,8 @@ const services = [
 ];
 
 const company = [
-  { label: '회사 소개', href: '/about' },
-  { label: '핵심 가치', href: '/about' },
   { label: '문의하기', href: '/contact' },
+  { label: '채용', href: '/career' },
 ];
 
 export default function Footer() {

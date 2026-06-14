@@ -1,11 +1,12 @@
-import Link              from 'next/link';
-import { ArrowRight }    from 'lucide-react';
 import HeroSection       from '@/components/HeroSection';
 import GsapReveal        from '@/components/GsapReveal';
 import WordReveal        from '@/components/WordReveal';
 import LoadingScreen     from '@/components/LoadingScreen';
 import GrowthChart       from '@/components/GrowthChart';
 import CountUpStat       from '@/components/CountUpStat';
+import MilestonesTimeline from '@/components/MilestonesTimeline';
+import ExploreList        from '@/components/ExploreList';
+import MeteorShower        from '@/components/MeteorShower';
 
 export default function HomePage() {
   return (
@@ -17,7 +18,10 @@ export default function HomePage() {
       <HeroSection />
 
       {/* ━━━━━━━━━━━━━━━━━━ START ━━━━━━━━━━━━━━━━━━ */}
-      <section className="relative bg-[#0a0a0f] px-6 md:px-10 py-28 overflow-hidden">
+      <section className="relative bg-[#0a0a0f] px-6 md:px-10 py-44 md:py-56 overflow-hidden">
+
+        {/* 배경 유성우 */}
+        <MeteorShower />
 
         {/* 콘텐츠 */}
         <div className="relative z-10 mx-auto max-w-screen-xl flex flex-col items-center text-center">
@@ -91,6 +95,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ━━━━━━━━━━━━━━━━━━ HISTORY — 마일스톤 타임라인 ━━━━━━━━━━━━━━━━━━ */}
+      <MilestonesTimeline />
+
       {/* ━━━━━━━━━━━━━━━━━━ QUICK LINKS — 카카오 스타일 ━━━━━━━━━━━━━━━━━━ */}
       <section className="relative bg-[#0a0a0f] px-6 md:px-10 py-28 md:py-32 overflow-hidden">
         <div className="relative z-10 mx-auto max-w-screen-xl">
@@ -101,69 +108,9 @@ export default function HomePage() {
             </p>
           </GsapReveal>
 
-          {/* 하이라인 구분 그리드 */}
-          <div className="grid grid-cols-1 border-l border-t border-white/10 md:grid-cols-2">
-            {[
-              { no: '01', en: 'Services', ko: '서비스',     desc: '알티와 리프챗, 우리가 만든 서비스를 만나보세요.', href: '/services' },
-              { no: '02', en: 'About',    ko: '회사 소개',   desc: '알티스토가 그리는 콘텐츠 생태계의 비전.',         href: '/about'    },
-              { no: '03', en: 'Contact',  ko: '문의하기',     desc: '협업·제휴·서비스 문의는 언제든 환영합니다.',       href: '/contact'  },
-              { no: '04', en: 'Careers',  ko: '함께하기',     desc: '함께 성장할 동료를 기다리고 있습니다.',           href: '/career'   },
-            ].map((q, i) => (
-              <GsapReveal key={q.en} type="clip-up" className="h-full border-b border-r border-white/10" delay={0.12 + i * 0.13} duration={0.85}>
-                <Link
-                  href={q.href}
-                  className="group relative flex h-full flex-col justify-between bg-[#0a0a0f] p-9 md:p-12 transition-colors duration-300 hover:bg-white/[0.04]"
-                >
-                  <div className="mb-16 flex items-start justify-between">
-                    <span className="text-[12px] font-bold tracking-widest text-white/30">{q.no}</span>
-                    <ArrowRight
-                      size={22}
-                      className="text-white/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white"
-                    />
-                  </div>
-                  <div>
-                    <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.2em] text-white/40">{q.en}</p>
-                    <h3 className="mb-3 text-[clamp(1.4rem,2.6vw,2rem)] font-extrabold tracking-tight text-white">{q.ko}</h3>
-                    <p className="text-[13px] leading-[1.7] text-white/55">{q.desc}</p>
-                  </div>
-                </Link>
-              </GsapReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ━━━━━━━━━━━━━━━━━━ CTA ━━━━━━━━━━━━━━━━━━ */}
-      <section className="relative bg-[#0a0a0f] px-6 md:px-10 py-32 md:py-40 overflow-hidden">
-        {/* 은은한 광원 */}
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1d4ed8]/15 blur-[120px]" />
-
-        <div className="relative z-10 mx-auto max-w-screen-xl flex flex-col items-center text-center">
-          <GsapReveal type="fade-up" delay={0.05}>
-            <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.35em] text-white/40">
-              get started
-            </p>
-          </GsapReveal>
-
-          <WordReveal
-            text="함께 만들어 갈 준비가 되셨나요?"
-            className="mb-6 text-[clamp(1.7rem,4vw,3rem)] font-extrabold tracking-tight text-white"
-            stagger={0.08}
-          />
-
-          <GsapReveal type="fade-up" delay={0.3}>
-            <p className="mb-9 max-w-md text-[14px] leading-[1.9] text-white/60">
-              알티스토와 함께 콘텐츠 그 이상의 가치를 만들어 보세요.
-            </p>
-          </GsapReveal>
-
-          <GsapReveal type="fade-up" delay={0.4}>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-4 text-[14px] font-semibold text-[#0d1117] transition-colors duration-300 hover:bg-[#60a5fa] hover:text-white"
-            >
-              문의하기 <ArrowRight size={15} />
-            </Link>
+          {/* 인터랙티브 호버 리스트 */}
+          <GsapReveal type="fade-up" delay={0.12} duration={0.85}>
+            <ExploreList />
           </GsapReveal>
         </div>
       </section>

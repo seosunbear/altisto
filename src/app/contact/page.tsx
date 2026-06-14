@@ -1,39 +1,13 @@
 import type { Metadata } from 'next';
-import { Mail, Clock, ArrowRight } from 'lucide-react';
+import { Mail, Clock } from 'lucide-react';
 import GsapReveal from '@/components/GsapReveal';
 import WordReveal from '@/components/WordReveal';
+import ContactForm from '@/components/ContactForm';
 
 export const metadata: Metadata = {
   title: '문의',
   description: '알티스토에 문의하세요.',
 };
-
-const channels = [
-  {
-    icon: Mail,
-    label: '이메일 문의',
-    value: 'connect@altisto.me',
-    desc: '영업일 기준 24시간 이내 답변드립니다.',
-    href: 'mailto:connect@altisto.me',
-    color: '#1d4ed8',
-    bg: '#eff6ff',
-  },
-];
-
-const faqs = [
-  {
-    q: '견적 문의는 어떻게 하나요?',
-    a: '이메일로 프로젝트 내용을 간단히 보내주시면 24시간 이내에 견적을 안내드립니다.',
-  },
-  {
-    q: '입점·파트너십 제안은요?',
-    a: '플랫폼 입점이나 제휴 제안도 동일한 채널로 연락주시면 담당자가 검토 후 연락드립니다.',
-  },
-  {
-    q: '크리에이터로 등록하고 싶어요.',
-    a: '알티 플랫폼 정식 오픈 시 크리에이터 등록이 가능합니다. 현재는 이메일로 사전 신청을 받고 있습니다.',
-  },
-];
 
 export default function ContactPage() {
   return (
@@ -102,54 +76,29 @@ export default function ContactPage() {
 
       </section>
 
-      {/* ━━━━━━━━━━━━━━ CHANNELS ━━━━━━━━━━━━━━ */}
+      {/* ━━━━━━━━━━━━━━ INQUIRY FORM ━━━━━━━━━━━━━━ */}
       <section className="bg-white border-b border-[#e5e7eb] px-6 md:px-10 py-24">
         <div className="mx-auto max-w-screen-xl">
 
           <GsapReveal type="fade-up">
-            <p className="mb-12 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-[#9ca3af]">
-              문의 채널
+            <p className="mb-3 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-[#9ca3af]">
+              inquiry
+            </p>
+          </GsapReveal>
+          <GsapReveal type="clip-up" delay={0.1}>
+            <h2 className="mb-3 text-center text-[clamp(1.4rem,3vw,1.9rem)] font-extrabold tracking-[-0.02em] text-[#0d1117]">
+              문의하기
+            </h2>
+          </GsapReveal>
+          <GsapReveal type="fade-up" delay={0.18}>
+            <p className="mb-12 text-center text-[13px] leading-[1.8] text-[#6b7280]">
+              유형을 선택하고 내용을 남겨주시면 담당자가 직접 확인 후 회신드립니다.
             </p>
           </GsapReveal>
 
-          <div className="grid grid-cols-1 gap-6 max-w-md mx-auto">
-            {channels.map((ch, i) => (
-              <GsapReveal key={ch.label} type="scale-in" delay={i * 0.12}>
-                <a
-                  href={ch.href}
-                  target={ch.href.startsWith('http') ? '_blank' : undefined}
-                  rel={ch.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="group relative flex flex-col gap-5 rounded-2xl border border-[#e5e7eb]
-                    bg-white p-7 hover:border-[#d1d5db] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)]
-                    transition-all duration-300"
-                >
-                  {/* 호버 글로우 */}
-                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100
-                    transition-opacity duration-300 pointer-events-none"
-                    style={{ background: `radial-gradient(ellipse at 50% 0%, ${ch.color}08 0%, transparent 70%)` }} />
-
-                  {/* 아이콘 */}
-                  <div className="h-11 w-11 rounded-xl grid place-items-center transition-transform
-                    duration-300 group-hover:scale-110"
-                    style={{ backgroundColor: ch.bg }}>
-                    <ch.icon size={20} style={{ color: ch.color }} strokeWidth={1.8} />
-                  </div>
-
-                  {/* 텍스트 */}
-                  <div className="flex flex-col gap-1 flex-1">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#9ca3af]">{ch.label}</p>
-                    <p className="text-[17px] font-semibold text-[#0d1117] group-hover:text-[#1d4ed8]
-                      transition-colors">{ch.value}</p>
-                    <p className="mt-1 text-[13px] leading-[1.7] text-[#6b7280]">{ch.desc}</p>
-                  </div>
-
-                  {/* 화살표 */}
-                  <ArrowRight size={16} className="text-[#d1d5db] group-hover:text-[#1d4ed8]
-                    group-hover:translate-x-1 transition-all duration-300 self-end" />
-                </a>
-              </GsapReveal>
-            ))}
-          </div>
+          <GsapReveal type="fade-up" delay={0.24}>
+            <ContactForm />
+          </GsapReveal>
 
           {/* 응답 시간 뱃지 */}
           <GsapReveal type="fade-up" delay={0.3} className="mt-10 flex justify-center">
@@ -159,39 +108,6 @@ export default function ContactPage() {
               <span className="text-[12px] text-[#6b7280]">영업일 기준 <strong className="text-[#0d1117] font-semibold">24시간</strong> 이내 답변</span>
             </div>
           </GsapReveal>
-        </div>
-      </section>
-
-      {/* ━━━━━━━━━━━━━━ FAQ ━━━━━━━━━━━━━━ */}
-      <section className="bg-white px-6 md:px-10 py-24">
-        <div className="mx-auto max-w-screen-xl max-w-2xl">
-
-          <GsapReveal type="fade-up" delay={0.05}>
-            <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.35em] text-[#9ca3af]">FAQ</p>
-          </GsapReveal>
-
-          <GsapReveal type="clip-up" delay={0.15}>
-            <h2 className="mb-12 text-[clamp(1.4rem,3vw,1.9rem)] font-extrabold tracking-[-0.02em] text-[#0d1117]">
-              자주 묻는 질문
-            </h2>
-          </GsapReveal>
-
-          <div className="flex flex-col gap-4">
-            {faqs.map((item, i) => (
-              <GsapReveal key={i} type="fade-up" delay={0.2 + i * 0.1}>
-                <div className="rounded-2xl border border-[#e5e7eb] bg-white p-7">
-                  <div className="flex items-start gap-4">
-                    <span className="flex-shrink-0 h-6 w-6 rounded-full bg-[#eff6ff] grid place-items-center
-                      text-[10px] font-bold text-[#1d4ed8] mt-0.5">Q</span>
-                    <div className="flex flex-col gap-2">
-                      <p className="text-[15px] font-semibold text-[#0d1117] leading-snug">{item.q}</p>
-                      <p className="text-[13px] leading-[1.8] text-[#6b7280]">{item.a}</p>
-                    </div>
-                  </div>
-                </div>
-              </GsapReveal>
-            ))}
-          </div>
         </div>
       </section>
 

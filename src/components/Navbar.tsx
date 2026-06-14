@@ -6,7 +6,6 @@ import { Menu, X } from 'lucide-react';
 
 const links = [
   { label: '서비스', href: '/services' },
-  { label: '회사 소개', href: '/about' },
   { label: '채용', href: '/career' },
   { label: '문의', href: '/contact' },
 ];
