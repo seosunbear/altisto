@@ -6,7 +6,6 @@ import GrowthChart       from '@/components/GrowthChart';
 import CountUpStat       from '@/components/CountUpStat';
 import MilestonesTimeline from '@/components/MilestonesTimeline';
 import ExploreList        from '@/components/ExploreList';
-import MeteorShower        from '@/components/MeteorShower';
 
 export default function HomePage() {
   return (
@@ -18,10 +17,7 @@ export default function HomePage() {
       <HeroSection />
 
       {/* ━━━━━━━━━━━━━━━━━━ START ━━━━━━━━━━━━━━━━━━ */}
-      <section className="relative bg-[#0a0a0f] px-6 md:px-10 py-44 md:py-56 overflow-hidden">
-
-        {/* 배경 유성우 */}
-        <MeteorShower />
+      <section className="relative bg-[#0a0a0f] px-6 md:px-10 py-60 md:py-80 overflow-hidden">
 
         {/* 콘텐츠 */}
         <div className="relative z-10 mx-auto max-w-screen-xl flex flex-col items-center text-center">
@@ -87,10 +83,12 @@ export default function HomePage() {
             </p>
           </GsapReveal>
 
-          <div className="flex gap-12">
-            <CountUpStat to={200}   suffix="+" label="누적 서비스 가입자 수" delay={0.1} />
-            <CountUpStat to={20}    suffix="+" label="운영 서비스 수"        delay={0.35} />
-            <CountUpStat to={90000} suffix="+" label="누적 조회 수"          delay={0.6} />
+          <div className="flex flex-col gap-8">
+            <div className="flex gap-12">
+              <CountUpStat to={200}   suffix="+" label="누적 서비스 가입자 수" delay={0.1} />
+              <CountUpStat to={90000} suffix="+" label="누적 조회 수"          delay={0.35} />
+            </div>
+            <CountUpStat to={20} suffix="+" label="운영 서비스 수" delay={0.6} />
           </div>
         </div>
       </section>

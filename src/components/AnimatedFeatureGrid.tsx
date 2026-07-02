@@ -1,41 +1,34 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import type { ReactNode } from 'react';
-
-interface Feature {
-  icon: ReactNode;
-  text: string;
-}
 
 interface AnimatedFeatureGridProps {
-  features: Feature[];
+  features: string[];
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 14, scale: 0.97 },
-  show:   { opacity: 1, y: 0,  scale: 1 },
+  hidden: { opacity: 0, y: 12 },
+  show:   { opacity: 1, y: 0 },
 };
 
 export default function AnimatedFeatureGrid({ features }: AnimatedFeatureGridProps) {
   return (
-    <div className="grid sm:grid-cols-2 gap-2.5 mb-8">
-      {features.map((f, i) => (
+    <div className="grid sm:grid-cols-2 gap-x-10 mb-12">
+      {features.map((text, i) => (
         <motion.div
-          key={f.text}
+          key={text}
           variants={itemVariants}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: '-40px' }}
           transition={{
-            duration: 0.42,
-            delay: i * 0.07,
+            duration: 0.5,
+            delay: i * 0.06,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="flex items-center gap-2 px-4 py-3"
+          className="flex items-baseline border-t border-[#e5e7eb] py-3.5"
         >
-          {f.icon}
-          <span className="text-[12px] font-medium text-[#374151]">{f.text}</span>
+          <span className="text-[14px] font-medium text-[#1f2937]">{text}</span>
         </motion.div>
       ))}
     </div>

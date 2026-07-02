@@ -61,15 +61,15 @@ export default function GrowthChart() {
         transition={{ duration: 1, delay: 0.7 }}
       />
 
-      {/* 우상향 라인 */}
+      {/* 우상향 라인 — non-scaling-stroke는 pathLength dash 계산을 왜곡해
+          넓은 화면에서 선이 중간에 끊기므로 사용하지 않는다 */}
       <motion.path
         d={LINE}
         stroke="#3b82f6"
         strokeOpacity="0.6"
-        strokeWidth="2"
+        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
         initial={{ pathLength: 0 }}
         whileInView={{ pathLength: 1 }}
         viewport={{ once: true, margin: '-80px' }}

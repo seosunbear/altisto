@@ -204,18 +204,13 @@ export default function LeafChatMockup() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-      className="w-full rounded-2xl border border-[#e5e7eb] bg-white overflow-hidden"
+      className="w-full bg-white overflow-hidden"
     >
 
       {/* ── 헤더 ── */}
       <div className="px-5 py-3.5 flex items-center justify-between border-b border-[#f3f4f6]">
         <div className="flex items-center gap-2">
-          <div className="h-6 w-6 rounded-md bg-[#16a34a] grid place-items-center">
-            <svg width="10" height="10" viewBox="0 0 20 20" fill="none">
-              <path d="M18 2H2C1.45 2 1 2.45 1 3V13C1 13.55 1.45 14 2 14H15L19 18V3C19 2.45 18.55 2 18 2Z" fill="white"/>
-            </svg>
-          </div>
-          <span className="text-[13px] font-semibold text-[#111]">LeafChat</span>
+          <span className="text-[13px] font-semibold text-[#111]">리프챗</span>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative">
@@ -255,44 +250,8 @@ export default function LeafChatMockup() {
         </AnimatePresence>
       </div>
 
-      {/* ── 바디: 사이드바 + 컨텐츠 ── */}
-      <div className="flex">
-
-      {/* ── 왼쪽 사이드바 네비 ── */}
-      <div className="flex flex-col border-r border-[#f3f4f6] w-[52px] flex-shrink-0">
-        {([
-          { tab: 'feed' as const, label: '피드', icon: (active: boolean) => (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={active ? '#16a34a' : '#d1d5db'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-              <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-            </svg>
-          )},
-          { tab: 'chat' as const, label: '채팅', icon: (active: boolean) => (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={active ? '#16a34a' : '#d1d5db'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
-          )},
-        ]).map(({ tab, label, icon }) => {
-          const active = activeTab === tab;
-          return (
-            <button key={tab} className="relative py-4 flex flex-col items-center gap-1">
-              {active && (
-                <motion.div
-                  layoutId="nav-indicator"
-                  className="absolute left-0 inset-y-0 w-[2px] bg-[#16a34a]"
-                />
-              )}
-              {icon(active)}
-              <span className="text-[9px] font-medium" style={{ color: active ? '#16a34a' : '#d1d5db' }}>
-                {label}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-
       {/* ── 컨텐츠 ── */}
-      <div className="relative overflow-hidden flex-1" style={{ minHeight: 300 }}>
+      <div className="relative overflow-hidden" style={{ minHeight: 380 }}>
 
         {/* 피드 */}
         <AnimatePresence mode="wait">
@@ -457,6 +416,37 @@ export default function LeafChatMockup() {
 
       </div>
 
+      {/* ── 하단 네비 ── */}
+      <div className="flex border-t border-[#f3f4f6]">
+        {([
+          { tab: 'feed' as const, label: '피드', icon: (active: boolean) => (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={active ? '#16a34a' : '#d1d5db'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+            </svg>
+          )},
+          { tab: 'chat' as const, label: '채팅', icon: (active: boolean) => (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={active ? '#16a34a' : '#d1d5db'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          )},
+        ]).map(({ tab, label, icon }) => {
+          const active = activeTab === tab;
+          return (
+            <button key={tab} className="relative flex-1 py-3 flex flex-col items-center gap-1">
+              {active && (
+                <motion.div
+                  layoutId="leaf-nav-dot"
+                  className="absolute top-0 inset-x-0 h-[2px] bg-[#16a34a]"
+                />
+              )}
+              {icon(active)}
+              <span className="text-[10px] font-medium" style={{ color: active ? '#16a34a' : '#d1d5db' }}>
+                {label}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
     </motion.div>

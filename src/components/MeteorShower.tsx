@@ -22,10 +22,10 @@ interface Meteor {
 
 const KEYFRAMES = `
   @keyframes meteor-fall {
-    0%   { transform: translate3d(0, 0, 0) rotate(-45deg); opacity: 0; }
+    0%   { transform: translate3d(0, 0, 0) rotate(135deg); opacity: 0; }
     8%   { opacity: 1; }
     90%  { opacity: 1; }
-    100% { transform: translate3d(-340px, 340px, 0) rotate(-45deg); opacity: 0; }
+    100% { transform: translate3d(340px, -340px, 0) rotate(135deg); opacity: 0; }
   }
   @keyframes meteor-twinkle {
     0%, 100% { opacity: 0.15; }
@@ -85,7 +85,7 @@ export default function MeteorShower() {
             height: '1px',
             background: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0))',
             opacity: m.opacity,
-            transform: 'rotate(-45deg)',
+            transform: 'rotate(135deg)',
             transformOrigin: 'left center',
             animation: `meteor-fall ${m.dur}s ${m.delay}s linear infinite`,
             filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.5))',

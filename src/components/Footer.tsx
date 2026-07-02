@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Mail } from 'lucide-react';
 
 const services = [
-  { label: '알티 (외주 플랫폼)', href: '/services' },
+  { label: '알티 (협업 플랫폼)', href: '/services' },
   { label: '리프챗 (소통 플랫폼)', href: '/services' },
 ];
 
