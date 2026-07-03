@@ -25,7 +25,7 @@ export default function HeroSection() {
     }
 
     gsap.set(words,   { y: '110%', opacity: 0 })
-    gsap.set(divider, { scaleX: 0, opacity: 0, transformOrigin: 'left center' })
+    gsap.set(divider, { scaleX: 0, opacity: 0, transformOrigin: 'center center' })
     gsap.set(subtitle,{ opacity: 0, y: 24 })
 
     const tl = gsap.timeline({ delay: 0.1 })
@@ -50,7 +50,7 @@ export default function HeroSection() {
   }, [])
 
   return (
-    <section className="relative px-4 md:px-10 overflow-hidden min-h-screen flex items-end pb-16 md:items-center md:pb-0">
+    <section className="relative px-4 md:px-10 overflow-hidden min-h-screen flex items-center">
       {/* 블러 배경 */}
       <div className="absolute inset-0" style={{ backgroundImage: 'url(/main.png)', backgroundSize: 'cover', backgroundPosition: 'center', filter: 'blur(4px)', transform: 'scale(1.05)' }} />
 
@@ -60,8 +60,8 @@ export default function HeroSection() {
       <div className="absolute inset-0 md:hidden" style={{ zIndex: 2, background: 'linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.6) 100%)' }} />
 
       {/* 콘텐츠 영역 */}
-      <div className="relative mx-auto w-full max-w-screen-xl flex flex-col md:flex-row items-end md:items-center justify-end md:justify-between gap-12 pl-4 md:pl-[8vw] pr-4 md:pr-[4vw]" style={{ zIndex: 30 }}>
-      <div className="flex flex-col items-end md:items-start text-right md:text-left">
+      <div className="relative mx-auto w-full max-w-screen-xl flex items-center justify-center gap-12 px-4" style={{ zIndex: 30 }}>
+      <div className="flex flex-col items-center text-center">
 
         <h1
           ref={headlineRef}
@@ -95,7 +95,7 @@ export default function HeroSection() {
         <div
           ref={dividerRef}
           className="mb-3 md:mb-6 h-px w-10 bg-white/40"
-          style={{ opacity: 0, transform: 'scaleX(0)', transformOrigin: 'left center' }}
+          style={{ opacity: 0, transform: 'scaleX(0)', transformOrigin: 'center center' }}
         />
 
         <p

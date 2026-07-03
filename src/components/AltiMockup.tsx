@@ -9,7 +9,7 @@ function sleep(ms: number) {
 }
 
 /* ── 실제 알티(rti-eight.vercel.app) 디자인 토큰 ── */
-const POINT = '#b19cd9';
+const POINT = '#f9a8d4';
 const BG    = '#181818';
 const INPUT = '#202225';
 
@@ -35,7 +35,7 @@ const HOME_CREATORS = [
 
 type Artwork = { id: number; color: string; h: number };
 const ARTWORKS: Artwork[] = [
-  { id: 1, color: '#b19cd9', h: 84 },
+  { id: 1, color: '#f9a8d4', h: 84 },
   { id: 2, color: '#60a5fa', h: 58 },
   { id: 3, color: '#ec4899', h: 56 },
   { id: 4, color: '#22d3ee', h: 82 },
@@ -61,9 +61,9 @@ const CHAT_CHANNELS = ['일반', '자료-공유', '일정'];
 
 const CHAT: { id: number; isMe: boolean; user: string; color: string; time: string; text: string }[] = [
   { id: 1, isMe: false, user: '김영상', color: '#60a5fa', time: '오후 2:14', text: '안녕하세요! 쇼츠 편집 의뢰 보고 연락드려요 😊' },
-  { id: 2, isMe: true,  user: '지훈',   color: '#b19cd9', time: '오후 2:15', text: '반갑습니다! 레퍼런스 영상 있으시면 공유해 주세요' },
+  { id: 2, isMe: true,  user: '지훈',   color: '#f9a8d4', time: '오후 2:15', text: '반갑습니다! 레퍼런스 영상 있으시면 공유해 주세요' },
   { id: 3, isMe: false, user: '김영상', color: '#60a5fa', time: '오후 2:15', text: '네, 지금 바로 보내드릴게요. 1분 내외 감성 편집이에요' },
-  { id: 4, isMe: true,  user: '지훈',   color: '#b19cd9', time: '오후 2:16', text: '확인했어요! 3일 안에 시안 드릴게요 🎬' },
+  { id: 4, isMe: true,  user: '지훈',   color: '#f9a8d4', time: '오후 2:16', text: '확인했어요! 3일 안에 시안 드릴게요 🎬' },
 ];
 
 /* ── 작은 아바타 ── */

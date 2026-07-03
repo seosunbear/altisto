@@ -251,7 +251,7 @@ export default function LeafChatMockup() {
       </div>
 
       {/* ── 컨텐츠 ── */}
-      <div className="relative overflow-hidden" style={{ minHeight: 380 }}>
+      <div className="relative overflow-hidden" style={{ minHeight: 440 }}>
 
         {/* 피드 */}
         <AnimatePresence mode="wait">
@@ -430,16 +430,21 @@ export default function LeafChatMockup() {
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
           )},
+          { tab: 'friends' as const, label: '친구', icon: (active: boolean) => (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={active ? '#16a34a' : '#d1d5db'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          )},
+          { tab: 'profile' as const, label: '프로필', icon: (active: boolean) => (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={active ? '#16a34a' : '#d1d5db'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          )},
         ]).map(({ tab, label, icon }) => {
           const active = activeTab === tab;
           return (
             <button key={tab} className="relative flex-1 py-3 flex flex-col items-center gap-1">
-              {active && (
-                <motion.div
-                  layoutId="leaf-nav-dot"
-                  className="absolute top-0 inset-x-0 h-[2px] bg-[#16a34a]"
-                />
-              )}
               {icon(active)}
               <span className="text-[10px] font-medium" style={{ color: active ? '#16a34a' : '#d1d5db' }}>
                 {label}

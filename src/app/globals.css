@@ -98,6 +98,12 @@
   70%       { clip-path: inset(0 0 0 0); }
   100%      { clip-path: inset(0 0 0 0); }
 }
+/* ── 목업 옆 장식 텍스트 — 위로 흐르는 세로 마퀴 ── */
+@keyframes deco-rise {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+
 /* ── 모바일 성능 최적화 ── */
 @media (max-width: 767px) {
   /* LeafChat 메시지 루프 — GPU 페인트 최소화 */
