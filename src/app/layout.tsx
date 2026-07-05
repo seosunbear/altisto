@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: {
-    default: "Altisto — 콘텐츠 그 이상의 가치를",
+    default: "알티스토",
     template: "%s | 알티스토",
   },
   description:
