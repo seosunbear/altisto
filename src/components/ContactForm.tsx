@@ -1,14 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { Rocket, TrendingUp, MessageCircle, ArrowRight, Check } from 'lucide-react'
+import { Rocket, TrendingUp, MessageCircle, ArrowRight } from 'lucide-react'
 
 const categories = [
   {
     id: 'service',
     icon: Rocket,
     label: '서비스 도입',
-    desc: '알티·리프챗 도입, 제휴·입점 문의',
+    desc: '우리학교 도입 문의',
     color: '#1d4ed8',
     bg: '#eff6ff',
   },
@@ -16,7 +16,7 @@ const categories = [
     id: 'invest',
     icon: TrendingUp,
     label: '투자',
-    desc: 'IR 자료 요청, 투자 제안',
+    desc: '투자 제안',
     color: '#7c3aed',
     bg: '#f5f3ff',
   },
@@ -94,19 +94,10 @@ export default function ContactForm() {
                 className={
                   'group relative flex flex-col items-start gap-3 rounded-2xl border p-5 text-left transition-all duration-200 ' +
                   (active
-                    ? 'border-transparent shadow-[0_8px_30px_rgba(0,0,0,0.07)]'
+                    ? 'border-transparent bg-[#eef0f3]'
                     : 'border-[#e5e7eb] hover:border-[#d1d5db] hover:bg-[#fafafa]')
                 }
-                style={active ? { boxShadow: `0 0 0 2px ${c.color}` } : undefined}
               >
-                {active && (
-                  <span
-                    className="absolute right-3 top-3 grid h-5 w-5 place-items-center rounded-full"
-                    style={{ backgroundColor: c.color }}
-                  >
-                    <Check size={12} className="text-white" strokeWidth={3} />
-                  </span>
-                )}
                 <div
                   className="grid h-10 w-10 place-items-center rounded-xl transition-transform duration-200 group-hover:scale-105"
                   style={{ backgroundColor: c.bg }}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 
 const LINE1_WORDS = ['콘텐츠']
@@ -8,25 +8,33 @@ const LINE2_WORDS = ['그', '이상의', '가치를']
 
 export default function HeroSection() {
   const headlineRef = useRef<HTMLHeadingElement>(null)
-  const dividerRef  = useRef<HTMLDivElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
+  const [videoEnded, setVideoEnded] = useState(false)
 
+  /* 마운트 시 글자 숨김 */
   useEffect(() => {
     const headline = headlineRef.current
-    const divider  = dividerRef.current
     const subtitle = subtitleRef.current
-    if (!headline || !divider || !subtitle) return
+    if (!headline || !subtitle) return
+
+    const words = Array.from(headline.querySelectorAll<HTMLSpanElement>('[data-word]'))
+    gsap.set(words,   { y: '110%', opacity: 0 })
+    gsap.set(subtitle,{ opacity: 0, y: 24 })
+  }, [])
+
+  /* 동영상이 끝나면 글자 등장 */
+  useEffect(() => {
+    if (!videoEnded) return
+    const headline = headlineRef.current
+    const subtitle = subtitleRef.current
+    if (!headline || !subtitle) return
 
     const words = Array.from(headline.querySelectorAll<HTMLSpanElement>('[data-word]'))
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      gsap.set([words, divider, subtitle], { opacity: 1, y: 0, scaleX: 1 })
+      gsap.set([words, subtitle], { opacity: 1, y: 0 })
       return
     }
-
-    gsap.set(words,   { y: '110%', opacity: 0 })
-    gsap.set(divider, { scaleX: 0, opacity: 0, transformOrigin: 'center center' })
-    gsap.set(subtitle,{ opacity: 0, y: 24 })
 
     const tl = gsap.timeline({ delay: 0.1 })
 
@@ -38,34 +46,39 @@ export default function HeroSection() {
       stagger:  0.1,
     })
 
-    tl.to(divider, {
-      scaleX: 1, opacity: 1, duration: 0.45, ease: 'power2.out',
-    }, '-=0.22')
-
     tl.to(subtitle, {
       opacity: 1, y: 0, duration: 0.55, ease: 'power3.out',
     }, '-=0.28')
 
     return () => { tl.kill() }
-  }, [])
+  }, [videoEnded])
 
   return (
     <section className="relative px-4 md:px-10 overflow-hidden min-h-screen flex items-center">
-      {/* 블러 배경 */}
-      <div className="absolute inset-0" style={{ backgroundImage: 'url(/main.png)', backgroundSize: 'cover', backgroundPosition: 'center', filter: 'blur(4px)', transform: 'scale(1.05)' }} />
+      {/* 배경 동영상 — 1회 재생, 종료 후 마지막 프레임 유지 */}
+      <video
+        autoPlay
+        muted
+        playsInline
+        poster="/main.png"
+        src="/hero.mp4"
+        onEnded={() => setVideoEnded(true)}
+        onError={() => setVideoEnded(true)}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
 
       {/* 하단 다크 오버레이 */}
-      <div className="absolute inset-0" style={{ zIndex: 1, background: 'linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.75) 100%)' }} />
+      <div className="absolute inset-0" style={{ zIndex: 1, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.5) 100%)' }} />
       {/* 모바일 전용 추가 어둠 — 상단 + 하단 */}
-      <div className="absolute inset-0 md:hidden" style={{ zIndex: 2, background: 'linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.6) 100%)' }} />
+      <div className="absolute inset-0 md:hidden" style={{ zIndex: 2, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.4) 100%)' }} />
 
       {/* 콘텐츠 영역 */}
       <div className="relative mx-auto w-full max-w-screen-xl flex items-center justify-center gap-12 px-4" style={{ zIndex: 30 }}>
-      <div className="flex flex-col items-center text-center">
+      <div className="flex flex-col items-start text-left">
 
         <h1
           ref={headlineRef}
-          className="mb-2 md:mb-4 font-extrabold tracking-[-0.04em] leading-[1.1] text-white text-[clamp(1.8rem,3.5vw,3rem)]"
+          className="mb-4 md:mb-6 font-extrabold tracking-[-0.04em] leading-[1.12] text-white text-[clamp(2rem,4.2vw,3.6rem)]"
         >
           {/* 각 줄: overflow-hidden 클립 마스크로 슬라이드 업 */}
           <span className="block overflow-hidden">
@@ -92,15 +105,9 @@ export default function HeroSection() {
           </span>
         </h1>
 
-        <div
-          ref={dividerRef}
-          className="mb-3 md:mb-6 h-px w-10 bg-white/40"
-          style={{ opacity: 0, transform: 'scaleX(0)', transformOrigin: 'center center' }}
-        />
-
         <p
           ref={subtitleRef}
-          className="max-w-md text-[12px] md:text-[13px] leading-[1.7] md:leading-[2] tracking-[0.01em] text-white/70 font-normal"
+          className="max-w-xl text-[12px] md:text-[14px] leading-[1.7] md:leading-[1.9] tracking-[0.01em] text-white/75 font-normal"
           style={{ opacity: 0, transform: 'translateY(24px)' }}
         >
           지루한 일상속 알티스토는,<br />

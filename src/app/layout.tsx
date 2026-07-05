@@ -6,17 +6,17 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: {
     default: "Altisto — 콘텐츠 그 이상의 가치를",
-    template: "%s | Altisto",
+    template: "%s | 알티스토",
   },
   description:
-    "알티스토는 외주 플랫폼 알티와 소통 플랫폼 리프챗을 운영하는 크리에이티브 스튜디오입니다. 크리에이터와 기업을 연결하고 콘텐츠 생태계를 혁신합니다.",
+    "알티스토는 한국의 플랫폼 및 어플리케이션 개발사 입니다 주요 서비스는 외주 플랫폼 알티, 고등학교 도우미 어플리케이션 우리학교, 연령별 친구만들기 리프챗 등이 있습니다",
   keywords: [
     "Altisto", "알티스토", "알티", "외주 플랫폼", "크리에이터",
-    "리프챗", "LeafChat", "콘텐츠", "비즈니스",
+    "리프챗", "LeafChat", "콘텐츠", "우리학교",
   ],
   openGraph: {
-    title: "Altisto — 콘텐츠 그 이상의 가치를",
-    description: "크리에이터와 기업을 연결하는 스마트 플랫폼, 알티스토",
+    title: "Altisto",
+    description: "콘텐츠 그 이상의 가치를, 알티스토",
     type: "website",
     locale: "ko_KR",
   },

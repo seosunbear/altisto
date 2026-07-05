@@ -31,6 +31,7 @@ export default function Navbar() {
   }, [open]);
 
   return (
+    <>
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
@@ -79,24 +80,45 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* 모바일 메뉴 */}
-      <div className={`overflow-hidden transition-[max-height] duration-300 ease-in-out md:hidden ${open ? 'max-h-80' : 'max-h-0'}`}>
-        <nav className="px-6 py-4 flex flex-col gap-1 bg-white/80 backdrop-blur-md">
-          {links.map(l => {
-            const isActive = pathname === l.href;
-            return (
-              <Link key={l.href} href={l.href} onClick={() => setOpen(false)}
-                className={`relative px-3 py-3 text-[15px] font-medium transition-colors border-l-2 ${
-                  isActive
-                    ? 'text-[#0d1117] border-[#0d1117] pl-4'
-                    : 'text-[#6b7280] border-transparent hover:text-[#0d1117] hover:pl-4'
-                }`}>
-                {l.label}
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
     </header>
+
+    {/* 모바일 메뉴 — 오른쪽 슬라이드 드로어 */}
+    {/* 배경 딤 */}
+    <div
+      onClick={() => setOpen(false)}
+      className={`fixed inset-0 z-[55] bg-black/40 transition-opacity duration-300 md:hidden ${
+        open ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      }`}
+    />
+    {/* 드로어 패널 */}
+    <aside
+      className={`fixed top-0 right-0 z-[60] h-full w-[280px] max-w-[80vw] bg-white shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
+        open ? 'translate-x-0' : 'translate-x-full'
+      }`}
+    >
+      <div className="flex h-[68px] items-center justify-end px-4">
+        <button onClick={() => setOpen(false)}
+          className="grid h-9 w-9 place-items-center rounded-lg hover:bg-black/5 transition-colors"
+          aria-label="메뉴 닫기">
+          <X size={20} className="text-[#0d1117]" />
+        </button>
+      </div>
+      <nav className="px-6 py-2 flex flex-col gap-1">
+        {links.map(l => {
+          const isActive = pathname === l.href;
+          return (
+            <Link key={l.href} href={l.href} onClick={() => setOpen(false)}
+              className={`relative px-3 py-3 text-[15px] font-medium transition-colors border-l-2 ${
+                isActive
+                  ? 'text-[#0d1117] border-[#0d1117] pl-4'
+                  : 'text-[#6b7280] border-transparent hover:text-[#0d1117] hover:pl-4'
+              }`}>
+              {l.label}
+            </Link>
+          );
+        })}
+      </nav>
+    </aside>
+    </>
   );
 }

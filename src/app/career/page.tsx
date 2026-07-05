@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import GsapReveal from '@/components/GsapReveal';
-import WordReveal from '@/components/WordReveal';
+import CometField from '@/components/CometField';
 import JobBoard from '@/components/JobBoard';
 
 export const metadata: Metadata = {
@@ -14,33 +14,29 @@ export default function CareerPage() {
     <main className="flex-1 pt-[68px]">
 
       {/* ━━━━━━━━━━━━━━ HERO ━━━━━━━━━━━━━━ */}
-      <section className="relative mx-4 md:mx-8 mt-3 mb-12 h-36 md:h-64 md:mb-16 flex items-end justify-start px-8 md:px-14 md:min-h-[30px] overflow-hidden rounded-none md:rounded-4xl">
-        {/* 배경 사진 */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/main.png)' }}
-        />
-        {/* 가독성용 오버레이 */}
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.55))' }}
-        />
+      <section className="relative bg-[#181818] border-b border-[#e5e7eb] px-6 md:px-10 overflow-hidden py-12 md:py-16 lg:py-24 flex items-center">
 
-        <div className="relative mb-8 z-10 w-full text-right">
-          <WordReveal
-            text="인터넷을 넘어 삶을 바꾸는"
-            className="block text-[clamp(0.85rem,2.6vw,1.5rem)] font-extrabold leading-[1.15] tracking-[-0.03em] text-white"
-            stagger={0.08}
-          /><WordReveal
-            text="여정을 함께할 아티스트를 찾습니다"
-            className="block text-[clamp(0.85rem,1vw,1.9rem)] font-extrabold leading-[1.15] tracking-[-0.03em] text-white"
-            stagger={0.08}
-          />
+        {/* 유성우 장식 */}
+        <CometField />
+
+        <div className="relative z-10 mx-auto w-full max-w-screen-xl flex flex-col items-start text-left pl-[8vw]">
+          <GsapReveal type="clip-up" delay={0}>
+            <h1 className="mb-2 font-extrabold tracking-[-0.03em] leading-[1.1] text-white text-[1.25rem] md:text-[clamp(1.6rem,3vw,2.4rem)]">
+              채용
+            </h1>
+          </GsapReveal>
+          <GsapReveal type="fade-up" delay={0.25}>
+            <p className="max-w-sm text-[11px] md:text-[12px] leading-[1.9] text-[#9ca3af]">
+              인터넷을 넘어 삶을 바꾸는,<br />
+              여정을 함께할 아티스트를 찾습니다.
+            </p>
+          </GsapReveal>
         </div>
+
       </section>
 
       {/* ━━━━━━━━━━━━━━ JOBS ━━━━━━━━━━━━━━ */}
-      <section className="bg-white px-6 md:px-10 pb-24">
+      <section className="bg-white px-6 md:px-10 pt-12 md:pt-16 pb-24">
         <GsapReveal type="fade-up">
           <JobBoard />
         </GsapReveal>

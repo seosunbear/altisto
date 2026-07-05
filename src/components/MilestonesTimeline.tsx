@@ -6,21 +6,17 @@ type MilestoneStatus = 'done' | 'current' | 'upcoming';
 
 interface Milestone {
   year: string;
-  sub: string;
   event: string;
-  desc: string;
   status: MilestoneStatus;
   tag: string;
 }
 
 const milestones: Milestone[] = [
-  { year: '2021', sub: 'March',  event: 'PYD 영상 팀 설립',    desc: '영상 크리에이터 팀으로 첫발을 내딛으며 콘텐츠 제작의 씨앗을 심었습니다.',       status: 'done',     tag: '시작' },
-  { year: '2023', sub: 'March',  event: 'PYD 커뮤니티 전환',   desc: '영상 팀을 넘어 누구나 참여할 수 있는 커뮤니티 플랫폼으로 성격을 확장했습니다.', status: 'done',     tag: '확장' },
-  { year: '2023', sub: 'July',   event: '커뮤니티 폐쇄',       desc: '더 나은 방향성을 찾기 위한 전략적 전환점.',                                     status: 'done',     tag: '전환' },
-  { year: '2023', sub: 'August', event: 'ColorfulStory 출범',  desc: '팀명을 ColorfulStory로 변경하고 조직 구조와 비전을 전면 개편했습니다.',           status: 'done',     tag: '개편' },
-  { year: '2023', sub: 'March',  event: 'Altisto 설립',        desc: '알티스토라는 새로운 이름과 함께 더 큰 꿈을 향해 팀을 새롭게 출범했습니다.',       status: 'current',  tag: '현재' },
-  { year: '2026', sub: 'TBA',    event: '알티 베타 출시',      desc: '알티 플랫폼의 베타 버전을 세상에 공개합니다.',                                   status: 'upcoming', tag: '예정' },
-  { year: '2026', sub: 'TBA',    event: '리프챗 정식 론칭',    desc: '리프챗 서비스를 정식 출시합니다.',                                               status: 'upcoming', tag: '예정' },
+  { year: '2021', event: 'PYD 영상 팀 설립',    status: 'done',     tag: '시작' },
+  { year: '2023', event: 'ColorfulStory 출범',  status: 'done',     tag: '개편' },
+  { year: '2023', event: 'Altisto 설립',        status: 'current',  tag: '현재' },
+  { year: '2026', event: '알티 베타 출시',      status: 'upcoming', tag: '예정' },
+  { year: '2026', event: '리프챗 정식 론칭',    status: 'upcoming', tag: '예정' },
 ];
 
 function Dot({ status }: { status: MilestoneStatus }) {
@@ -95,9 +91,6 @@ export default function MilestonesTimeline() {
                     <span className={`text-[15px] font-bold tabular-nums tracking-tight ${isUpcoming ? 'text-white/40' : 'text-white'}`}>
                       {m.year}
                     </span>
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-white/35">
-                      {m.sub}
-                    </span>
                     <span className={`rounded-full border px-2 py-0.5 text-[10px] font-medium ${
                       m.status === 'current'
                         ? 'border-white/30 bg-white/5 text-white'
@@ -107,12 +100,9 @@ export default function MilestonesTimeline() {
                     </span>
                   </div>
 
-                  <h3 className={`mb-1 text-[15px] font-semibold tracking-tight ${isUpcoming ? 'text-white/45' : 'text-white/90'}`}>
+                  <h3 className={`text-[15px] font-semibold tracking-tight ${isUpcoming ? 'text-white/45' : 'text-white/90'}`}>
                     {m.event}
                   </h3>
-                  <p className={`max-w-md text-[13px] leading-[1.7] ${isUpcoming ? 'text-white/30' : 'text-white/55'}`}>
-                    {m.desc}
-                  </p>
                 </li>
               );
             })}

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
-import { Mail, Clock } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import GsapReveal from '@/components/GsapReveal';
-import WordReveal from '@/components/WordReveal';
 import ContactForm from '@/components/ContactForm';
 
 export const metadata: Metadata = {
@@ -117,53 +116,6 @@ export default function ContactPage() {
               <span className="text-[12px] text-[#6b7280]">영업일 기준 <strong className="text-[#0d1117] font-semibold">24시간</strong> 이내 답변</span>
             </div>
           </GsapReveal>
-        </div>
-      </section>
-
-      {/* ━━━━━━━━━━━━━━ CTA BOTTOM ━━━━━━━━━━━━━━ */}
-      <section className="relative bg-white border-t border-[#e5e7eb] px-6 md:px-10 py-24 overflow-hidden">
-
-        {/* 글로우 */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2
-          w-[500px] h-[300px] rounded-full bg-[#1d4ed8] opacity-[0.05] blur-[80px] pointer-events-none" />
-
-        <div className="relative z-10 mx-auto max-w-screen-xl text-center">
-
-          <GsapReveal type="scale-in">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="#1d4ed8"
-              className="mx-auto mb-6"
-              style={{ animation: 'star-twinkle 2.4s 0s ease-in-out infinite' }}>
-              <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z" />
-            </svg>
-          </GsapReveal>
-
-          <div className="mb-4">
-            <WordReveal
-              text="함께 만들어 가요"
-              className="text-[clamp(1.5rem,3.5vw,2.2rem)] font-extrabold tracking-[-0.02em] text-[#0d1117]"
-              delay={0.1}
-              stagger={0.1}
-            />
-          </div>
-
-          <GsapReveal type="fade-up" delay={0.3}>
-            <p className="mb-8 text-[14px] leading-[1.9] text-[#6b7280] max-w-sm mx-auto">
-              좋은 아이디어와 열정이 있다면<br />
-              언제든지 문을 두드려 주세요.
-            </p>
-          </GsapReveal>
-
-          <GsapReveal type="fade-up" delay={0.4}>
-            <a
-              href="mailto:connect@altisto.me"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#0d1117] px-7 py-3.5
-                text-[14px] font-semibold text-white hover:bg-[#1d4ed8] transition-colors duration-300"
-            >
-              <Mail size={15} />
-              이메일 보내기
-            </a>
-          </GsapReveal>
-
         </div>
       </section>
 
