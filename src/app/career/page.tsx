@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: '채용',
   description:
     '콘텐츠 그 이상의 가치를 만드는 여정, 이 즐거운 도전에 함께할 동료를 찾습니다. 알티스토의 열린 포지션을 확인해 보세요.',
+  alternates: { canonical: '/career' },
 };
 
 export default function CareerPage() {

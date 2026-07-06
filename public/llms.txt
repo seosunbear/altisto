@@ -1,0 +1,22 @@
+# 알티스토 (Altisto)
+
+> 알티스토는 크리에이터 협업 플랫폼 '알티'와 연령별 채팅 & 커뮤니티 '리프챗(LeafChat)'을 만드는 콘텐츠 기술 기업입니다. 슬로건은 "콘텐츠 그 이상의 가치를, 알티스토"입니다.
+
+공식 웹사이트: https://altisto.me
+문의: connect@altisto.me
+
+## 서비스
+
+- [알티](https://altisto.me/services): 크리에이터와 클라이언트를 연결하는 협업(외주) 플랫폼
+- [리프챗 (LeafChat)](https://altisto.me/services): 연령별 채팅 & 커뮤니티 서비스
+
+## 페이지
+
+- [홈](https://altisto.me/): 회사 소개와 비전
+- [서비스](https://altisto.me/services): 알티, 리프챗 소개
+- [채용](https://altisto.me/career): 열린 포지션 안내
+- [문의](https://altisto.me/contact): 협업·제휴·문의 폼
+
+## About (English)
+
+Altisto is a Korean content technology company building "RTI" (a creator collaboration platform) and "LeafChat" (an age-based chat & community service). Official site: https://altisto.me

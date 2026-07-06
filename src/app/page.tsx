@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import HeroSection       from '@/components/HeroSection';
 import GsapReveal        from '@/components/GsapReveal';
 import WordReveal        from '@/components/WordReveal';
@@ -6,6 +7,10 @@ import GrowthChart       from '@/components/GrowthChart';
 import CountUpStat       from '@/components/CountUpStat';
 import MilestonesTimeline from '@/components/MilestonesTimeline';
 import ExploreList        from '@/components/ExploreList';
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+};
 
 export default function HomePage() {
   return (

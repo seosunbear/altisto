@@ -5,7 +5,9 @@ import ContactForm from '@/components/ContactForm';
 
 export const metadata: Metadata = {
   title: '문의',
-  description: '알티스토에 문의하세요.',
+  description:
+    '알티스토에 협업·제휴·채용 등 무엇이든 문의하세요. 이메일 connect@altisto.me 또는 문의 폼으로 연락할 수 있습니다.',
+  alternates: { canonical: '/contact' },
 };
 
 export default function ContactPage() {

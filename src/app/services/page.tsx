@@ -11,7 +11,9 @@ import MockupScaler from '@/components/MockupScaler';
 
 export const metadata: Metadata = {
   title: '서비스',
-  description: '알티(크리에이터 협업 플랫폼)와 리프챗(연령별 채팅 & 커뮤니티)',
+  description:
+    '알티스토의 서비스 — 크리에이터 협업 플랫폼 알티와 연령별 채팅 & 커뮤니티 리프챗(LeafChat)을 소개합니다.',
+  alternates: { canonical: '/services' },
 };
 
 
