@@ -11,13 +11,9 @@ import MockupScaler from '@/components/MockupScaler';
 
 export const metadata: Metadata = {
   title: '서비스',
-  description: '알티(크리에이터 협업 플랫폼)와 리프챗(연령별 채팅 & 커뮤니티) — 알티스토가 개발한 두 가지 자체 서비스를 소개합니다.',
+  description: '알티(크리에이터 협업 플랫폼)와 리프챗(연령별 채팅 & 커뮤니티)',
 };
 
-const serviceIndex = [
-  { no: '01', name: '알티',   tag: '크리에이터 협업 플랫폼',   href: '#alti',     dot: '#f9a8d4' },
-  { no: '02', name: '리프챗', tag: '연령별 채팅 & 커뮤니티',   href: '#leafchat', dot: '#16a34a' },
-];
 
 export default function ServicesPage() {
   return (

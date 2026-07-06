@@ -9,13 +9,13 @@ export const metadata: Metadata = {
     template: "%s | 알티스토",
   },
   description:
-    "알티스토는 한국의 플랫폼 및 어플리케이션 개발사 입니다 주요 서비스는 외주 플랫폼 알티, 고등학교 도우미 어플리케이션 우리학교, 연령별 친구만들기 리프챗 등이 있습니다",
+    "알티스토가 만든 다양한 플렛폼을 만나보세요!",
   keywords: [
     "Altisto", "알티스토", "알티", "외주 플랫폼", "크리에이터",
     "리프챗", "LeafChat", "콘텐츠", "우리학교",
   ],
   openGraph: {
-    title: "Altisto",
+    title: "알티스토",
     description: "콘텐츠 그 이상의 가치를, 알티스토",
     type: "website",
     locale: "ko_KR",
