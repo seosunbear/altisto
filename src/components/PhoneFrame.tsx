@@ -3,13 +3,14 @@ import type { ReactNode } from 'react';
 /**
  * PhoneFrame — 앱 목업을 스마트폰 화면처럼 감싸는 프레임
  * 뉴모피즘 그림자로 돌출된, 살짝 기울어진 폰 (상태바 포함)
+ * shadow=false 로 그림자 제거 가능 (기울여 겹치는 연출 등)
  */
-export default function PhoneFrame({ children }: { children: ReactNode }) {
+export default function PhoneFrame({ children, shadow = true }: { children: ReactNode; shadow?: boolean }) {
   return (
     <div className="mx-auto w-full max-w-[320px] rotate-[12deg] scale-100 -translate-x-10 md:rotate-0 md:translate-x-0">
 
       {/* 베젤 */}
-      <div className="rounded-[2.8rem] bg-[#111318] p-2 shadow-[6px_6px_18px_rgba(195,204,218,0.22),-6px_-6px_18px_#ffffff]">
+      <div className={`rounded-[2.8rem] bg-[#111318] p-2 ${shadow ? 'shadow-[6px_6px_18px_rgba(195,204,218,0.22),-6px_-6px_18px_#ffffff]' : ''}`}>
 
       {/* 스크린 — 곡률 = 베젤 곡률(2.8rem) − 베젤 두께(8px) */}
       <div className="relative overflow-hidden rounded-[2.3rem] bg-white">

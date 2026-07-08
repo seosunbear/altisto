@@ -5,7 +5,8 @@ import { Mail } from 'lucide-react';
 
 const services = [
   { label: '알티 (협업 플랫폼)', href: '/services' },
-  { label: '리프챗 (소통 플랫폼)', href: '/services' },
+  { label: '우리학교 (스쿨 라이프 앱)', href: '/services#ourschool' },
+  { label: '리프챗 (소통 플랫폼)', href: '/services#leafchat' },
 ];
 
 const company = [

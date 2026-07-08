@@ -6,13 +6,16 @@ import GsapReveal from '@/components/GsapReveal';
 import WordReveal from '@/components/WordReveal';
 import AltiMockup from '@/components/AltiMockup';
 import LeafChatMockup from '@/components/LeafChatMockup';
+import OurSchoolMockup from '@/components/OurSchoolMockup';
+import OurSchoolTabletMockup from '@/components/OurSchoolTabletMockup';
+import TabletFrame from '@/components/TabletFrame';
 import PhoneFrame from '@/components/PhoneFrame';
 import MockupScaler from '@/components/MockupScaler';
 
 export const metadata: Metadata = {
   title: '서비스',
   description:
-    '알티스토의 서비스 — 크리에이터 협업 플랫폼 알티와 연령별 채팅 & 커뮤니티 리프챗(LeafChat)을 소개합니다.',
+    '알티스토의 서비스 — 크리에이터 협업 플랫폼 알티, 스쿨 라이프 슈퍼앱 우리학교, 연령별 채팅 & 커뮤니티 리프챗(LeafChat)을 소개합니다.',
   alternates: { canonical: '/services' },
 };
 
@@ -86,7 +89,7 @@ export default function ServicesPage() {
           <GsapReveal type="fade-up" delay={0.25}>
             <p className="max-w-sm text-[11px] md:text-[12px] leading-[1.9] text-[#9ca3af]">
               사람들이 조금이라도 웃을 수 있도록,<br />
-              알티스토는 두 개의 서비스를 직접 만들고 운영합니다.
+              알티스토는 세 개의 서비스를 직접 만들고 운영합니다.
             </p>
           </GsapReveal>
         </div>
@@ -163,13 +166,84 @@ export default function ServicesPage() {
         </div>
       </section>
 
+      {/* ━━━━━━━━━━━━━━ 우리학교 ━━━━━━━━━━━━━━ */}
+      <section id="ourschool" className="scroll-mt-[70px] px-[8vw] pt-24 pb-24 border-b border-[#e5e7eb]">
+        <div className="mx-auto max-w-screen-xl">
+
+          <GsapReveal type="fade-up">
+            <div className="mb-14 flex items-baseline gap-5 md:gap-8">
+              <span className="text-[12px] font-medium tabular-nums text-[#9ca3af]">02</span>
+              <h2 className="text-[15px] font-bold tracking-tight text-[#0d1117]">우리학교 · OurSchool</h2>
+              <span className="ml-auto text-[12px] text-[#9ca3af]">스쿨 라이프 슈퍼앱</span>
+            </div>
+          </GsapReveal>
+
+          {/* ㄴ 반전(」) 구도: 왼쪽 아래 태블릿(가로) + 오른쪽 폰(세로), 바닥선 정렬 */}
+          <div className="grid items-start gap-10 md:grid-cols-2 md:items-end md:gap-8 lg:gap-12">
+            <div className="flex w-full min-w-0 flex-col items-start gap-6">
+              <GsapReveal type="fade-up" delay={0.05}>
+                <h5 className="mb-6 text-[clamp(1.5rem,2vw,2.5rem)] font-extrabold tracking-[-0.03em] text-[#0d1117] leading-[1.45]">
+                  시간표부터 급식, 학생증까지<br />학교 생활을 한 앱에
+                </h5>
+                <p className="max-w-md text-[15px] leading-[1.9] text-[#6b7280]">
+                  우리학교는 시간표·급식·학생증·조퇴외출을 <br /> 하나로 모은 스쿨 라이프 앱이에요<br />게시판과 커뮤니티에서 우리 학교 친구들과 소통해요!
+                </p>
+              </GsapReveal>
+
+              <div>
+                <GsapReveal type="fade-up" delay={0.1}>
+                  <Link href="/contact"
+                    className="group inline-flex items-center gap-2.5 text-[15px] font-bold text-[#0d1117]">
+                    <span className="border-b-2 border-[#0d1117] pb-0.5 transition-colors group-hover:border-[#3b82f6] group-hover:text-[#3b82f6]">
+                      우리학교 바로가기
+                    </span>
+                    <ArrowRight size={16} strokeWidth={2}
+                      className="transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#3b82f6]" />
+                  </Link>
+                </GsapReveal>
+              </div>
+
+              {/* 태블릿 화면 — 와이드 레이아웃(사이드 레일), 텍스트 아래 배치. 모바일에선 숨김 */}
+              <GsapReveal type="fade-up" delay={0.1} className="hidden w-full md:block">
+                <div className="mt-10 w-full md:translate-x-6 lg:translate-x-9 xl:translate-x-[60px]">
+                  <p className="mb-3 text-[12px] text-[#9ca3af]">
+                    태블릿에서는 사이드 레일과 넓은 레이아웃으로
+                  </p>
+                  <MockupScaler designWidth={720}>
+                    <TabletFrame>
+                      <OurSchoolTabletMockup />
+                    </TabletFrame>
+                  </MockupScaler>
+                </div>
+              </GsapReveal>
+            </div>
+
+            <GsapReveal type="fade-up" delay={0.15}>
+              {/* PC: 폰을 왼쪽 아래 모서리 축으로 기울여 태블릿에 기대는 연출.
+                  접점 조건: (그리드 간격 + ml) = 태블릿높이(0.625×컬럼폭) × tanθ.
+                  컬럼폭 = 0.42×100vw − 간격/2 이므로 ml을 vw 기반 calc로 계산해
+                  어떤 폭에서든 기운 왼쪽 변이 태블릿 오른쪽 위 모서리에 닿는다 */}
+              <div className="relative z-10 mx-auto w-full max-w-[320px] md:mx-0 md:ml-[calc(2.76vw+8px)] lg:ml-[calc(5.58vw+2px)] xl:ml-[min(calc(8.03vw+24px),148px)]">
+                {/* 바닥 그림자 — 회전과 분리해 폰 발밑 바닥(오른쪽 치우침)에 깔린다 */}
+                <div aria-hidden className="absolute -bottom-1 left-2 -right-24 hidden h-3 rounded-[50%] bg-[#0d1117]/35 blur-md md:block" />
+                <div className="transition-transform duration-300 md:origin-bottom-left md:-rotate-[6deg] lg:-rotate-[17deg] xl:-rotate-[21deg]">
+                  <PhoneFrame shadow={false}>
+                    <OurSchoolMockup />
+                  </PhoneFrame>
+                </div>
+              </div>
+            </GsapReveal>
+          </div>
+        </div>
+      </section>
+
       {/* ━━━━━━━━━━━━━━ 리프챗 ━━━━━━━━━━━━━━ */}
       <section id="leafchat" className="scroll-mt-[70px] px-[8vw] pt-24 pb-10">
         <div className="mx-auto max-w-screen-xl">
 
           <GsapReveal type="fade-up">
             <div className="mb-14 flex items-baseline gap-5 md:gap-8">
-              <span className="text-[12px] font-medium tabular-nums text-[#9ca3af]">02</span>
+              <span className="text-[12px] font-medium tabular-nums text-[#9ca3af]">03</span>
               <h2 className="text-[15px] font-bold tracking-tight text-[#0d1117]">리프챗 · LeafChat</h2>
               <span className="ml-auto text-[12px] text-[#9ca3af]">연령별 채팅 & 커뮤니티</span>
             </div>

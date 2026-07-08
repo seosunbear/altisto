@@ -4,7 +4,7 @@ import Link            from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 
 const ITEMS = [
-  { no: '01', en: 'Services', ko: '서비스',   desc: '알티와 리프챗, 우리가 만든 서비스를 만나보세요.', href: '/services' },
+  { no: '01', en: 'Services', ko: '서비스',   desc: '알티·우리학교·리프챗, 우리가 만든 서비스를 만나보세요.', href: '/services' },
   { no: '02', en: 'Contact',  ko: '문의하기', desc: '협업·제휴·서비스 문의는 언제든 환영합니다.',       href: '/contact' },
   { no: '03', en: 'Careers',  ko: '함께하기', desc: '함께 성장할 동료를 기다리고 있습니다.',           href: '/career' },
 ] as const
