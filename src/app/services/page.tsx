@@ -110,9 +110,10 @@ export default function ServicesPage() {
 
           <div className="mb-16 flex flex-col items-start gap-6">
             <GsapReveal type="fade-up" delay={0.05}>
-              <h5 className="mb-6 text-[clamp(1.5rem,2vw,2.5rem)] font-extrabold tracking-[-0.03em] text-[#0d1117] leading-[1.22]">
+              {/* h5 → h3: h2 바로 아래 단계로 헤딩 위계 교정 */}
+              <h3 className="mb-6 text-[clamp(1.5rem,2vw,2.5rem)] font-extrabold tracking-[-0.03em] text-[#0d1117] leading-[1.22]">
                 아티스트와 클라이언트를 위한<br />협업 플랫폼
-              </h5>
+              </h3>
               <p className="max-w-md text-[15px] leading-[1.9] text-[#6b7280]">
                 알티는 아티스트가 팀을 꾸리고 함께 작업하는 협업 플랫폼이에요
                 <br /> 하나 홍보할게 있다면 개인간 거래는 수수료가 없어요!
@@ -141,7 +142,7 @@ export default function ServicesPage() {
               {(['left-[calc(50%_-_50vw_+_2.5vw)]', 'right-[calc(50%_-_50vw_+_2.5vw)]'] as const).map(pos => {
                 const isRight = pos.startsWith('right');
                 return (
-                  <div key={pos} aria-hidden
+                  <div key={pos} aria-hidden data-nosnippet
                     className={`pointer-events-none absolute inset-y-0 ${pos} hidden w-[clamp(160px,15vw,270px)] translate-y-8 overflow-hidden lg:block [mask-image:linear-gradient(to_bottom,transparent,black_22%,black_86%,transparent)]`}>
                     <div
                       className="flex flex-col items-center will-change-transform [mask-image:linear-gradient(to_right,transparent_10%,rgba(0,0,0,0.7)_45%,rgba(0,0,0,0.7)_55%,transparent_90%)]"
@@ -182,9 +183,10 @@ export default function ServicesPage() {
           <div className="grid items-start gap-10 md:grid-cols-2 md:items-end md:gap-8 lg:gap-12">
             <div className="flex w-full min-w-0 flex-col items-start gap-6">
               <GsapReveal type="fade-up" delay={0.05}>
-                <h5 className="mb-6 text-[clamp(1.5rem,2vw,2.5rem)] font-extrabold tracking-[-0.03em] text-[#0d1117] leading-[1.45]">
+                {/* h5 → h3: 헤딩 위계 교정 */}
+                <h3 className="mb-6 text-[clamp(1.5rem,2vw,2.5rem)] font-extrabold tracking-[-0.03em] text-[#0d1117] leading-[1.45]">
                   시간표부터 급식, 학생증까지<br />학교 생활을 한 앱에
-                </h5>
+                </h3>
                 <p className="max-w-md text-[15px] leading-[1.9] text-[#6b7280]">
                   우리학교는 시간표·급식·학생증·조퇴외출을 <br /> 하나로 모은 스쿨 라이프 앱이에요<br />게시판과 커뮤니티에서 우리 학교 친구들과 소통해요!
                 </p>
@@ -258,9 +260,10 @@ export default function ServicesPage() {
 
             <div className="flex flex-col items-start gap-6 md:-translate-y-[100px]">
               <GsapReveal type="fade-up" delay={0.05}>
-                <h5 className="mb-6 text-[clamp(1.5rem,2vw,2.5rem)] font-extrabold tracking-[-0.03em] text-[#0d1117] leading-[1.45]">
+                {/* h5 → h3: 헤딩 위계 교정 */}
+                <h3 className="mb-6 text-[clamp(1.5rem,2vw,2.5rem)] font-extrabold tracking-[-0.03em] text-[#0d1117] leading-[1.45]">
                   연령별로 안전하게<br />친구를 만드는 커뮤니티
-                </h5>
+                </h3>
                 <p className="max-w-md text-[15px] leading-[1.9] text-[#6b7280]">
                   리프챗은 연령별로 안전하게 친구를 <br /> 만들 수 있도록 만들어진 커뮤니티에요<br />인증 및 유해차단 서비스로 안전하게 대화 가능해요!
                 </p>

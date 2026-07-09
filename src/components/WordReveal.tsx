@@ -7,7 +7,7 @@
  * 타이포그래피 에디토리얼 느낌을 연출합니다.
  */
 
-import { useEffect, useRef } from 'react'
+import { Fragment, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -70,22 +70,19 @@ export default function WordReveal({
     <span ref={ref} className={className}>
       {tokens.map((token, ti) => {
         if (token === '\n') return <br key={`br-${ti}`} />
-        return token.split(' ').map((word, wi) => (
-          <span
-            key={`${ti}-${wi}`}
-            style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom' }}
-          >
-            <span
-              data-wr
-              style={{ display: 'inline-block', transform: 'translateY(115%)' }}
-            >
-              {word}
+        const words = token.split(' ')
+        return words.map((word, wi) => (
+          /* 단어 span '바깥'에 실제 공백 문자를 두어 크롤러가 단어를 붙여 읽지 않도록 함.
+             SSR HTML에 인라인 translateY(115%)를 넣지 않음 — 숨김은 useEffect(gsap.set)에서만
+             처리해 JS 미실행 크롤러도 텍스트를 온전히 읽게 함 */
+          <Fragment key={`${ti}-${wi}`}>
+            <span style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom' }}>
+              <span data-wr style={{ display: 'inline-block' }}>
+                {word}
+              </span>
             </span>
-            {/* 단어 사이 공백 (마지막 단어 제외) */}
-            {wi < token.split(' ').length - 1 && (
-              <span style={{ display: 'inline-block' }}>&nbsp;</span>
-            )}
-          </span>
+            {wi < words.length - 1 && ' '}
+          </Fragment>
         ))
       })}
     </span>

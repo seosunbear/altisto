@@ -70,14 +70,10 @@ export default function GsapReveal({
     return () => st.kill()
   }, [type, delay, duration, start])
 
-  /* 서버 렌더링 시 초기 투명도 → Flash 방지 */
-  const initStyle: CSSProperties =
-    type === 'clip-up'
-      ? { clipPath: 'inset(0 0 100% 0)', ...style }
-      : { opacity: 0, ...style }
-
+  /* SSR HTML에서는 텍스트를 숨기지 않음 — JS를 실행하지 않는 검색/AI 크롤러가
+     본문을 온전히 읽을 수 있어야 함. 숨김·등장 애니메이션은 위 useEffect(gsap)에서만 처리 */
   return (
-    <div ref={ref} className={className} style={initStyle}>
+    <div ref={ref} className={className} style={style}>
       {children}
     </div>
   )

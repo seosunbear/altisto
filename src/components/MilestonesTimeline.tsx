@@ -50,7 +50,12 @@ export default function MilestonesTimeline() {
       }),
       { threshold: 0.25, rootMargin: '0px 0px -10% 0px' },
     );
-    rows.forEach(r => io.observe(r));
+    rows.forEach(r => {
+      /* 숨김 초기 상태는 클라이언트에서만 적용 — SSR HTML에서는 연혁 텍스트가 보이는 상태 유지(SEO) */
+      r.style.opacity = '0';
+      r.style.transform = 'translateY(24px)';
+      io.observe(r);
+    });
     return () => io.disconnect();
   }, []);
 
@@ -60,8 +65,9 @@ export default function MilestonesTimeline() {
 
         {/* 헤더 */}
         <div className="mb-16 text-center md:mb-20">
-          <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.35em] text-white/40">
-            History
+          {/* 장식용 영문 라벨 — 스니펫 오염 방지 */}
+          <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.35em] text-white/40" aria-hidden="true">
+            <span data-nosnippet>History</span>
           </p>
           <h2 className="text-[clamp(1.6rem,3.2vw,2.4rem)] font-extrabold tracking-tight text-white">
             우리가 걸어온 길
@@ -81,7 +87,6 @@ export default function MilestonesTimeline() {
                   key={`${m.year}-${i}`}
                   data-tl-row
                   className="relative pl-12 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                  style={{ opacity: 0, transform: 'translateY(24px)' }}
                 >
                   <span className="absolute left-0 top-1">
                     <Dot status={m.status} />

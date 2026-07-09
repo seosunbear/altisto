@@ -34,8 +34,9 @@ export default function Footer() {
             <Link href="/" className="inline-flex items-center gap-2.5 select-none mb-4">
               <span className={`text-[16px] font-bold ${dark ? 'text-white' : 'text-[#0d1117]'}`}>Altisto</span>
             </Link>
-            <p className={`text-[13px] leading-[1.75] max-w-[200px] ${dark ? 'text-white/50' : 'text-[#6b7280]'}`}>
-              콘텐츠 그 이상의 가치를 만듭니다
+            {/* 푸터에도 회사 카테고리(개발사)를 명시해 정체성 신호 강화 */}
+            <p className={`text-[13px] leading-[1.75] max-w-[220px] ${dark ? 'text-white/50' : 'text-[#6b7280]'}`}>
+              소프트웨어 및 플랫폼 개발사 알티스토, 콘텐츠 그 이상의 가치를 만듭니다.
             </p>
           </div>
 
