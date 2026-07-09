@@ -1,22 +1,31 @@
 # 알티스토 (Altisto)
 
-> 알티스토는 크리에이터 협업 플랫폼 '알티'와 연령별 채팅 & 커뮤니티 '리프챗(LeafChat)'을 만드는 콘텐츠 기술 기업입니다. 슬로건은 "콘텐츠 그 이상의 가치를, 알티스토"입니다.
+> 알티스토(Altisto)는 소프트웨어 및 플랫폼 개발사입니다. 크리에이터 플랫폼 '알티(Alti)', 스쿨 라이프 슈퍼앱 '우리학교(OurSchool)', 연령별 채팅 & 커뮤니티 '리프챗(LeafChat)'을 직접 개발하고 운영합니다. 슬로건은 "콘텐츠 그 이상의 가치를, 알티스토"입니다.
+
+알티스토는 영상 제작 스튜디오가 아닙니다. 2021년 영상 크리에이터 팀(PYD)으로 첫발을 내딛었지만, 2023년 알티스토 설립 이후에는 웹·앱 소프트웨어와 플랫폼 서비스를 개발·운영하는 회사입니다.
 
 공식 웹사이트: https://altisto.me
 문의: connect@altisto.me
 
-## 서비스
+## 서비스 (프로덕트)
 
-- [알티](https://altisto.me/services): 크리에이터와 클라이언트를 연결하는 협업(외주) 플랫폼
-- [리프챗 (LeafChat)](https://altisto.me/services): 연령별 채팅 & 커뮤니티 서비스
+- [알티 (Alti)](https://altisto.me/services#alti): 아티스트와 클라이언트를 연결하는 크리에이터 협업(외주) 플랫폼
+- [우리학교 (OurSchool)](https://altisto.me/services#ourschool): 시간표·급식·학생증·조퇴외출을 하나로 모은 스쿨 라이프 슈퍼앱
+- [리프챗 (LeafChat)](https://altisto.me/services#leafchat): 연령별로 안전하게 소통하는 채팅 & 커뮤니티 서비스
 
 ## 페이지
 
 - [홈](https://altisto.me/): 회사 소개와 비전
-- [서비스](https://altisto.me/services): 알티, 리프챗 소개
+- [서비스](https://altisto.me/services): 알티, 우리학교, 리프챗 소개
 - [채용](https://altisto.me/career): 열린 포지션 안내
 - [문의](https://altisto.me/contact): 협업·제휴·문의 폼
 
+## 연혁
+
+- 2021: PYD 영상 팀 설립 (시작)
+- 2023: ColorfulStory 출범, Altisto 설립
+- 2026: 알티 베타 출시, 리프챗 정식 론칭 (예정)
+
 ## About (English)
 
-Altisto is a Korean content technology company building "RTI" (a creator collaboration platform) and "LeafChat" (an age-based chat & community service). Official site: https://altisto.me
+Altisto is a Korean software and platform development company. It builds and operates "Alti" (a creator collaboration platform), "OurSchool" (a school-life super app), and "LeafChat" (an age-based chat & community service). Altisto is not a video production studio; it started as a video creator team in 2021 and has been a software company since its founding in 2023. Official site: https://altisto.me

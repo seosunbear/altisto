@@ -122,7 +122,8 @@ export default function HeroSection() {
           ref={subtitleRef}
           className="max-w-xl text-[12px] md:text-[14px] leading-[1.7] md:leading-[1.9] tracking-[0.01em] text-white/75 font-normal"
         >
-          소프트웨어 및 플랫폼 개발사 알티스토는<br />
+          {/* 한/영 표기를 본문 최상단에 함께 노출 — 'altisto'·'알티스토' 어느 쪽 검색에도 매칭 */}
+          소프트웨어 및 플랫폼 개발사 알티스토(Altisto)는<br />
           지루한 일상 속, 잠깐이지만 웃거나 몰두할 수 있는 세상을 만듭니다.
         </p>
       </div>
