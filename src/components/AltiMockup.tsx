@@ -312,7 +312,7 @@ export default function AltiMockup() {
                         className="relative mb-2 h-[150px] overflow-hidden rounded-lg"
                       >
                         <img
-                          src="/알티메리.png"
+                          src="/alti-event.webp"
                           alt="알티 BETA 오픈 이벤트"
                           className="absolute inset-0 h-full w-full object-cover"
                         />

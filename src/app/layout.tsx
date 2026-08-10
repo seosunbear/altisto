@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     siteName: "알티스토",
     images: [
       {
-        url: "/main.png",
+        url: "/og.jpg",
         width: 1920,
         height: 1080,
         alt: "알티스토 — 콘텐츠 그 이상의 가치",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "알티스토 | Altisto 공식 웹사이트",
     description: "소프트웨어 및 플랫폼 개발사 알티스토(Altisto) 공식 홈페이지",
-    images: ["/main.png"],
+    images: ["/og.jpg"],
   },
 };
 
@@ -74,7 +74,7 @@ const jsonLd = {
       name: "알티스토",
       alternateName: ["Altisto", "알티스토 (Altisto)"],
       url: SITE_URL,
-      logo: `${SITE_URL}/main.png`,
+      logo: `${SITE_URL}/og.jpg`,
       email: "connect@altisto.me",
       description:
         "알티스토(Altisto)는 크리에이터 플랫폼 '알티', 스쿨 라이프 앱 '우리학교', 연령별 커뮤니티 '리프챗'을 만드는 소프트웨어 및 플랫폼 개발사입니다.",

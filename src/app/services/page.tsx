@@ -7,8 +7,6 @@ import WordReveal from '@/components/WordReveal';
 import AltiMockup from '@/components/AltiMockup';
 import LeafChatMockup from '@/components/LeafChatMockup';
 import OurSchoolMockup from '@/components/OurSchoolMockup';
-import OurSchoolTabletMockup from '@/components/OurSchoolTabletMockup';
-import TabletFrame from '@/components/TabletFrame';
 import PhoneFrame from '@/components/PhoneFrame';
 import MockupScaler from '@/components/MockupScaler';
 
@@ -179,8 +177,8 @@ export default function ServicesPage() {
             </div>
           </GsapReveal>
 
-          {/* ㄴ 반전(」) 구도: 왼쪽 아래 태블릿(가로) + 오른쪽 폰(세로), 바닥선 정렬 */}
-          <div className="grid items-start gap-10 md:grid-cols-2 md:items-end md:gap-8 lg:gap-12">
+          {/* 왼쪽 텍스트 + 오른쪽 기울인 폰. 텍스트는 섹션 헤더에 이어지도록 위쪽 정렬 */}
+          <div className="grid items-start gap-10 md:grid-cols-2 md:gap-8 lg:gap-12">
             <div className="flex w-full min-w-0 flex-col items-start gap-6">
               <GsapReveal type="fade-up" delay={0.05}>
                 {/* h5 → h3: 헤딩 위계 교정 */}
@@ -204,27 +202,10 @@ export default function ServicesPage() {
                   </Link>
                 </GsapReveal>
               </div>
-
-              {/* 태블릿 화면 — 와이드 레이아웃(사이드 레일), 텍스트 아래 배치. 모바일에선 숨김 */}
-              <GsapReveal type="fade-up" delay={0.1} className="hidden w-full md:block">
-                <div className="mt-10 w-full md:translate-x-6 lg:translate-x-9 xl:translate-x-[60px]">
-                  <p className="mb-3 text-[12px] text-[#9ca3af]">
-                    태블릿에서는 사이드 레일과 넓은 레이아웃으로
-                  </p>
-                  <MockupScaler designWidth={720}>
-                    <TabletFrame>
-                      <OurSchoolTabletMockup />
-                    </TabletFrame>
-                  </MockupScaler>
-                </div>
-              </GsapReveal>
             </div>
 
             <GsapReveal type="fade-up" delay={0.15}>
-              {/* PC: 폰을 왼쪽 아래 모서리 축으로 기울여 태블릿에 기대는 연출.
-                  접점 조건: (그리드 간격 + ml) = 태블릿높이(0.625×컬럼폭) × tanθ.
-                  컬럼폭 = 0.42×100vw − 간격/2 이므로 ml을 vw 기반 calc로 계산해
-                  어떤 폭에서든 기운 왼쪽 변이 태블릿 오른쪽 위 모서리에 닿는다 */}
+              {/* PC: 왼쪽 아래 모서리를 축으로 기울인 폰 + 발밑 바닥 그림자 */}
               <div className="relative z-10 mx-auto w-full max-w-[320px] md:mx-0 md:ml-[calc(2.76vw+8px)] lg:ml-[calc(5.58vw+2px)] xl:ml-[min(calc(8.03vw+24px),148px)]">
                 {/* 바닥 그림자 — 회전과 분리해 폰 발밑 바닥(오른쪽 치우침)에 깔린다 */}
                 <div aria-hidden className="absolute -bottom-1 left-2 -right-24 hidden h-3 rounded-[50%] bg-[#0d1117]/35 blur-md md:block" />

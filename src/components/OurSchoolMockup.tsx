@@ -672,7 +672,7 @@ export default function OurSchoolMockup() {
                       <div className="relative pr-1">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src="/studygirl.png"
+                          src="/studygirl.webp"
                           alt=""
                           width={85}
                           height={52}

@@ -62,14 +62,6 @@
   from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes star-twinkle {
-  0%, 100% { transform: scale(1) rotate(0deg);   opacity: 1; }
-  50%       { transform: scale(1.4) rotate(20deg); opacity: 0.4; }
-}
-@keyframes line-expand {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 1; }
-}
 @keyframes quote-pop {
   from { opacity: 0; transform: scale(0.7) translateY(10px); }
   to   { opacity: 0.1; transform: scale(1) translateY(0); }
@@ -113,7 +105,6 @@
   }
 
   /* 무한 반복 CSS 애니메이션 비활성화 */
-  @keyframes star-twinkle   { 0%, 100% { opacity: 0.2; transform: scale(1); } }
   @keyframes star-rise      { 0%, 100% { opacity: 0; } }
   @keyframes star-trail-fade{ 0%, 100% { opacity: 0; } }
   @keyframes star-pulse     { 0%, 100% { opacity: 0.6; } }

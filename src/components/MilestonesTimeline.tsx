@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
+import SectionLabel from '@/components/SectionLabel';
 
 type MilestoneStatus = 'done' | 'current' | 'upcoming';
 
@@ -22,13 +23,13 @@ const milestones: Milestone[] = [
 function Dot({ status }: { status: MilestoneStatus }) {
   if (status === 'current') {
     return (
-      <span className="grid h-[18px] w-[18px] place-items-center rounded-full border border-white/30 bg-black">
+      <span className="grid h-[18px] w-[18px] place-items-center rounded-full border border-white/30 bg-[#0a0a0f]">
         <span className="block h-2 w-2 rounded-full bg-white" style={{ boxShadow: '0 0 8px rgba(255,255,255,0.6)' }} />
       </span>
     );
   }
   if (status === 'upcoming') {
-    return <span className="mt-1 block h-2.5 w-2.5 rounded-full border border-white/25 bg-black" />;
+    return <span className="mt-1 block h-2.5 w-2.5 rounded-full border border-white/25 bg-[#0a0a0f]" />;
   }
   return <span className="mt-1 block h-2.5 w-2.5 rounded-full bg-white/40" />;
 }
@@ -60,21 +61,19 @@ export default function MilestonesTimeline() {
   }, []);
 
   return (
-    <section className="bg-black px-6 py-24 md:px-10 md:py-32">
-      <div className="mx-auto max-w-screen-xl">
+    <section className="relative bg-[#0a0a0f] px-6 py-28 md:px-10 md:py-40">
+      <div className="relative z-10 mx-auto max-w-screen-xl">
 
-        {/* 헤더 */}
-        <div className="mb-16 text-center md:mb-20">
-          {/* 장식용 영문 라벨 — 스니펫 오염 방지 */}
-          <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.35em] text-white/40" aria-hidden="true">
-            <span data-nosnippet>History</span>
-          </p>
-          <h2 className="text-[clamp(1.6rem,3.2vw,2.4rem)] font-extrabold tracking-tight text-white">
+        {/* 헤더 — 연혁 행과 같은 들여쓰기(pl-12)를 써서 글자 시작선을 맞춘다 */}
+        <div className="mb-14 pl-12">
+          <SectionLabel className="mb-6">history</SectionLabel>
+          <h2 className="text-[clamp(1.6rem,3.4vw,2.6rem)] font-extrabold leading-[1.2] tracking-tight text-white">
             우리가 걸어온 길
           </h2>
         </div>
 
-        {/* 타임라인 */}
+        {/* 타임라인 — 블록만 화면 가운데로. 행 내부는 왼쪽 정렬을 유지한다.
+            연도·점·세로 라인이 한 줄로 서 있어야 타임라인으로 읽히기 때문 */}
         <div ref={wrapRef} className="relative mx-auto max-w-2xl">
           {/* 세로 라인 */}
           <div aria-hidden className="absolute bottom-2 left-[8px] top-2 w-px bg-white/10" />

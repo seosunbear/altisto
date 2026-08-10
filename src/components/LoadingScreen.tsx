@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-/** 히어로 배경(/main.png)이 로드될 때까지 보여주는 우아한 로딩 오버레이 */
+/** 히어로 배경(/main.webp)이 로드될 때까지 보여주는 우아한 로딩 오버레이 */
 export default function LoadingScreen() {
   const [loaded, setLoaded]   = useState(false) // 이미지 + 최소 노출 시간 충족
   const [removed, setRemoved] = useState(false) // 페이드아웃 후 DOM 제거
@@ -18,7 +18,7 @@ export default function LoadingScreen() {
     }
 
     const img = new window.Image()
-    img.src = '/main.png'
+    img.src = '/main.webp'
     if (img.complete) finish()
     else {
       img.onload  = finish

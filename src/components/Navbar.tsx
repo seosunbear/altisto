@@ -15,15 +15,29 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const [overLight, setOverLight] = useState(false);
+
   const isHome = pathname === '/';
-  // 홈만 어두운 히어로(흰 텍스트), 그 외 페이지는 어바웃처럼 어두운 텍스트
-  const darkText = !isHome;
+  // 홈만 어두운 히어로(흰 텍스트), 그 외 페이지는 어바웃처럼 어두운 텍스트.
+  // 홈이라도 흰 배경 섹션(data-nav-light) 위를 지날 땐 흰 글자가 묻히므로 어두운 글자로 전환한다.
+  const darkText = !isHome || overLight;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 4);
+    /* 헤더 높이의 중간 지점(y=34)에 흰 배경 섹션이 걸쳐 있는지 매 스크롤마다 판정 */
+    const lightSections = Array.from(document.querySelectorAll<HTMLElement>('[data-nav-light]'));
+
+    const onScroll = () => {
+      setScrolled(window.scrollY > 4);
+      setOverLight(lightSections.some(el => {
+        const { top, bottom } = el.getBoundingClientRect();
+        return top <= 34 && bottom >= 34;
+      }));
+    };
+
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
@@ -35,9 +49,10 @@ export default function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? isHome
-            ? 'backdrop-blur-md border-b border-transparent'
-            : 'bg-white/90 backdrop-blur-md border-b border-[#e5e7eb]'
+          ? darkText
+            /* 밝은 배경 위 — 불투명 흰 헤더. 투명 blur로 두면 아래 글자가 번져 보인다 */
+            ? 'bg-white/90 backdrop-blur-md border-b border-[#e5e7eb]'
+            : 'backdrop-blur-md border-b border-transparent'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
