@@ -131,3 +131,16 @@
     background: rgba(29, 78, 216, 0.14);
   }
 }
+
+/* ── 우하단 픽셀 별 반짝임 ── */
+@keyframes px-twinkle {
+  0%, 100% { opacity: var(--px-o, 1); }
+  50%      { opacity: calc(var(--px-o, 1) * 0.22); }
+}
+.px-star {
+  animation: px-twinkle 4s ease-in-out infinite;
+  will-change: opacity;
+}
+@media (prefers-reduced-motion: reduce) {
+  .px-star { animation: none; }
+}
