@@ -414,18 +414,43 @@ export default function MistralGrid() {
             lg:border-l
           "
         >
-          {/* 가라앉는 글자를 잘라내는 칸. 높이가 곧 보이는 가로 경계선이라
-              PC에서는 68% → 90% → 100%로 패널과 같이 자란다(위 타임라인).
-              고정 높이로 두면 68% 아래 오른쪽 빈 구역에 글자가 그대로 비친다.
-              모바일은 영상 띠(32%) 아래가 헤드라인 자리이고, 그 아래는 아래 두 칸과
-              전체 폭 영상이 덮어 주므로 자라지 않아도 된다.
-
-              안쪽 상자의 높이는 화면 기준(68vh / 36svh)으로 못 박는다 — 부모가
-              자랄 때 items-end가 따라 내려가면 글자가 같이 밀린다 */}
-
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            disablePictureInPicture
+            className="
+              pointer-events-none
+              absolute
+              inset-0
+              h-full
+              w-full
+              object-left
+              object-cover
+              select-none
+              blur-[3px]
+              opacity-50
+            "
+          >
+            <source src="/content.mp4" type="video/mp4" />
+          </video>
+          <div
+            aria-hidden
+            className="
+              pointer-events-none
+              absolute
+              inset-0
+              bg-gradient-to-t
+              from-[#101014]/80
+              via-[#101014]/25
+              to-[#101014]/40
+            "
+          />
           <div
             ref={clipRef}
-            className="absolute inset-x-0 top-[32%] h-[36%] overflow-hidden lg:top-0 lg:h-[68%]"
+            className="absolute inset-x-0 top-[32%] z-10 h-[36%] overflow-hidden lg:top-0 lg:h-[68%]"
           >
           <div
             ref={textRef}
