@@ -47,11 +47,11 @@ export default function CountUpStat({ to, suffix = '', label, delay = 0 }: Count
       {/* SSR에는 최종 수치를 그대로 노출 — 카운트업은 클라이언트에서 0부터 다시 시작 */}
       <p
         ref={numRef}
-        className="text-[2rem] font-bold leading-none tracking-tight text-white tabular-nums"
+        className="text-[1.6rem] font-bold leading-none tracking-tight text-white tabular-nums md:text-[1.75rem]"
       >
         {to.toLocaleString()}{suffix}
       </p>
-      <p className="mt-2 text-[12px] font-medium text-white/50">{label}</p>
+      <p className="mt-2 text-[11px] font-medium text-white/50 md:text-[12px]">{label}</p>
     </motion.div>
   )
 }
