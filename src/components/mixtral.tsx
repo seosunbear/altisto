@@ -947,9 +947,10 @@ export default function MistralGrid() {
                   lg:text-[clamp(1.3rem,2.3vw,3rem)]
                 "
               >
-                Content <br />
-                beyond <br />
-                expectations.
+                creating <br />
+                value <br />
+                beyond 
+                content
               </h3>
             </div>
           </div>
