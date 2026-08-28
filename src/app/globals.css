@@ -116,9 +116,13 @@
   html {
     scroll-behavior: smooth;
     background: #000000;
+     min-height: 100vh;
+  min-height: 100dvh;
   }
 
   body {
+     min-height: 100vh;
+  min-height: 100dvh;
     background: #000000;
     color: #0d1117;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
