@@ -19,10 +19,17 @@ const MOTTO = [
   { text: '다양한 콘텐츠로', kind: 'lead', mark: ['콘텐츠'] },
   { text: '관객을 사로잡는것', kind: 'lead' },
   { text: '그것이 저희의', kind: 'lead', gap: true },
-  { text: '목표이자 주어진 미션입니다', kind: 'lead', mark: ['목표', '미션'] },
+  {
+    text: '목표이자 주어진 미션입니다',
+    kind: 'lead',
+    mark: ['목표', '미션'],
+  },
 ] as const;
 
-const MOTTO_CLASS: Record<(typeof MOTTO)[number]['kind'], string> = {
+const MOTTO_CLASS: Record<
+  (typeof MOTTO)[number]['kind'],
+  string
+> = {
   label:
     'mb-3 text-[18px] font-extrabold tracking-[0.1em] text-white',
 
@@ -33,9 +40,9 @@ const MOTTO_CLASS: Record<(typeof MOTTO)[number]['kind'], string> = {
 
 const MARK_COLOR: Record<string, string> = {
   '82억': 'bg-[#93c5fd]',
-  '콘텐츠': 'bg-[#c4b5fd]',
-  '목표': 'bg-[#fed7aa]',
-  '미션': 'bg-[#a5f3fc]',
+  콘텐츠: 'bg-[#c4b5fd]',
+  목표: 'bg-[#fed7aa]',
+  미션: 'bg-[#a5f3fc]',
 };
 
 const MARK_PAD_OPEN = {
@@ -48,7 +55,10 @@ const MARK_PAD_SHUT = {
   paddingRight: '0em',
 };
 
-function renderLine(text: string, marks?: readonly string[]) {
+function renderLine(
+  text: string,
+  marks?: readonly string[],
+) {
   if (!marks?.length) return text;
 
   const parts = text.split(
@@ -213,13 +223,17 @@ export default function MistralGrid() {
 
       const words = mottoRef.current
         ? gsap.utils.toArray<HTMLElement>(
-            mottoRef.current.querySelectorAll('[data-mark]'),
+            mottoRef.current.querySelectorAll(
+              '[data-mark]',
+            ),
           )
         : [];
 
       words.forEach((word, i) => {
         const box =
-          word.querySelector<HTMLElement>('[data-hl]');
+          word.querySelector<HTMLElement>(
+            '[data-hl]',
+          );
 
         const inner =
           box?.firstElementChild as HTMLElement | null;
@@ -455,9 +469,53 @@ export default function MistralGrid() {
           scrub: true,
           pin: true,
           anticipatePin: 1,
-          invalidateOnRefresh: true,
         },
       });
+
+      /*
+       * -----------------------------------------------------
+       * Chrome 모바일 viewport 실시간 동기화
+       *
+       * refresh()를 사용하지 않는다.
+       *
+       * refresh()는 레이아웃 전체를 다시 계산하기 때문에
+       * Chrome 하단 네비게이션 바가 움직일 때 한 박자
+       * 늦게 따라오는 현상이 생길 수 있다.
+       *
+       * visualViewport의 resize / scroll을 받아서
+       * 다음 프레임에 ScrollTrigger.update()만 실행한다.
+       * -----------------------------------------------------
+       */
+
+      const viewport = window.visualViewport;
+
+      let rafId = 0;
+
+      const syncViewport = () => {
+        cancelAnimationFrame(rafId);
+
+        rafId = requestAnimationFrame(() => {
+          ScrollTrigger.update();
+        });
+      };
+
+      viewport?.addEventListener(
+        'resize',
+        syncViewport,
+        { passive: true },
+      );
+
+      viewport?.addEventListener(
+        'scroll',
+        syncViewport,
+        { passive: true },
+      );
+
+      /*
+       * -----------------------------------------------------
+       * 모바일 애니메이션
+       * -----------------------------------------------------
+       */
 
       tl.to(
         text,
@@ -541,6 +599,25 @@ export default function MistralGrid() {
       );
 
       common(tl, 0.34);
+
+      /*
+       * matchMedia가 MOBILE 조건을 해제할 때
+       * visualViewport 이벤트도 같이 제거한다.
+       */
+
+      return () => {
+        cancelAnimationFrame(rafId);
+
+        viewport?.removeEventListener(
+          'resize',
+          syncViewport,
+        );
+
+        viewport?.removeEventListener(
+          'scroll',
+          syncViewport,
+        );
+      };
     });
 
     return () => {
@@ -618,23 +695,11 @@ export default function MistralGrid() {
         lg:min-h-0
       "
       style={{
-        /*
-         * 모바일 Chrome의 하단 navigation bar가 나타날 때
-         * visual viewport 아래쪽 영역까지 배경을 확장한다.
-         */
         minHeight:
           'calc(100dvh + env(safe-area-inset-bottom))',
       }}
     >
-      {/*
-       * =====================================================
-       * 실제 화면 전체를 덮는 배경 레이어
-       *
-       * section 자체가 viewport 변화에 영향을 받더라도
-       * 이 레이어는 항상 바닥까지 배경을 유지한다.
-       * =====================================================
-       */}
-
+      {/* viewport 바깥까지 항상 배경 유지 */}
       <div
         aria-hidden
         className="
@@ -644,10 +709,6 @@ export default function MistralGrid() {
           -z-10
           bg-[#101014]
         "
-        style={{
-          paddingBottom:
-            'env(safe-area-inset-bottom)',
-        }}
       />
 
       <div
@@ -664,7 +725,6 @@ export default function MistralGrid() {
             'env(safe-area-inset-bottom)',
         }}
       >
-
         {/* =====================================================
             헤드라인
             ===================================================== */}
@@ -830,9 +890,7 @@ export default function MistralGrid() {
               justify-center
             "
           >
-            <StarTrail
-              idPrefix="grid"
-            />
+            <StarTrail idPrefix="grid" />
           </div>
         </div>
       </div>
@@ -1006,7 +1064,7 @@ export default function MistralGrid() {
       </div>
 
       {/* =====================================================
-          모바일 Chrome 하단 viewport 보정
+          모바일 하단 safe-area
           ===================================================== */}
 
       <div
