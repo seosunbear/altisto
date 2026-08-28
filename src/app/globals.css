@@ -115,10 +115,11 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    background: #000000;
   }
 
   body {
-    background: #ffffff;
+    background: #000000;
     color: #0d1117;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
       "Helvetica Neue", Arial, sans-serif;
