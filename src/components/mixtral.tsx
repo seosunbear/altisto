@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import StarTrail from '@/components/StarTrail';
+import CharRoll from '@/components/CharRoll';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -414,43 +415,18 @@ export default function MistralGrid() {
             lg:border-l
           "
         >
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            disablePictureInPicture
-            className="
-              pointer-events-none
-              absolute
-              inset-0
-              h-full
-              w-full
-              object-left
-              object-cover
-              select-none
-              blur-[3px]
-              opacity-50
-            "
-          >
-            <source src="/content.mp4" type="video/mp4" />
-          </video>
-          <div
-            aria-hidden
-            className="
-              pointer-events-none
-              absolute
-              inset-0
-              bg-gradient-to-t
-              from-[#101014]/80
-              via-[#101014]/25
-              to-[#101014]/40
-            "
-          />
+          {/* 가라앉는 글자를 잘라내는 칸. 높이가 곧 보이는 가로 경계선이라
+              PC에서는 68% → 90% → 100%로 패널과 같이 자란다(위 타임라인).
+              고정 높이로 두면 68% 아래 오른쪽 빈 구역에 글자가 그대로 비친다.
+              모바일은 영상 띠(32%) 아래가 헤드라인 자리이고, 그 아래는 아래 두 칸과
+              전체 폭 영상이 덮어 주므로 자라지 않아도 된다.
+
+              안쪽 상자의 높이는 화면 기준(68vh / 36svh)으로 못 박는다 — 부모가
+              자랄 때 items-end가 따라 내려가면 글자가 같이 밀린다 */}
+ 
           <div
             ref={clipRef}
-            className="absolute inset-x-0 top-[32%] z-10 h-[36%] overflow-hidden lg:top-0 lg:h-[68%]"
+            className="absolute inset-x-0 top-[32%] h-[36%] overflow-hidden lg:top-0 lg:h-[68%]"
           >
           <div
             ref={textRef}
@@ -467,19 +443,33 @@ export default function MistralGrid() {
                 lg:text-[clamp(3rem,5vw,7rem)]
               "
             >
-              콘텐츠 그 이상의
-              <br />
-              <span
-                className="
-                  mt-2
-                  block
-                  text-[clamp(1.9rem,8vw,3.4rem)]
-                  tracking-[-0.03em]
-                  lg:text-[clamp(3rem,3vw,7rem)]
-                "
-              >
-                가치를 만듭니다
-              </span>
+              {/* 글자 하나하나는 왼쪽에서 오른쪽으로 굴러 나가고, 그 순서는 줄의
+                  오른쪽 끝에서 시작해 왼쪽으로 번진다 — mistral.ai 히어로 제목의
+                  등장 연출을 루프로 고친 것이다.
+                  아랫줄은 0.24초 늦게 출발해 윗줄부터 차례로 들어오게 한다 */}
+
+
+<CharRoll
+  text="콘텐츠 그 이상의"
+  intro={0}
+  loopDelay={0}
+  className="block"
+/>
+
+<CharRoll
+  text="가치를 만듭니다"
+  intro={0.5}
+  loopDelay={0.5}
+  className="
+    mt-2
+    block
+    text-[clamp(1.9rem,8vw,3.4rem)]
+    tracking-[-0.03em]
+    lg:text-[clamp(3rem,3vw,7rem)]
+  "
+/>
+
+
             </div>
           </div>
           </div>
@@ -556,7 +546,7 @@ export default function MistralGrid() {
             overflow-hidden
             border-t
             border-white/10
-            bg-[#101014]
+            bg-[#101018]
             lg:left-[30%]
             lg:w-[70%]
           "
@@ -594,7 +584,7 @@ export default function MistralGrid() {
           h-[32%]
           w-full
           overflow-hidden
-          bg-[#101014]
+          bg-[#1B1B39]
           lg:h-[68%]
           lg:w-[30%]
         "
@@ -636,13 +626,6 @@ export default function MistralGrid() {
             pointer-events-none
             absolute
             inset-0
-            bg-gradient-to-t
-            from-[#101014]/85
-            via-[#101014]/55
-            to-[#101014]/30
-            lg:from-[#101014]/80
-            lg:via-[#101014]/20
-            lg:to-transparent
           "
         />
 
