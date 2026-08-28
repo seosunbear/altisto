@@ -4,9 +4,9 @@ import { usePathname } from 'next/navigation';
 import { Mail } from 'lucide-react';
 
 const services = [
-  { label: '알티 (협업 플랫폼)', href: '/services' },
-  { label: '우리학교 (스쿨 라이프 앱)', href: '/services#ourschool' },
-  { label: '리프챗 (소통 플랫폼)', href: '/services#leafchat' },
+  { label: '알티', href: '/services' },
+  { label: '우리학교', href: '/services#ourschool' },
+  { label: '리프챗', href: '/services#leafchat' },
 ];
 
 const company = [
@@ -31,12 +31,12 @@ export default function Footer() {
 
           {/* 브랜드 */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="inline-flex items-center gap-2.5 select-none mb-4">
+            <Link href="/" className="inline-flex items-center gap-1 select-none mb-">
               <span className={`text-[16px] font-bold ${dark ? 'text-white' : 'text-[#0d1117]'}`}>Altisto</span>
             </Link>
             {/* 푸터에도 회사 카테고리(개발사)를 명시해 정체성 신호 강화 */}
             <p className={`text-[13px] leading-[1.75] max-w-[220px] ${dark ? 'text-white/50' : 'text-[#6b7280]'}`}>
-              소프트웨어 및 플랫폼 개발사 알티스토, 콘텐츠 그 이상의 가치를 만듭니다.
+              콘텐츠 그 이상의 가치를 만듭니다
             </p>
           </div>
 
