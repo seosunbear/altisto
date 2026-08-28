@@ -584,7 +584,8 @@ export default function MistralGrid() {
           h-[32%]
           w-full
           overflow-hidden
-          bg-[#1B1B39]
+          bg-[#101014]
+          lg:bg-[#1B1B39]
           lg:h-[68%]
           lg:w-[30%]
         "
