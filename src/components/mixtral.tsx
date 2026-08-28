@@ -8,6 +8,10 @@ import CharRoll from '@/components/CharRoll';
 
 gsap.registerPlugin(ScrollTrigger);
 
+/* =========================================================
+   MOTTO
+   ========================================================= */
+
 const MOTTO = [
   { text: 'MISSION', kind: 'label' },
 
@@ -38,11 +42,15 @@ const MOTTO_CLASS: Record<
     ' lg:text-[clamp(0.1rem,1.2vw,1.6rem)]',
 };
 
+/* =========================================================
+   HIGHLIGHT COLORS
+   ========================================================= */
+
 const MARK_COLOR: Record<string, string> = {
   '82억': 'bg-[#93c5fd]',
-  콘텐츠: 'bg-[#c4b5fd]',
-  목표: 'bg-[#fed7aa]',
-  미션: 'bg-[#a5f3fc]',
+  '콘텐츠': 'bg-[#c4b5fd]',
+  '목표': 'bg-[#fed7aa]',
+  '미션': 'bg-[#a5f3fc]',
 };
 
 const MARK_PAD_OPEN = {
@@ -54,6 +62,10 @@ const MARK_PAD_SHUT = {
   paddingLeft: '0em',
   paddingRight: '0em',
 };
+
+/* =========================================================
+   MOTTO LINE RENDER
+   ========================================================= */
 
 function renderLine(
   text: string,
@@ -98,8 +110,16 @@ function renderLine(
   );
 }
 
+/* =========================================================
+   BREAKPOINTS
+   ========================================================= */
+
 const DESKTOP = '(min-width: 1024px)';
 const MOBILE = '(max-width: 1023px)';
+
+/* =========================================================
+   COMPONENT
+   ========================================================= */
 
 export default function MistralGrid() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -114,6 +134,77 @@ export default function MistralGrid() {
   const mottoRef = useRef<HTMLDivElement>(null);
   const sweepRef = useRef<HTMLDivElement>(null);
 
+  /* =======================================================
+     REAL VIEWPORT HEIGHT
+     ======================================================= */
+
+  useEffect(() => {
+    let raf = 0;
+
+    const updateViewportHeight = () => {
+      cancelAnimationFrame(raf);
+
+      raf = requestAnimationFrame(() => {
+        const height =
+          window.visualViewport?.height ??
+          window.innerHeight;
+
+        document.documentElement.style.setProperty(
+          '--app-height',
+          `${height}px`,
+        );
+
+        /*
+         * Chrome 모바일의 주소창/하단 네비바가
+         * 움직인 직후 ScrollTrigger도 바로 다시 계산한다.
+         */
+        ScrollTrigger.refresh();
+      });
+    };
+
+    updateViewportHeight();
+
+    const viewport = window.visualViewport;
+
+    viewport?.addEventListener(
+      'resize',
+      updateViewportHeight,
+    );
+
+    viewport?.addEventListener(
+      'scroll',
+      updateViewportHeight,
+    );
+
+    window.addEventListener(
+      'resize',
+      updateViewportHeight,
+    );
+
+    return () => {
+      cancelAnimationFrame(raf);
+
+      viewport?.removeEventListener(
+        'resize',
+        updateViewportHeight,
+      );
+
+      viewport?.removeEventListener(
+        'scroll',
+        updateViewportHeight,
+      );
+
+      window.removeEventListener(
+        'resize',
+        updateViewportHeight,
+      );
+    };
+  }, []);
+
+  /* =======================================================
+     GSAP / SCROLLTRIGGER
+     ======================================================= */
+
   useLayoutEffect(() => {
     const section = sectionRef.current;
     const panel = panelRef.current;
@@ -121,10 +212,17 @@ export default function MistralGrid() {
 
     if (!section || !panel || !text) return;
 
+    /* =====================================================
+       COMMON ANIMATION
+       ===================================================== */
+
     const common = (
       tl: gsap.core.Timeline,
       mottoAt: number,
     ) => {
+      /*
+       * 영상과 콘텐츠는 처음에는 숨김
+       */
       gsap.set(
         [videoRef.current, contentRef.current],
         {
@@ -136,6 +234,9 @@ export default function MistralGrid() {
         y: 28,
       });
 
+      /*
+       * 별 전환
+       */
       gsap.set(sweepRef.current, {
         opacity: 0,
       });
@@ -144,6 +245,9 @@ export default function MistralGrid() {
         y: 0,
       });
 
+      /*
+       * 영상 등장
+       */
       tl.to(
         videoRef.current,
         {
@@ -154,6 +258,9 @@ export default function MistralGrid() {
         0.03,
       );
 
+      /*
+       * 별 플래시
+       */
       const sweep = sweepRef.current;
 
       if (sweep) {
@@ -164,7 +271,9 @@ export default function MistralGrid() {
         flash
           .fromTo(
             sweep,
-            { xPercent: 16 },
+            {
+              xPercent: 16,
+            },
             {
               xPercent: -16,
               duration: 1.5,
@@ -174,7 +283,9 @@ export default function MistralGrid() {
           )
           .fromTo(
             sweep,
-            { opacity: 0 },
+            {
+              opacity: 0,
+            },
             {
               opacity: 1,
               duration: 0.35,
@@ -203,6 +314,9 @@ export default function MistralGrid() {
         );
       }
 
+      /*
+       * 모토 등장
+       */
       const mottoLines = mottoRef.current
         ? gsap.utils.toArray<HTMLElement>(
             mottoRef.current.children,
@@ -221,6 +335,9 @@ export default function MistralGrid() {
         mottoAt,
       );
 
+      /*
+       * 형광펜
+       */
       const words = mottoRef.current
         ? gsap.utils.toArray<HTMLElement>(
             mottoRef.current.querySelectorAll(
@@ -231,31 +348,35 @@ export default function MistralGrid() {
 
       words.forEach((word, i) => {
         const box =
-          word.querySelector<HTMLElement>(
-            '[data-hl]',
-          );
+          word.querySelector<HTMLElement>('[data-hl]');
 
         const inner =
           box?.firstElementChild as HTMLElement | null;
 
         const at =
-          mottoAt + 0.34 + i * 0.06;
+          mottoAt +
+          0.34 +
+          i * 0.06;
 
-        if (box) {
-          tl.fromTo(
-            box,
-            {
-              width: '0%',
-            },
-            {
-              width: '100%',
-              ease: 'power2.out',
-              duration: 0.08,
-            },
-            at,
-          );
-        }
+        /*
+         * 형광펜 열림
+         */
+        tl.fromTo(
+          box,
+          {
+            width: '0%',
+          },
+          {
+            width: '100%',
+            ease: 'power2.out',
+            duration: 0.08,
+          },
+          at,
+        );
 
+        /*
+         * 패딩
+         */
         tl.fromTo(
           [word, inner],
           MARK_PAD_SHUT,
@@ -267,6 +388,9 @@ export default function MistralGrid() {
           at,
         );
 
+        /*
+         * 살짝 튀어오름
+         */
         tl.to(
           word,
           {
@@ -291,11 +415,9 @@ export default function MistralGrid() {
 
     const mm = gsap.matchMedia();
 
-    /*
-     * =====================================================
-     * PC
-     * =====================================================
-     */
+    /* =====================================================
+       DESKTOP
+       ===================================================== */
 
     mm.add(DESKTOP, () => {
       gsap.set(panel, {
@@ -318,6 +440,10 @@ export default function MistralGrid() {
           anticipatePin: 1,
         },
       });
+
+      /*
+       * 1단
+       */
 
       tl.to(
         panel,
@@ -360,6 +486,10 @@ export default function MistralGrid() {
         0,
       );
 
+      /*
+       * 헤드라인
+       */
+
       tl.to(
         text,
         {
@@ -379,6 +509,10 @@ export default function MistralGrid() {
         },
         0.044,
       );
+
+      /*
+       * 클리핑
+       */
 
       tl.to(
         clipRef.current,
@@ -400,6 +534,10 @@ export default function MistralGrid() {
         0.3,
       );
 
+      /*
+       * 2단
+       */
+
       tl.to(
         panel,
         {
@@ -420,6 +558,10 @@ export default function MistralGrid() {
         0.3,
       );
 
+      /*
+       * 유성우
+       */
+
       tl.to(
         paletteRef.current,
         {
@@ -429,6 +571,10 @@ export default function MistralGrid() {
         },
         0.18,
       );
+
+      /*
+       * 로고
+       */
 
       tl.to(
         contentRef.current,
@@ -441,14 +587,16 @@ export default function MistralGrid() {
         0.13,
       );
 
+      /*
+       * 모토
+       */
+
       common(tl, 0.1);
     });
 
-    /*
-     * =====================================================
-     * MOBILE
-     * =====================================================
-     */
+    /* =====================================================
+       MOBILE
+       ===================================================== */
 
     mm.add(MOBILE, () => {
       gsap.set(panel, {
@@ -468,53 +616,20 @@ export default function MistralGrid() {
           end: '+=2350',
           scrub: true,
           pin: true,
-          anticipatePin: 1,
+
+          /*
+           * 중요:
+           * 모바일에서는 anticipatePin을 제거한다.
+           *
+           * Chrome의 주소창 / 하단 네비바가
+           * 움직일 때 pin 위치가 한 박자 먼저
+           * 예측되어 오히려 늦게 따라오는 현상을 방지.
+           */
         },
       });
 
       /*
-       * -----------------------------------------------------
-       * Chrome 모바일 viewport 실시간 동기화
-       *
-       * refresh()를 사용하지 않는다.
-       *
-       * refresh()는 레이아웃 전체를 다시 계산하기 때문에
-       * Chrome 하단 네비게이션 바가 움직일 때 한 박자
-       * 늦게 따라오는 현상이 생길 수 있다.
-       *
-       * visualViewport의 resize / scroll을 받아서
-       * 다음 프레임에 ScrollTrigger.update()만 실행한다.
-       * -----------------------------------------------------
-       */
-
-      const viewport = window.visualViewport;
-
-      let rafId = 0;
-
-      const syncViewport = () => {
-        cancelAnimationFrame(rafId);
-
-        rafId = requestAnimationFrame(() => {
-          ScrollTrigger.update();
-        });
-      };
-
-      viewport?.addEventListener(
-        'resize',
-        syncViewport,
-        { passive: true },
-      );
-
-      viewport?.addEventListener(
-        'scroll',
-        syncViewport,
-        { passive: true },
-      );
-
-      /*
-       * -----------------------------------------------------
-       * 모바일 애니메이션
-       * -----------------------------------------------------
+       * 헤드라인
        */
 
       tl.to(
@@ -526,6 +641,10 @@ export default function MistralGrid() {
         },
         0,
       );
+
+      /*
+       * 영상 패널
+       */
 
       tl.to(
         panel,
@@ -547,6 +666,10 @@ export default function MistralGrid() {
         0.3,
       );
 
+      /*
+       * 아래 칸 이동
+       */
+
       tl.to(
         cells,
         {
@@ -567,6 +690,10 @@ export default function MistralGrid() {
         0.3,
       );
 
+      /*
+       * 로고 등장
+       */
+
       tl.to(
         contentRef.current,
         {
@@ -578,6 +705,10 @@ export default function MistralGrid() {
         0.13,
       );
 
+      /*
+       * 모토 나오기 전에 로고 제거
+       */
+
       tl.to(
         contentRef.current,
         {
@@ -585,8 +716,12 @@ export default function MistralGrid() {
           ease: 'none',
           duration: 0.07,
         },
-        0.30,
+        0.3,
       );
+
+      /*
+       * 유성우
+       */
 
       tl.to(
         paletteRef.current,
@@ -598,26 +733,11 @@ export default function MistralGrid() {
         0.18,
       );
 
-      common(tl, 0.34);
-
       /*
-       * matchMedia가 MOBILE 조건을 해제할 때
-       * visualViewport 이벤트도 같이 제거한다.
+       * 모바일 모토
        */
 
-      return () => {
-        cancelAnimationFrame(rafId);
-
-        viewport?.removeEventListener(
-          'resize',
-          syncViewport,
-        );
-
-        viewport?.removeEventListener(
-          'scroll',
-          syncViewport,
-        );
-      };
+      common(tl, 0.34);
     });
 
     return () => {
@@ -625,11 +745,9 @@ export default function MistralGrid() {
     };
   }, []);
 
-  /*
-   * =====================================================
-   * VIDEO
-   * =====================================================
-   */
+  /* =======================================================
+     VIDEO
+     ======================================================= */
 
   useEffect(() => {
     const v = videoRef.current;
@@ -683,51 +801,30 @@ export default function MistralGrid() {
     };
   }, []);
 
+  /* =======================================================
+     JSX
+     ======================================================= */
+
   return (
     <section
       ref={sectionRef}
       className="
         relative
-        min-h-[100dvh]
+        h-[var(--app-height)]
         overflow-hidden
         bg-[#101014]
         lg:h-screen
-        lg:min-h-0
       "
-      style={{
-        minHeight:
-          'calc(100dvh + env(safe-area-inset-bottom))',
-      }}
     >
-      {/* viewport 바깥까지 항상 배경 유지 */}
-      <div
-        aria-hidden
-        className="
-          pointer-events-none
-          fixed
-          inset-0
-          -z-10
-          bg-[#101014]
-        "
-      />
+      {/* ===================================================
+          GRID
+          =================================================== */}
 
-      <div
-        className="
-          absolute
-          inset-0
-          overflow-hidden
-          bg-[#101014]
-        "
-        style={{
-          minHeight:
-            'calc(100% + env(safe-area-inset-bottom))',
-          paddingBottom:
-            'env(safe-area-inset-bottom)',
-        }}
-      >
-        {/* =====================================================
-            헤드라인
-            ===================================================== */}
+      <div className="absolute inset-0 overflow-hidden">
+
+        {/* =================================================
+            HEADLINE
+            ================================================= */}
 
         <div
           ref={headlineRef}
@@ -807,9 +904,9 @@ export default function MistralGrid() {
           </div>
         </div>
 
-        {/* =====================================================
-            아래 왼쪽
-            ===================================================== */}
+        {/* =================================================
+            INTRO
+            ================================================= */}
 
         <div
           ref={introRef}
@@ -858,9 +955,9 @@ export default function MistralGrid() {
           </div>
         </div>
 
-        {/* =====================================================
-            아래 오른쪽
-            ===================================================== */}
+        {/* =================================================
+            PALETTE
+            ================================================= */}
 
         <div
           ref={paletteRef}
@@ -895,9 +992,9 @@ export default function MistralGrid() {
         </div>
       </div>
 
-      {/* =====================================================
-          영상 패널
-          ===================================================== */}
+      {/* ===================================================
+          VIDEO PANEL
+          =================================================== */}
 
       <div
         ref={panelRef}
@@ -910,9 +1007,9 @@ export default function MistralGrid() {
           w-full
           overflow-hidden
           bg-[#101014]
+          lg:bg-[#1B1B39]
           lg:h-[68%]
           lg:w-[30%]
-          lg:bg-[#1B1B39]
         "
       >
         <video
@@ -979,9 +1076,9 @@ export default function MistralGrid() {
         </div>
       </div>
 
-      {/* =====================================================
+      {/* ===================================================
           MOTTO
-          ===================================================== */}
+          =================================================== */}
 
       <div
         ref={mottoRef}
@@ -1019,9 +1116,9 @@ export default function MistralGrid() {
         ))}
       </div>
 
-      {/* =====================================================
-          별 전환
-          ===================================================== */}
+      {/* ===================================================
+          SWEEP
+          =================================================== */}
 
       <div
         ref={sweepRef}
@@ -1044,9 +1141,9 @@ export default function MistralGrid() {
         />
       </div>
 
-      {/* =====================================================
+      {/* ===================================================
           SCROLL
-          ===================================================== */}
+          =================================================== */}
 
       <div
         className="
@@ -1062,29 +1159,6 @@ export default function MistralGrid() {
       >
         SCROLL
       </div>
-
-      {/* =====================================================
-          모바일 하단 safe-area
-          ===================================================== */}
-
-      <div
-        aria-hidden
-        className="
-          pointer-events-none
-          absolute
-          bottom-0
-          left-0
-          right-0
-          z-[60]
-          hidden
-          bg-[#101014]
-          lg:hidden
-        "
-        style={{
-          height:
-            'env(safe-area-inset-bottom)',
-        }}
-      />
     </section>
   );
 }
