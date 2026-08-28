@@ -385,7 +385,7 @@ export default function MistralGrid() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[100svh] overflow-hidden bg-[#101014] lg:h-screen"
+      className="relative h-[100dvh] overflow-hidden bg-[#101014] lg:h-screen"
     >
       {/* 네 칸을 절대배치로 둔다 — 그리드 트랙을 애니메이션하면 컬럼 폭이
           행끼리 묶여 좌상단만 키울 수 없다. 영상 패널은 맨 아래에 따로 있다.
