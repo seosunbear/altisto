@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
-import SectionLabel from '@/components/SectionLabel';
+import GsapReveal from './GsapReveal';
 
 type MilestoneStatus = 'done' | 'current' | 'upcoming';
 
@@ -88,13 +88,11 @@ export default function MilestonesTimeline() {
 
         {/* Header */}
         <div className="mx-auto mb-16 max-w-2xl">
-          <SectionLabel className="mb-6">
-            history
-          </SectionLabel>
-
-          <h2 className="text-[clamp(1.6rem,3.4vw,2.6rem)] font-extrabold leading-[1.2] tracking-tight text-white">
+          <GsapReveal staggerWords staggerEach={0.06} className="text-[clamp(1.6rem,3.4vw,2.6rem)] font-extrabold leading-[1.3] text-white">
+            history<span className="text-[#4338ca]">.</span><br />
             우리가 걸어온 길
-          </h2>
+          </GsapReveal>
+
         </div>
 
         {/* Timeline */}
