@@ -118,6 +118,37 @@ const DESKTOP = '(min-width: 1024px)';
 const MOBILE = '(max-width: 1023px)';
 
 /* =========================================================
+   PIN TYPE
+
+   ScrollTrigger 의 pin 방식은 둘 중 하나다.
+
+   'fixed'     — 핀이 걸린 동안 position: fixed. 브라우저 합성기가
+                 직접 붙잡으므로 스크롤과 완벽히 동기화된다. 기본값.
+   'transform' — JS 가 스크롤 이벤트마다 translate 를 다시 계산한다.
+
+   안드로이드 크롬은 스크롤을 컴포지터 스레드에서 처리하기 때문에
+   'transform' 을 쓰면 핀 요소가 한 프레임씩 뒤늦게 따라와 위아래로
+   흔들려 보인다. 그래서 안드로이드·데스크톱은 'fixed' 가 맞다.
+
+   반면 iOS(WebKit)는 position: fixed 컨테이너 안의 <video> 를
+   페이지 합성에서 떼어내 별도 네이티브 레이어로 그린다. z-index·
+   opacity·클리핑이 전부 무시되고 영상이 화면 위에 떠서 플레이어처럼
+   보인다. 여기서는 'transform' 말고는 방법이 없다.
+
+   그래서 엔진을 보고 갈라준다. UA 문자열 대신, 문제를 일으키는
+   당사자인 '영상을 네이티브 플레이어로 넘기는 API' 의 존재로 판별한다.
+   iOS 의 사파리·크롬·인앱 웹뷰는 전부 WebKit 이라 한 번에 걸린다.
+   ========================================================= */
+
+function getMobilePinType(): 'fixed' | 'transform' {
+  if (typeof document === 'undefined') return 'fixed';
+
+  const probe = document.createElement('video');
+
+  return 'webkitEnterFullscreen' in probe ? 'transform' : 'fixed';
+}
+
+/* =========================================================
    COMPONENT
    ========================================================= */
 
@@ -133,6 +164,7 @@ export default function MistralGrid() {
   const contentRef = useRef<HTMLDivElement>(null);
   const mottoRef = useRef<HTMLDivElement>(null);
   const sweepRef = useRef<HTMLDivElement>(null);
+  const coverRef = useRef<HTMLDivElement>(null);
 
   /* =======================================================
      VIEWPORT / SCROLLTRIGGER 안정화
@@ -206,14 +238,51 @@ export default function MistralGrid() {
       mottoAt: number,
     ) => {
       /*
-       * 영상과 콘텐츠는 처음에는 숨김
+       * 영상은 절대 opacity 0 으로 두지 않는다.
+       *
+       * iOS 는 <video> 를 페이지 밖 네이티브 레이어로 승격시키는데,
+       * 그 레이어는 CSS opacity 를 무시한다. 그래서 opacity 0 으로
+       * 숨겨둔 영상이 첫 페인트에서는 그냥 화면 위에 불투명하게
+       * 떠버린다 — '처음엔 플레이어처럼 뜨다가 스크롤하면 배경이
+       * 되는' 증상의 정체다. (GSAP 이 핀 transform 을 걸기 시작하면
+       * 그제서야 정상 합성 트리로 편입된다.)
+       *
+       * 그래서 영상은 계속 불투명하게 두고, 대신 패널과 같은 색
+       * 가림막(coverRef)을 위에 덮었다가 걷어낸다. 보이는 결과는
+       * 똑같이 '패널 색 → 영상' 크로스페이드다.
        */
-      gsap.set(
-        [videoRef.current, contentRef.current],
-        {
-          opacity: 0,
-        },
-      );
+      gsap.set(coverRef.current, {
+        opacity: 1,
+      });
+
+      /*
+       * 그리고 등장 전까지는 opacity 가 아니라 visibility 로 숨긴다.
+       * opacity 0 는 '보이지 않는 박스'라 네이티브 레이어가 그대로
+       * 만들어지지만, visibility: hidden 은 박스 자체를 만들지 않아
+       * iOS 가 승격시킬 대상이 아예 없다.
+       */
+      gsap.set(videoRef.current, {
+        opacity: 1,
+        visibility: 'hidden',
+      });
+
+      const revealVideo = () => {
+        const v = videoRef.current;
+        if (!v) return;
+
+        gsap.set(v, { visibility: 'visible' });
+        v.play().catch(() => {});
+      };
+
+      const hideVideo = () => {
+        gsap.set(videoRef.current, {
+          visibility: 'hidden',
+        });
+      };
+
+      gsap.set(contentRef.current, {
+        opacity: 0,
+      });
 
       gsap.set(contentRef.current, {
         y: 28,
@@ -231,14 +300,19 @@ export default function MistralGrid() {
       });
 
       /*
-       * 영상 등장
+       * 영상 등장 = 가림막 걷기
        */
       tl.to(
-        videoRef.current,
+        coverRef.current,
         {
-          opacity: 1,
+          opacity: 0,
           ease: 'none',
           duration: 0.2,
+
+          /* 가림막이 걷히기 직전에 영상을 보이게 하고,
+             완전히 되감기면 다시 숨긴다. */
+          onStart: revealVideo,
+          onReverseComplete: hideVideo,
         },
         0.03,
       );
@@ -612,22 +686,11 @@ export default function MistralGrid() {
            */
 
           /*
-           * 중요 2: pinType 'transform'
-           *
-           * 기본값은 'fixed'라 핀이 걸린 동안 섹션에
-           * position: fixed 가 붙는데, iOS(사파리·크롬 모두
-           * WKWebView)는 fixed 컨테이너 안의 <video>를
-           * 페이지 합성에서 떼어내 별도 네이티브 레이어로
-           * 그린다. 그래서 영상이 배경으로 깔리지 않고
-           * z-index·opacity·클리핑을 다 무시한 채 화면 위에
-           * 떠서 '플레이어처럼' 보인다.
-           * 또 fixed 요소는 주소창이 접히고 펴지는 동안
-           * 심하게 떨린다.
-           *
-           * transform 핀은 fixed 대신 translate로 붙잡으므로
-           * 두 문제가 같이 사라진다.
+           * 중요 2:
+           * iOS 만 'transform', 나머지는 'fixed'.
+           * 판단 근거는 위 getMobilePinType 주석 참고.
            */
-          pinType: 'transform',
+          pinType: getMobilePinType(),
         },
       });
 
@@ -1100,7 +1163,7 @@ export default function MistralGrid() {
             h-full
             w-full
             object-cover
-            opacity-0
+            invisible
             [transform:translateZ(0)]
             [backface-visibility:hidden]
             [-webkit-backface-visibility:hidden]
@@ -1117,12 +1180,18 @@ export default function MistralGrid() {
           />
         </video>
 
+        {/* 영상 가림막 — 패널과 같은 색으로 영상을 덮고 있다가
+            스크롤에 맞춰 걷힌다. 영상 자체의 opacity 를 건드리지
+            않으려고 두는 층이다(위 common() 주석 참고). */}
         <div
+          ref={coverRef}
           aria-hidden
           className="
             pointer-events-none
             absolute
             inset-0
+            bg-[#101014]
+            lg:bg-[#1B1B39]
           "
         />
 
