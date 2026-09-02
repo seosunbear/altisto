@@ -603,13 +603,31 @@ export default function MistralGrid() {
           pin: true,
 
           /*
-           * 중요:
+           * 중요 1:
            * 모바일에서는 anticipatePin을 제거한다.
            *
            * Chrome의 주소창 / 하단 네비바가
            * 움직일 때 pin 위치가 한 박자 먼저
            * 예측되어 오히려 늦게 따라오는 현상을 방지.
            */
+
+          /*
+           * 중요 2: pinType 'transform'
+           *
+           * 기본값은 'fixed'라 핀이 걸린 동안 섹션에
+           * position: fixed 가 붙는데, iOS(사파리·크롬 모두
+           * WKWebView)는 fixed 컨테이너 안의 <video>를
+           * 페이지 합성에서 떼어내 별도 네이티브 레이어로
+           * 그린다. 그래서 영상이 배경으로 깔리지 않고
+           * z-index·opacity·클리핑을 다 무시한 채 화면 위에
+           * 떠서 '플레이어처럼' 보인다.
+           * 또 fixed 요소는 주소창이 접히고 펴지는 동안
+           * 심하게 떨린다.
+           *
+           * transform 핀은 fixed 대신 translate로 붙잡으므로
+           * 두 문제가 같이 사라진다.
+           */
+          pinType: 'transform',
         },
       });
 
@@ -1049,6 +1067,7 @@ export default function MistralGrid() {
           h-[32%]
           w-full
           overflow-hidden
+          isolate
           bg-[#101014]
           lg:bg-[#1B1B39]
           lg:h-[68%]
@@ -1070,6 +1089,10 @@ export default function MistralGrid() {
              탭이 닿아 네이티브 플레이어가 열릴 여지도 함께 없앤다. */
           aria-hidden
           tabIndex={-1}
+          /* translateZ(0) + backface-visibility:hidden —
+             영상에 자기 합성 레이어를 명시적으로 잡아줘서
+             iOS 가 이걸 페이지 밖 네이티브 레이어로 승격시키지
+             못하게 한다. 위 pinType:'transform' 과 한 세트. */
           className="
             pointer-events-none
             absolute
@@ -1078,6 +1101,9 @@ export default function MistralGrid() {
             w-full
             object-cover
             opacity-0
+            [transform:translateZ(0)]
+            [backface-visibility:hidden]
+            [-webkit-backface-visibility:hidden]
           "
         >
           <source
