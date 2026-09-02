@@ -26,7 +26,7 @@ export default function Navbar() {
     /* 헤더 높이의 중간 지점(y=34)에 흰 배경 섹션이 걸쳐 있는지 매 스크롤마다 판정 */
     const lightSections = Array.from(document.querySelectorAll<HTMLElement>('[data-nav-light]'));
 
-    const onScroll = () => {
+    const measure = () => {
       setScrolled(window.scrollY > 4);
       setOverLight(lightSections.some(el => {
         const { top, bottom } = el.getBoundingClientRect();
@@ -34,9 +34,25 @@ export default function Navbar() {
       }));
     };
 
-    onScroll();
+    /* getBoundingClientRect 는 강제 레이아웃을 유발한다.
+       스크롤 이벤트마다 부르면 GSAP 핀 애니메이션과 겹쳐 모바일이 버벅이므로
+       프레임당 한 번으로 묶는다. */
+    let raf = 0;
+
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        measure();
+      });
+    };
+
+    measure();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+    };
   }, [pathname]);
 
   useEffect(() => {

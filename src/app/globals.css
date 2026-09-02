@@ -113,21 +113,43 @@
 }
 
 @layer base {
+  /* 히어로(핀 고정 섹션) 높이.
+     dvh / visualViewport.height 는 iOS 주소창이 접힐 때마다 값이 바뀌어
+     핀 높이가 흔들리고 스크롤이 튄다. svh 는 '툴바가 보이는 상태' 기준으로
+     고정된 값이라 스크롤 중에 절대 변하지 않는다. */
+  :root {
+    --app-height: 100vh;
+  }
+
+  @supports (height: 100svh) {
+    :root {
+      --app-height: 100svh;
+    }
+  }
+
   html {
-    scroll-behavior: smooth;
     background: #000000;
-     min-height: 100vh;
-  min-height: 100dvh;
+    min-height: 100vh;
     margin: 0;
-  padding: 0;
+    padding: 0;
+    /* 스크롤 끝에서 부모로 전파되는 iOS 고무줄 튕김 차단 */
+    overscroll-behavior-y: none;
+  }
+
+  /* scroll-behavior: smooth 는 ScrollTrigger 가 스크롤 위치를 보정할 때
+     서로 싸워서 모바일에서 스크롤이 튄다. 주소창이 없는 데스크톱에서만 켠다. */
+  @media (hover: hover) and (pointer: fine) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {
-      margin: 0;
-  padding: 0;
-     min-height: 100vh;
-  min-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
     background: #000000;
+    overscroll-behavior-y: none;
     color: #0d1117;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
       "Helvetica Neue", Arial, sans-serif;

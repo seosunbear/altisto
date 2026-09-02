@@ -135,69 +135,54 @@ export default function MistralGrid() {
   const sweepRef = useRef<HTMLDivElement>(null);
 
   /* =======================================================
-     REAL VIEWPORT HEIGHT
+     VIEWPORT / SCROLLTRIGGER 안정화
+
+     iOS 사파리는 스크롤 도중 주소창·하단 툴바가 접히고 펴지면서
+     visualViewport.height 와 innerHeight 를 계속 바꾼다.
+     예전 구현은 그 값을 --app-height 에 그대로 흘려보내고
+     visualViewport 의 scroll 이벤트마다 ScrollTrigger.refresh() 까지
+     불렀는데, 핀(pin)이 걸린 섹션에서 refresh() 는 스크롤 위치를
+     다시 잡기 때문에
+
+       스크롤 → 툴바 이동 → 높이 변경 → refresh → 스크롤 점프
+       → 툴바 다시 이동 → ...
+
+     하는 되먹임이 생겨 화면이 위아래로 튄다.
+     그래서 높이는 CSS 의 svh(툴바 상태와 무관하게 고정) 에 맡기고,
+     여기서는 방향 전환처럼 '진짜' 뷰포트가 바뀔 때만 갱신한다.
      ======================================================= */
 
   useEffect(() => {
-    let raf = 0;
+    /* 툴바가 오르내리는 정도의 자잘한 리사이즈는 GSAP 내부에서도 무시 */
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
-    const updateViewportHeight = () => {
-      cancelAnimationFrame(raf);
+    let timer = 0;
+    let lastWidth = window.innerWidth;
 
-      raf = requestAnimationFrame(() => {
-        const height =
-          window.visualViewport?.height ??
-          window.innerHeight;
+    const onOrientationChange = () => {
+      window.clearTimeout(timer);
 
-        document.documentElement.style.setProperty(
-          '--app-height',
-          `${height}px`,
-        );
-
-        /*
-         * Chrome 모바일의 주소창/하단 네비바가
-         * 움직인 직후 ScrollTrigger도 바로 다시 계산한다.
-         */
+      /* 방향 전환 직후엔 레이아웃이 아직 확정되지 않아 한 박자 늦춘다 */
+      timer = window.setTimeout(() => {
+        lastWidth = window.innerWidth;
         ScrollTrigger.refresh();
-      });
+      }, 250);
     };
 
-    updateViewportHeight();
+    const onResize = () => {
+      /* 가로 폭이 바뀐 경우만 진짜 레이아웃 변화로 본다.
+         세로 폭만 변한 것은 iOS 주소창이 움직인 것이므로 무시. */
+      if (window.innerWidth === lastWidth) return;
+      onOrientationChange();
+    };
 
-    const viewport = window.visualViewport;
-
-    viewport?.addEventListener(
-      'resize',
-      updateViewportHeight,
-    );
-
-    viewport?.addEventListener(
-      'scroll',
-      updateViewportHeight,
-    );
-
-    window.addEventListener(
-      'resize',
-      updateViewportHeight,
-    );
+    window.addEventListener('orientationchange', onOrientationChange);
+    window.addEventListener('resize', onResize);
 
     return () => {
-      cancelAnimationFrame(raf);
-
-      viewport?.removeEventListener(
-        'resize',
-        updateViewportHeight,
-      );
-
-      viewport?.removeEventListener(
-        'scroll',
-        updateViewportHeight,
-      );
-
-      window.removeEventListener(
-        'resize',
-        updateViewportHeight,
-      );
+      window.clearTimeout(timer);
+      window.removeEventListener('orientationchange', onOrientationChange);
+      window.removeEventListener('resize', onResize);
     };
   }, []);
 
@@ -765,9 +750,54 @@ export default function MistralGrid() {
       'true',
     );
 
+    /* 인앱 웹뷰(카카오·인스타 등)에서 쓰는 벤더 힌트 */
+    v.setAttribute('x5-playsinline', 'true');
+    v.setAttribute('x-webkit-airplay', 'deny');
+    v.setAttribute('controls', 'false');
+    v.removeAttribute('controls');
+    v.controls = false;
+
+    /*
+     * 최후의 안전장치.
+     * 위 속성을 다 붙여도 iOS 가 네이티브 전체화면 플레이어로
+     * 넘어가는 경우(구형 웹뷰·저전력 모드 복귀 등)가 있는데,
+     * 배경 영상이므로 전체화면이 열리는 즉시 되돌린다.
+     */
+    type IosVideo = HTMLVideoElement & {
+      webkitExitFullscreen?: () => void;
+    };
+
+    const escapeFullscreen = () => {
+      const iv = v as IosVideo;
+
+      if (typeof iv.webkitExitFullscreen === 'function') {
+        iv.webkitExitFullscreen();
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    };
+
+    v.addEventListener(
+      'webkitbeginfullscreen',
+      escapeFullscreen,
+    );
+
     const retry = () => {
       v.play().catch(() => {});
     };
+
+    /*
+     * iOS 는 화면 밖이거나 투명한 영상, 백그라운드로 갔다 온 탭의 영상을
+     * 임의로 멈춘다. 배경 영상은 항상 돌아가야 하므로 멈추면 다시 건다.
+     * 재생이 정책상 막힌 상태면 play() 가 reject 되고 그냥 끝난다.
+     */
+    const keepPlaying = () => {
+      if (v.ended) return;
+      v.play().catch(() => {});
+    };
+
+    v.addEventListener('pause', keepPlaying);
+    document.addEventListener('visibilitychange', keepPlaying);
 
     v.play().catch(() => {
       window.addEventListener(
@@ -789,6 +819,18 @@ export default function MistralGrid() {
     });
 
     return () => {
+      v.removeEventListener(
+        'webkitbeginfullscreen',
+        escapeFullscreen,
+      );
+
+      v.removeEventListener('pause', keepPlaying);
+
+      document.removeEventListener(
+        'visibilitychange',
+        keepPlaying,
+      );
+
       window.removeEventListener(
         'touchstart',
         retry,
@@ -1019,9 +1061,15 @@ export default function MistralGrid() {
           muted
           loop
           playsInline
+          controls={false}
           preload="auto"
           poster="/main.webp"
           disablePictureInPicture
+          disableRemotePlayback
+          /* 배경 장식이므로 포커스·낭독 대상에서 제외한다.
+             탭이 닿아 네이티브 플레이어가 열릴 여지도 함께 없앤다. */
+          aria-hidden
+          tabIndex={-1}
           className="
             pointer-events-none
             absolute

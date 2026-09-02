@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   /* 한/영 양방향 검색('알티스토' ↔ 'Altisto') 대응을 위해 두 표기를 모두 포함 */
   keywords: [
     "Altisto", "알티스토", "altisto", "소프트웨어 개발사", "플랫폼 개발사",
-    "알티", "Alti", "외주 플랫폼", "크리에이터",
+    "알티", "Arti", "외주 플랫폼", "크리에이터",
     "우리학교", "OurSchool", "리프챗", "LeafChat", "콘텐츠",
   ],
   applicationName: "알티스토",
@@ -86,7 +86,7 @@ const jsonLd = {
       knowsAbout: ["소프트웨어 개발", "플랫폼 개발", "크리에이터 플랫폼", "커뮤니티 서비스", "교육 서비스"],
       /* 하위 프로덕트를 Organization에 연결 */
       owns: [
-        { "@id": `${SITE_URL}/services#alti` },
+        { "@id": `${SITE_URL}/services#arti` },
         { "@id": `${SITE_URL}/services#ourschool` },
         { "@id": `${SITE_URL}/services#leafchat` },
       ],
@@ -100,10 +100,10 @@ const jsonLd = {
     /* 프로덕트 1 — 알티 (크리에이터 플랫폼) */
     {
       "@type": "SoftwareApplication",
-      "@id": `${SITE_URL}/services#alti`,
+      "@id": `${SITE_URL}/services#arti`,
       name: "알티",
-      alternateName: "Alti",
-      url: `${SITE_URL}/services#alti`,
+      alternateName: "Arti",
+      url: `${SITE_URL}/services#arti`,
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
       description: "아티스트와 클라이언트를 연결하는 크리에이터 협업 플랫폼",

@@ -48,13 +48,13 @@ export default function ServicesPage() {
       </section>
 
       {/* ━━━━━━━━━━━━━━ 알티 ━━━━━━━━━━━━━━ */}
-      <section id="alti" className="scroll-mt-[70px] px-[8vw] pt-10 pb-24 border-b border-[#e5e7eb]">
+      <section id="arti" className="scroll-mt-[70px] px-[8vw] pt-10 pb-24 border-b border-[#e5e7eb]">
         <div className="mx-auto max-w-screen-xl">
 
           <GsapReveal type="fade-up">
             <div className="mb-14 flex items-baseline gap-5 md:gap-8">
               <span className="text-[12px] font-medium tabular-nums text-[#9ca3af]">01</span>
-              <h2 className="text-[15px] font-bold tracking-tight text-[#0d1117]">알티 · Alti</h2>
+              <h2 className="text-[15px] font-bold tracking-tight text-[#0d1117]">알티 · Arti</h2>
               <span className="ml-auto text-[12px] text-[#9ca3af]">크리에이터 협업 외주 플랫폼</span>
             </div>
           </GsapReveal>
