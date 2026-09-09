@@ -160,6 +160,20 @@ export default function CharRoll({
      * =====================================================
      */
 
+    /*
+     * 모바일에서는 무한 롤링을 돌리지 않는다.
+     *
+     * 이 컴포넌트가 놓인 히어로는 ScrollTrigger 로 2350px 동안
+     * 핀이 걸려 있어서, 스크롤하는 내내 화면 안에 남아 있다.
+     * (IntersectionObserver 가 꺼줄 틈이 없다.)
+     * 그동안 글자 수만큼의 transform 트윈이 계속 돌면 핀 스크럽과
+     * 같은 프레임을 나눠 쓰게 돼 스크롤이 끊긴다.
+     * 등장 애니메이션까지만 보여주고 롤링은 생략한다.
+     */
+    const loopEnabled = !window.matchMedia(
+      '(max-width: 1023px)',
+    ).matches;
+
     const loop =
       gsap.timeline({
         repeat: -1,
@@ -238,10 +252,16 @@ export default function CharRoll({
      * 두 번째
      * 0.2초
      */
-    tl.add(
-      loop,
-      delay + loopDelay,
-    );
+    if (loopEnabled) {
+      tl.add(
+        loop,
+        delay + loopDelay,
+      );
+    } else {
+      /* 루트 타임라인에 자동으로 붙으므로, 안 쓸 거면 명시적으로 없앤다.
+         아직 한 프레임도 렌더되기 전이라 글자 위치는 그대로 남는다. */
+      loop.kill();
+    }
 
     /*
      * =====================================================

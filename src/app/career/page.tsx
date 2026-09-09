@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function CareerPage() {
   return (
-    <main className="flex-1 pt-[68px]">
+    <main className="flex-1 pt-[68px] bg-white">
 
       {/* ━━━━━━━━━━━━━━ HERO ━━━━━━━━━━━━━━ */}
       <section className="relative bg-[#181818] border-b border-[#e5e7eb] px-6 md:px-10 overflow-hidden py-12 md:py-16 lg:py-24 flex items-center">

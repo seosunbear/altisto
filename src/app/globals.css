@@ -175,3 +175,103 @@
 @media (prefers-reduced-motion: reduce) {
   .px-star { animation: none; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   마스코트 메리 (/merry)
+
+   스크랩북 한 판. 모눈종이 보드를 깔고, 그 위에 전신 일러스트를
+   세우고, 둘레에 스티커(카세트·악기·창·티켓·바코드)와 리본 배너,
+   색종이 조각과 컬링 리본을 흩뿌린다.
+
+   판 안의 치수는 전부 cqw(판 폭 기준)다. 스티커가 절대 좌표로 붙어
+   있어서 px 로 잡으면 폭이 바뀔 때마다 자리가 어긋난다.
+   ══════════════════════════════════════════════════════════ */
+
+/* 서체 — 큰 이름·라벨 Fredoka(둥근 고딕), 손글씨 Dancing Script,
+   한글 본문 Gothic A1, 한글 제목 Jua(둥글둥글한 쪽).
+   next/font 로는 못 받는다. 한글 구글 폰트는 unicode-range 서브셋이
+   폰트당 100개가 넘어서, 빌드 때 전부 내려받으려 하면 gstatic 이
+   요청을 끊고 module-not-found 로 빌드가 깨진다.
+   페이지에서 스타일시트로 연결해 브라우저가 필요한 조각만 받게 한다. */
+.merry-fonts {
+  --font-display: "Fredoka", "Avenir Next", "Helvetica Neue", sans-serif;
+  --font-script: "Dancing Script", "Snell Roundhand", cursive;
+  --font-kr: "Gothic A1", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-round: "Jua", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+}
+
+/* 팔레트 — 흰 종이, 연분홍 보드, 파스텔 스티커, 남색 글자 */
+.merry-page {
+  --k-paper: #FFFDFE;
+  --k-board: #FFF7FB;
+  --k-grid: rgba(255, 150, 190, 0.20);
+  --k-edge: #FFB3CE;
+  --k-pink: #FF8FB6;
+  --k-pink-d: #E8558C;
+  --k-sky: #A6DCF2;
+  --k-sky-d: #4FA8D4;
+  --k-cream: #FFD98F;
+  --k-lilac: #CDB9EF;
+  --k-mint: #A8E6D5;
+  --k-ink: #2B3A55;
+  --k-ease: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* 모눈종이 — 보드 안쪽 바탕 */
+.merry-grid {
+  background-image:
+    linear-gradient(var(--k-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--k-grid) 1px, transparent 1px);
+  background-size: 2.2cqw 2.2cqw;
+}
+.merry-grid-m {
+  background-image:
+    linear-gradient(var(--k-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--k-grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* 판 — 안쪽 모든 치수의 기준자 */
+.merry-card { container-type: inline-size; }
+
+/* ── 등장 ── */
+@keyframes merry-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes merry-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes merry-pop {
+  from { opacity: 0; transform: scale(0.86); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.merry-up   { animation: merry-up 0.8s var(--k-ease) both; }
+.merry-fade { animation: merry-fade 1s var(--k-ease) both; }
+.merry-pop  { animation: merry-pop 0.7s var(--k-ease) both; }
+
+/* 기울여 붙인 스티커는 회전을 애니메이션 안에서 같이 들고 있어야
+   transform 이 덮어써지지 않는다. --k-tilt 로 각도를 넘긴다. */
+@keyframes merry-pop-tilt {
+  from { opacity: 0; transform: rotate(var(--k-tilt)) scale(0.86); }
+  to   { opacity: 1; transform: rotate(var(--k-tilt)) scale(1); }
+}
+.merry-pop-tilt {
+  transform: rotate(var(--k-tilt));
+  animation: merry-pop-tilt 0.7s var(--k-ease) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .merry-up,
+  .merry-fade,
+  .merry-pop { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .merry-pop-tilt {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: rotate(var(--k-tilt)) !important;
+  }
+}
+
+
+

@@ -673,7 +673,22 @@ export default function MistralGrid() {
           trigger: section,
           start: 'top top',
           end: '+=2350',
-          scrub: true,
+
+          /*
+           * 중요 0: scrub 은 true(즉시 동기화)가 아니라 숫자다.
+           *
+           * 모바일 터치 스크롤은 델타가 뭉텅이로 들어오고
+           * (합성기가 여러 프레임을 묶어서 보낸다), 주소창이
+           * 접히고 펴질 때는 브라우저가 스크롤 위치 자체를
+           * 한 번에 밀어버린다. scrub:true 는 그 값을 그대로
+           * 따라가서 화면이 위아래로 튄다.
+           *
+           * 숫자를 주면 GSAP 이 자기 ticker(rAF)로 목표값까지
+           * 0.6초에 걸쳐 따라잡는다. 뭉텅이 델타도, 주소창이
+           * 만든 점프도 전부 흡수돼서 매끄럽게 이어진다.
+           */
+          scrub: 0.6,
+
           pin: true,
 
           /*

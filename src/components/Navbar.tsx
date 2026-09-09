@@ -6,6 +6,7 @@ import { Menu, X } from 'lucide-react';
 
 const links = [
   { label: '서비스', href: '/services' },
+  { label: '메리', href: '/merry' },
   { label: '채용', href: '/career' },
   { label: '문의', href: '/contact' },
 ];
@@ -17,9 +18,9 @@ export default function Navbar() {
 
   const [overLight, setOverLight] = useState(false);
 
-  const isHome = pathname === '/';
   // 홈만 어두운 히어로(흰 텍스트), 그 외 페이지는 어바웃처럼 어두운 텍스트.
   // 홈이라도 흰 배경 섹션(data-nav-light) 위를 지날 땐 흰 글자가 묻히므로 어두운 글자로 전환한다.
+  const isHome = pathname === '/';
   const darkText = !isHome || overLight;
 
   useEffect(() => {
@@ -28,14 +29,19 @@ export default function Navbar() {
 
     const measure = () => {
       setScrolled(window.scrollY > 4);
+
+      /* 흰 배경 섹션이 하나도 없으면 rect 를 잴 이유가 없다.
+         getBoundingClientRect 는 강제 동기 레이아웃이라, GSAP 이 방금 쓴
+         핀 transform 을 매 프레임 다시 계산하게 만들어 스크롤이 끊긴다. */
+      if (!lightSections.length) return;
+
       setOverLight(lightSections.some(el => {
         const { top, bottom } = el.getBoundingClientRect();
         return top <= 34 && bottom >= 34;
       }));
     };
 
-    /* getBoundingClientRect 는 강제 레이아웃을 유발한다.
-       스크롤 이벤트마다 부르면 GSAP 핀 애니메이션과 겹쳐 모바일이 버벅이므로
+    /* 스크롤 이벤트마다 부르면 GSAP 핀 애니메이션과 겹쳐 모바일이 버벅이므로
        프레임당 한 번으로 묶는다. */
     let raf = 0;
 
@@ -63,12 +69,19 @@ export default function Navbar() {
   return (
     <>
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+      /* backdrop-blur 는 md 이상에서만 켠다.
+         backdrop-filter 가 걸린 fixed 헤더는 아래 내용이 스크롤될 때마다
+         합성기가 배경을 다시 블러 처리해야 해서, 핀이 걸린 히어로가
+         움직이는 동안 모바일에서 프레임을 그대로 잡아먹는다.
+         모바일에서는 같은 인상을 주는 반투명 단색으로 대체한다.
+         transition 도 all 이 아니라 색상으로 좁힌다(all 은 backdrop-filter
+         까지 매 프레임 보간한다). */
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
         scrolled
           ? darkText
             /* 밝은 배경 위 — 불투명 흰 헤더. 투명 blur로 두면 아래 글자가 번져 보인다 */
-            ? 'bg-white/90 backdrop-blur-md border-b border-[#e5e7eb]'
-            : 'backdrop-blur-md border-b border-transparent'
+            ? 'bg-white/90 md:backdrop-blur-md border-b border-[#e5e7eb]'
+            : 'bg-[#101014]/70 md:bg-transparent md:backdrop-blur-md border-b border-transparent'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
