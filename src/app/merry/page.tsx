@@ -7,6 +7,8 @@ import MerryName from '@/components/merry/MerryName';
 import MerryProfileNote from '@/components/merry/MerryProfileNote';
 import Magnetic from '@/components/merry/Magnetic';
 import { PROFILE } from '@/components/merry/data';
+import PageSchema from '@/components/PageSchema';
+import { ARTI_ID, MERI_ID } from '@/lib/site';
 
 /* ──────────────────────────────────────────────────────────
    마스코트 메리 소개 페이지
@@ -28,28 +30,70 @@ const FONT_CSS =
   'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500..700&family=Fredoka:wght@400..600&family=Gothic+A1:wght@400;500;700;800&family=Jua&display=swap';
 
 export const metadata: Metadata = {
-  title: '메리',
+  /* 레이아웃 템플릿이 '%s | 알티스토'를 붙이므로, 제목에 회사명을
+     직접 넣을 때는 absolute 로 템플릿을 끈다. 안 그러면 접미사가 겹친다. */
+  title: { absolute: '메리 (Meri) | 알티스토 마스코트' },
   description:
-    '알티스토의 마스코트 메리를 소개합니다. 키 163cm, MBTI ENFJ, 생일 2월 21일. 알티에서 여러분을 맞이하는 인사 담당이에요.',
+    '알티스토(Altisto)의 브랜드 마스코트 캐릭터 메리(Meri)를 소개합니다. 은발에 분홍빛 눈, 키 163cm, MBTI ENFJ, 생일 2월 21일. 크리에이터 외주 협업 플랫폼 알티에서 여러분을 맞이하는 인사 담당이에요.',
   alternates: { canonical: '/merry' },
+  /* 캐릭터 이름만 알고 찾아오는 사람이 회사까지 닿게 하는 질의어들 */
+  keywords: [
+    '메리', 'Meri', '메리 캐릭터', '알티스토 메리', '알티 메리', 'Altisto Meri',
+    '알티스토 마스코트', '알티 마스코트', '마스코트 캐릭터', '브랜드 마스코트',
+    '은발 캐릭터', 'ENFJ 캐릭터', '메리 프로필', '메리 설정',
+    '알티스토', 'Altisto', '알티', 'Arti',
+  ],
   openGraph: {
-    title: '메리 | 알티스토 마스코트',
-    description: '안녕! 나는 알티스토의 마스코트 메리야.',
+    /* 레이아웃 템플릿이 '%s | 알티스토'를 붙이므로, 제목에 회사명을
+     직접 넣을 때는 absolute 로 템플릿을 끈다. 안 그러면 접미사가 겹친다. */
+  title: { absolute: '메리 (Meri) | 알티스토 마스코트' },
+    description:
+      '안녕! 나는 알티스토의 마스코트 메리야. 키 163cm, MBTI ENFJ, 생일은 2월 21일이야.',
     url: '/merry',
-    images: [{ url: '/merry-portrait.webp', width: 900, height: 900, alt: '알티스토 마스코트 메리' }],
+    type: 'profile',
+    images: [
+      {
+        url: '/merry-portrait.webp',
+        width: 900,
+        height: 900,
+        alt: '알티스토 마스코트 메리(Meri) — 은발에 분홍빛 눈을 한 캐릭터',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    /* 레이아웃 템플릿이 '%s | 알티스토'를 붙이므로, 제목에 회사명을
+     직접 넣을 때는 absolute 로 템플릿을 끈다. 안 그러면 접미사가 겹친다. */
+  title: { absolute: '메리 (Meri) | 알티스토 마스코트' },
+    description: '알티스토의 브랜드 마스코트 메리를 소개합니다.',
+    images: ['/merry-portrait.webp'],
   },
 };
 
 export default function MerryPage() {
   return (
     <main className="merry-page merry-fonts flex-1 break-keep bg-[var(--k-paper)] text-[var(--k-ink)]">
+      {/* 구조화 데이터 — 화면에는 아무것도 그리지 않는다 */}
+      <PageSchema
+        path="/merry"
+        name="메리 (Meri) | 알티스토 마스코트"
+        description="알티스토의 브랜드 마스코트 캐릭터 메리(Meri) 소개. 은발에 분홍빛 눈, 키 163cm, MBTI ENFJ, 생일 2월 21일."
+        crumbs={[
+          { name: '홈', path: '/' },
+          { name: '메리', path: '/merry' },
+        ]}
+        /* 이 문서의 주인공은 캐릭터 자신이다 */
+        mainEntity={MERI_ID}
+        mentions={[ARTI_ID]}
+      />
+
       {/* 폰트 — React 19 가 <head> 로 올려준다 */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       <link rel="stylesheet" precedence="default" href={FONT_CSS} />
 
       {/* 검색엔진과 보조기술을 위한 제목 — 화면에는 카드가 대신 선다 */}
-      <h1 className="sr-only">알티스토 마스코트 메리</h1>
+      <h1 className="sr-only">메리 (Meri) — 알티스토 마스코트</h1>
       <ul className="sr-only">
         {PROFILE.map((row) => (
           <li key={row.label}>{`${row.label}: ${row.value}`}</li>

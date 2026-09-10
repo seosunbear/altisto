@@ -10,18 +10,43 @@ import LeafChatMockup from '@/components/LeafChatMockup';
 import OurSchoolMockup from '@/components/OurSchoolMockup';
 import PhoneFrame from '@/components/PhoneFrame';
 import MockupScaler from '@/components/MockupScaler';
+import PageSchema from '@/components/PageSchema';
+import { ARTI_ID, LEAFCHAT_ID, OURSCHOOL_ID } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: '서비스',
   description:
-    '알티스토의 서비스 — 크리에이터 협업 플랫폼 알티, 스쿨 라이프 슈퍼앱 우리학교, 연령별 채팅 & 커뮤니티 리프챗(LeafChat)을 소개합니다.',
+    '알티스토가 만드는 서비스 — 아티스트와 클라이언트를 잇는 크리에이터 외주·커미션 협업 플랫폼 알티(Arti), 시간표·급식·학생증을 모은 스쿨 라이프 슈퍼앱 우리학교(OurSchool), 연령별 채팅 & 커뮤니티 리프챗(LeafChat).',
   alternates: { canonical: '/services' },
+  keywords: [
+    '알티', 'Arti', '크리에이터 외주 플랫폼', '예술 외주 플랫폼', '커미션 플랫폼',
+    '일러스트 외주', '디자인 외주', '영상 외주', '아티스트 외주',
+    '우리학교', 'OurSchool', '스쿨 라이프 앱', '리프챗', 'LeafChat', '연령별 커뮤니티',
+  ],
+  openGraph: {
+    title: '서비스 | 알티스토',
+    description:
+      '크리에이터 외주 협업 플랫폼 알티, 스쿨 라이프 슈퍼앱 우리학교, 연령별 커뮤니티 리프챗.',
+    url: '/services',
+  },
 };
 
 
 export default function ServicesPage() {
   return (
     <main className="flex-1 pt-[68px] bg-white">
+      {/* 구조화 데이터 — 화면에는 아무것도 그리지 않는다 */}
+      <PageSchema
+        path="/services"
+        name="서비스 | 알티스토"
+        description="아티스트와 클라이언트를 잇는 크리에이터 외주·커미션 협업 플랫폼 알티(Arti), 스쿨 라이프 슈퍼앱 우리학교(OurSchool), 연령별 채팅 & 커뮤니티 리프챗(LeafChat)."
+        crumbs={[
+          { name: '홈', path: '/' },
+          { name: '서비스', path: '/services' },
+        ]}
+        mentions={[ARTI_ID, OURSCHOOL_ID, LEAFCHAT_ID]}
+      />
+
 
       {/* ━━━━━━━━━━━━━━ HERO ━━━━━━━━━━━━━━ */}
       <section className="relative bg-[#181818] border-b border-[#e5e7eb] px-6 md:px-10 overflow-hidden py-12 md:py-16 lg:py-24 flex items-center">

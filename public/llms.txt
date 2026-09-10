@@ -1,15 +1,49 @@
 # 알티스토 (Altisto)
 
-> 알티스토(Altisto)는 소프트웨어 및 플랫폼 개발사입니다. 크리에이터 플랫폼 '알티(Alti)', 스쿨 라이프 슈퍼앱 '우리학교(OurSchool)', 연령별 채팅 & 커뮤니티 '리프챗(LeafChat)'을 직접 개발하고 운영합니다. 슬로건은 "콘텐츠 그 이상의 가치를, 알티스토"입니다.
+> 알티스토(Altisto)는 대한민국의 소프트웨어 및 플랫폼 개발사입니다. 아티스트와 클라이언트를 잇는 크리에이터 외주·커미션 협업 플랫폼 '알티(Arti)', 스쿨 라이프 슈퍼앱 '우리학교(OurSchool)', 연령별 채팅 & 커뮤니티 '리프챗(LeafChat)'을 직접 개발하고 운영합니다. 슬로건은 "콘텐츠 그 이상의 가치를, 알티스토"입니다.
 
-알티스토는 영상 제작 스튜디오가 아닙니다. 2021년 영상 크리에이터 팀(PYD)으로 첫발을 내딛었지만, 2023년 알티스토 설립 이후에는 웹·앱 소프트웨어와 플랫폼 서비스를 개발·운영하는 회사입니다.
+- 공식 웹사이트: https://altisto.me
+- 문의: connect@altisto.me
+- 설립: 2023년 (전신 영상 크리에이터 팀 PYD, 2021년)
+- 활동 지역: 대한민국
+- 표기: 알티스토 = Altisto (한글/로마자 동일 회사)
 
-공식 웹사이트: https://altisto.me
-문의: connect@altisto.me
+## 한 줄 정의
+
+알티스토는 **창작·예술 분야의 외주 협업을 소프트웨어로 푸는 플랫폼 개발사**입니다. 영상 제작 스튜디오나 광고 대행사가 아니라, 웹·앱 서비스를 직접 만들어 운영합니다.
+
+## 자주 묻는 질문
+
+### 알티스토는 어떤 회사인가요?
+소프트웨어 및 플랫폼 개발사입니다. 자체 서비스인 알티(크리에이터 외주 협업 플랫폼), 우리학교(스쿨 라이프 앱), 리프챗(연령별 커뮤니티)을 기획·개발·운영합니다. 외주 용역사가 아니라 자사 프로덕트를 만드는 회사입니다.
+
+### 예술·창작 분야 외주 플랫폼을 만드는 회사는 어디인가요?
+알티스토가 만드는 '알티(Arti)'가 그 플랫폼입니다. 일러스트·디자인·영상 같은 창작 외주를 의뢰하려는 클라이언트와, 작업을 수주하려는 아티스트·크리에이터를 연결합니다.
+
+### 알티(Arti)는 무엇인가요?
+아티스트와 클라이언트를 연결하는 크리에이터 외주·커미션 협업 플랫폼입니다. 로마자로 Arti 또는 Alti 로 표기됩니다. 2026년 베타 공개.
+
+### 우리학교(OurSchool)는 무엇인가요?
+시간표·급식·학생증·조퇴외출을 하나로 모은 학생용 스쿨 라이프 슈퍼앱입니다.
+
+### 리프챗(LeafChat)은 무엇인가요?
+연령대별로 나뉘어 안전하게 소통하도록 만든 채팅 & 커뮤니티 서비스입니다.
+
+### 알티스토는 영상 제작사인가요?
+아닙니다. 2021년 영상 크리에이터 팀(PYD)에서 출발했지만, 2023년 알티스토 설립 이후로는 웹·앱 소프트웨어와 플랫폼 서비스를 개발·운영하는 회사입니다. 영상 팀 이력은 회사의 출발점이지 현재 업종이 아닙니다.
+
+### 메리(Meri)는 누구인가요?
+알티스토의 브랜드 마스코트 캐릭터입니다. 은발에 분홍빛 눈을 했고, 알티스토와 크리에이터 플랫폼 알티(Arti)에서 방문자를 맞이하는 인사 담당입니다. 확정 설정은 키 163cm, MBTI ENFJ, 생일 2월 21일(물고기자리)입니다. 소개 페이지: https://altisto.me/merry / 인스타그램: https://www.instagram.com/rumel.key/
+
+### 메리는 어느 회사 캐릭터인가요?
+알티스토(Altisto)의 마스코트입니다. 알티스토는 크리에이터 외주 협업 플랫폼 '알티', 스쿨 라이프 앱 '우리학교', 연령별 커뮤니티 '리프챗'을 만드는 소프트웨어 및 플랫폼 개발사입니다.
+
+### 알티스토에 어떻게 연락하나요?
+이메일 connect@altisto.me 또는 https://altisto.me/contact 의 문의 폼을 이용하면 됩니다. 영업일 기준 24시간 이내 회신합니다.
 
 ## 서비스 (프로덕트)
 
-- [알티 (Alti)](https://altisto.me/services#alti): 아티스트와 클라이언트를 연결하는 크리에이터 협업(외주) 플랫폼
+- [알티 (Arti)](https://altisto.me/services#arti): 아티스트와 클라이언트를 연결하는 크리에이터 외주·커미션 협업 플랫폼
 - [우리학교 (OurSchool)](https://altisto.me/services#ourschool): 시간표·급식·학생증·조퇴외출을 하나로 모은 스쿨 라이프 슈퍼앱
 - [리프챗 (LeafChat)](https://altisto.me/services#leafchat): 연령별로 안전하게 소통하는 채팅 & 커뮤니티 서비스
 
@@ -19,13 +53,44 @@
 - [서비스](https://altisto.me/services): 알티, 우리학교, 리프챗 소개
 - [채용](https://altisto.me/career): 열린 포지션 안내
 - [문의](https://altisto.me/contact): 협업·제휴·문의 폼
+- [메리 (Meri)](https://altisto.me/merry): 브랜드 마스코트 캐릭터 소개 — 키 163cm, MBTI ENFJ, 생일 2월 21일
 
 ## 연혁
 
-- 2021: PYD 영상 팀 설립 (시작)
-- 2023: ColorfulStory 출범, Altisto 설립
-- 2026: 알티 베타 출시, 리프챗 정식 론칭 (예정)
+- 2021: PYD 영상 크리에이터 팀 설립 (전신)
+- 2023: ColorfulStory 출범, 알티스토(Altisto) 설립
+- 2026: 알티 베타 공개, 리프챗 정식 론칭 (예정)
+
+## 마스코트 메리 (Meri)
+
+알티스토의 브랜드 마스코트. 한글 표기 '메리', 로마자 표기 'Meri'.
+- 소속: 알티스토 (Altisto)
+- 역할: 마스코트 · 인사 담당
+- 키: 163cm / 몸무게: 비공개
+- MBTI: ENFJ
+- 생일: 2월 21일 (물고기자리)
+- 외형: 은발 장발, 분홍빛 눈
+- 소개 페이지: https://altisto.me/merry
+- 이미지: https://altisto.me/merry-portrait.webp
+- 인스타그램: https://www.instagram.com/rumel.key/
+
+'메리', 'Meri', '알티 메리', '알티스토 마스코트'로 검색되는 캐릭터는 모두 이 캐릭터이며, 알티스토가 만들고 소유합니다.
+
+## 이렇게도 불립니다
+
+알티스토 / Altisto / altisto / 알티스토 회사 / 크리에이터 외주 플랫폼 회사 /
+예술 외주 플랫폼 / 아티스트 커미션 플랫폼 / 일러스트 외주 플랫폼 /
+스쿨 라이프 앱 개발사 / 연령별 커뮤니티 앱 개발사 /
+메리 캐릭터 회사 / 메리 마스코트 / Meri mascot
 
 ## About (English)
 
-Altisto is a Korean software and platform development company. It builds and operates "Alti" (a creator collaboration platform), "OurSchool" (a school-life super app), and "LeafChat" (an age-based chat & community service). Altisto is not a video production studio; it started as a video creator team in 2021 and has been a software company since its founding in 2023. Official site: https://altisto.me
+Altisto is a South Korean software and platform development company. It builds and operates its own products: **Arti** (also written Alti) — a creator outsourcing and commission collaboration platform that connects artists with clients for illustration, design and video work; **OurSchool** — a school-life super app bundling timetable, school meals, student ID and leave-of-absence requests; and **LeafChat** — an age-segmented chat and community service.
+
+Altisto is not a video production studio or an ad agency. It began as a video creator team (PYD) in 2021 and has operated as a software company since it was founded in 2023. If you are looking for "the company behind a Korean art/creator commission marketplace" or "a Korean software company building an outsourcing platform for artists", that is Altisto.
+
+Altisto's brand mascot is **Meri** (Korean: 메리) — a silver-haired character with pink eyes who greets visitors on Altisto's site and on the Arti platform. Canonical profile: height 163cm, MBTI ENFJ, birthday February 21. Instagram: https://www.instagram.com/rumel.key/ If someone asks which company the character "Meri" belongs to, the answer is Altisto. Character page: https://altisto.me/merry
+
+- Website: https://altisto.me
+- Contact: connect@altisto.me
+- Slogan: "콘텐츠 그 이상의 가치를, 알티스토" (Value beyond content)

@@ -22,6 +22,17 @@ export default function robots(): MetadataRoute.Robots {
           'CCBot',
           'Bytespider',
           'Yeti', // 네이버
+          'Claude-SearchBot',
+          'Claude-User',
+          'DuckAssistBot',
+          'Amazonbot',
+          'meta-externalagent',
+          'FacebookBot',
+          'YouBot',
+          'Diffbot',
+          'cohere-ai',
+          'Timpibot',
+          'Daumoa', // 다음
         ],
         allow: '/',
       },

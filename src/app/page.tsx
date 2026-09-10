@@ -6,11 +6,15 @@ import MilestonesTimeline from '@/components/MilestonesTimeline';
 import MistralGrid from '@/components/mixtral';
 import GrowthChart from '@/components/GrowthChart';
 import CountUpStat from '@/components/CountUpStat';
+import PageSchema from '@/components/PageSchema';
+import { ARTI_ID, LEAFCHAT_ID, OURSCHOOL_ID } from '@/lib/site';
 
 export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
+  description:
+    "알티스토(Altisto)는 아티스트와 클라이언트를 잇는 크리에이터 외주·커미션 협업 플랫폼 '알티(Arti)', 스쿨 라이프 슈퍼앱 '우리학교', 연령별 채팅·커뮤니티 '리프챗'을 직접 개발·운영하는 소프트웨어 및 플랫폼 개발사입니다.",
 };
 
 const CONTAINER = 'relative z-10 mx-auto max-w-screen-xl mt-10 md:mt-0';
@@ -27,6 +31,13 @@ export default function HomePage() {
 
   return (
     <main className="flex-1">
+      {/* 구조화 데이터 — 화면에는 아무것도 그리지 않는다 */}
+      <PageSchema
+        path="/"
+        name="알티스토 | Altisto 공식 웹사이트"
+        description="아티스트와 클라이언트를 잇는 크리에이터 외주 협업 플랫폼 '알티', 스쿨 라이프 앱 '우리학교', 연령별 커뮤니티 '리프챗'을 만드는 소프트웨어 및 플랫폼 개발사 알티스토입니다."
+        mentions={[ARTI_ID, OURSCHOOL_ID, LEAFCHAT_ID]}
+      />
 
 
       {/* =====================================================

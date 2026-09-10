@@ -2,17 +2,35 @@ import type { Metadata } from 'next';
 import { Clock } from 'lucide-react';
 import GsapReveal from '@/components/GsapReveal';
 import ContactForm from '@/components/ContactForm';
+import PageSchema from '@/components/PageSchema';
 
 export const metadata: Metadata = {
   title: '문의',
   description:
     '알티스토에 협업·제휴·채용 등 무엇이든 문의하세요. 이메일 connect@altisto.me 또는 문의 폼으로 연락할 수 있습니다.',
   alternates: { canonical: '/contact' },
+  keywords: ['알티스토 문의', 'Altisto 연락처', '알티스토 이메일', '외주 문의', '제휴 문의'],
+  openGraph: {
+    title: '문의 | 알티스토',
+    description: '협업·제휴·채용 문의는 connect@altisto.me 또는 문의 폼으로 보내주세요.',
+    url: '/contact',
+  },
 };
 
 export default function ContactPage() {
   return (
     <main className="flex-1 pt-[68px] bg-white">
+      {/* 구조화 데이터 — 화면에는 아무것도 그리지 않는다 */}
+      <PageSchema
+        path="/contact"
+        name="문의 | 알티스토"
+        description="알티스토에 협업·제휴·채용을 문의하는 방법. 이메일 connect@altisto.me."
+        crumbs={[
+          { name: '홈', path: '/' },
+          { name: '문의', path: '/contact' },
+        ]}
+      />
+
 
       {/* ━━━━━━━━━━━━━━ HERO ━━━━━━━━━━━━━━ */}
       <section className="relative bg-[#181818] border-b border-[#e5e7eb] px-6 md:px-10 overflow-hidden py-12 md:py-16 lg:py-24 flex items-center">
