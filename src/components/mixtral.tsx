@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import StarTrail from '@/components/StarTrail';
 import CharRoll from '@/components/CharRoll';
+import LoadingScreen from '@/components/LoadingScreen';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -165,6 +166,10 @@ export default function MistralGrid() {
   const mottoRef = useRef<HTMLDivElement>(null);
   const sweepRef = useRef<HTMLDivElement>(null);
   const coverRef = useRef<HTMLDivElement>(null);
+
+  /* 첫 진입 로딩 화면이 걷혔나. 헤드라인 등장은 그 뒤에 시작한다. */
+  const [revealed, setRevealed] = useState(false);
+  const onReveal = useCallback(() => setRevealed(true), []);
 
   /* =======================================================
      VIEWPORT / SCROLLTRIGGER 안정화
@@ -944,6 +949,12 @@ export default function MistralGrid() {
      ======================================================= */
 
   return (
+    <>
+    {/* 섹션 밖에 둔다. 핀이 섹션에 transform 을 걸면(iOS) 안쪽의
+        fixed 는 화면이 아니라 섹션 기준이 되고, 쌓임 맥락도 갇혀
+        내비바 아래로 깔린다. */}
+    <LoadingScreen onReveal={onReveal} />
+
     <section
       ref={sectionRef}
       className="
@@ -1022,6 +1033,7 @@ export default function MistralGrid() {
                   text="콘텐츠 그 이상의"
                   intro={0}
                   loopDelay={0}
+                  ready={revealed}
                   className="block"
                 />
 
@@ -1029,6 +1041,7 @@ export default function MistralGrid() {
                   text="가치를 만듭니다"
                   intro={0.5}
                   loopDelay={0}
+                  ready={revealed}
                   className="
                     mt-2
                     block
@@ -1319,5 +1332,6 @@ export default function MistralGrid() {
         SCROLL
       </div>
     </section>
+    </>
   );
 }

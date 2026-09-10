@@ -90,6 +90,23 @@
   70%       { clip-path: inset(0 0 0 0); }
   100%      { clip-path: inset(0 0 0 0); }
 }
+.loader-fill {
+  animation: loader-text-fill 1.6s ease-in-out infinite;
+}
+
+/* 안전장치: 스크립트가 끝내 돌지 않아도(배포 직후 청크 로드 실패, JS 차단 등)
+   로딩 화면이 페이지를 영영 막지 않도록 8초 뒤 스스로 걷힌다.
+   정상이면 그 전에 컴포넌트가 걷고 DOM 에서 빠진다. */
+@keyframes loader-fallback {
+  to { opacity: 0; visibility: hidden; }
+}
+.loader-screen {
+  animation: loader-fallback 0.6s ease-out 8s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-fill { animation: none; }
+}
 /* ── 목업 옆 장식 텍스트 — 위로 흐르는 세로 마퀴 ── */
 @keyframes deco-rise {
   from { transform: translateY(0); }
@@ -262,16 +279,41 @@
   animation: merry-pop-tilt 0.7s var(--k-ease) both;
 }
 
+/* ── 캐릭터 이미지 — 다 받아진 뒤에만 보인다 (RevealImage) ──
+   받기 전에는 투명. 로딩이 끝나 data-loaded 가 붙으면 그때 등장한다.
+
+   안전장치: 스크립트가 끝내 load 를 알리지 못해도(스크립트 오류 등)
+   캐릭터가 영영 사라지지 않도록, 10초가 지나면 그냥 보이게 한다.
+   10초는 157KB 일러스트를 2G 수준(약 125kbps)에서도 거의 다 받는 시간이라,
+   정상 망에서 반쯤 그려진 그림이 먼저 보이는 일은 없다.
+   정상적으로 로딩되면 data-loaded 쪽 animation 이 이걸 덮어쓴다.
+   (그래서 이 요소에는 인라인 animationDelay 를 주면 안 된다 — 안전장치의
+   10초 지연까지 같이 덮어써 버린다.) */
+@keyframes merry-reveal-fallback {
+  to { opacity: 1; }
+}
+.merry-reveal,
+.merry-reveal-fade {
+  opacity: 0;
+  animation: merry-reveal-fallback 0.4s linear 10s forwards;
+}
+.merry-reveal[data-loaded]      { animation: merry-up 0.8s var(--k-ease) both; }
+.merry-reveal-fade[data-loaded] { animation: merry-fade 0.6s var(--k-ease) both; }
+
 @media (prefers-reduced-motion: reduce) {
   .merry-up,
   .merry-fade,
   .merry-pop { animation: none !important; opacity: 1 !important; transform: none !important; }
+  /* 모션을 줄여도 '다 받아진 뒤에 보이기'는 지킨다 — 움직임만 뺀다 */
+  .merry-reveal[data-loaded],
+  .merry-reveal-fade[data-loaded] { animation: none !important; opacity: 1 !important; transform: none !important; }
   .merry-pop-tilt {
     animation: none !important;
     opacity: 1 !important;
     transform: rotate(var(--k-tilt)) !important;
   }
 }
+
 
 
 

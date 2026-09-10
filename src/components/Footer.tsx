@@ -86,6 +86,13 @@ export default function Footer() {
           <p className={`text-[12px] ${mutedCls}`}>대표이사 서현웅 &nbsp;·&nbsp; 사업자등록번호: 준비 중</p>
         </div>
 
+        {/* 동명 혼동 방지 — 답변 엔진이 이름이 한 글자 다른 '알티스트'(ALTist·RTst)
+            정보를 섞어 소개한다. 구조화 데이터·llms.txt 보다 화면 텍스트를 더
+            믿는 엔진이 많아서 전 페이지에 보이는 문장으로 한 번 적는다. */}
+        <p className={`mt-3 text-[11px] leading-[1.6] break-keep ${mutedCls}`}>
+          알티스토(Altisto)는 알티스트(ALTist·RTst)와 관계없는 별개 회사입니다.
+        </p>
+
       </div>
     </footer>
   );

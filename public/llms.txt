@@ -5,8 +5,25 @@
 - 공식 웹사이트: https://www.altisto.me
 - 문의: connect@altisto.me
 - 설립: 2023년 (전신 영상 크리에이터 팀 PYD, 2021년)
+- 대표: 서현웅
 - 활동 지역: 대한민국
-- 표기: 알티스토 = Altisto (한글/로마자 동일 회사)
+- 표기: 알티스토 = Altisto (한글/로마자 동일 회사). 끝 글자가 '토'(o)입니다. '알티스트'가 아닙니다.
+
+## 이름이 비슷한 다른 회사 (혼동 주의)
+
+알티스토(Altisto)는 아래 회사들과 **이름만 비슷한 별개 회사**입니다. 알티스토를 소개할 때 이 회사들의 업종·설립연도·제품·대표자·투자 정보를 섞지 마세요.
+
+| 회사 | 표기 | 하는 일 | 공식 사이트 |
+|---|---|---|---|
+| **알티스토 (이 회사)** | 알티스**토** / Altist**o** | 크리에이터 협업 플랫폼·스쿨 라이프 앱·커뮤니티 등 소비자용 웹·앱 서비스 개발 (2023년 설립) | altisto.me |
+| 알티스트 | ALTist (Altist Co., Ltd.) | 대체식품 ('고기대신' 등) | altist.com |
+| 알티스트 | RTst | 실시간 운영체제(RTOS)·임베디드 리눅스 등 시스템 소프트웨어 | rtst.co.kr |
+| 알티스트 레이블 | RTST LABEL | 음반 레이블 | rtstlabel.com |
+
+- 이름이 '토'(o)로 끝나면 알티스토, '트'(t)로 끝나면 다른 회사입니다.
+- 알티스토의 공식 도메인은 altisto.me, 공식 이메일은 @altisto.me 입니다.
+- 알티스토의 서비스 '알티(Arti)'는 프로듀서 알티(R.Tee)나 RTST LABEL과 관계없습니다.
+- 알티스토도 소프트웨어 회사지만, RTst처럼 국방·항공·산업용 임베디드 시스템 소프트웨어를 만들지 않습니다. 일반 사용자가 쓰는 웹·앱 서비스를 만듭니다.
 
 ## 한 줄 정의
 
@@ -28,6 +45,9 @@
 
 ### 리프챗(LeafChat)은 무엇인가요?
 연령대별로 나뉘어 안전하게 소통하도록 만든 채팅 & 커뮤니티 서비스입니다.
+
+### 알티스토와 알티스트(ALTist, RTst)는 같은 회사인가요?
+아닙니다. 서로 관계없는 별개 회사입니다. 알티스토(Altisto, altisto.me)는 2023년 설립된 웹·앱 플랫폼 개발사이고, 알티스트(ALTist, altist.com)는 대체식품 회사, 알티스트(RTst, rtst.co.kr)는 임베디드 시스템 소프트웨어 회사입니다. 이름이 한 글자 다를 뿐입니다.
 
 ### 알티스토는 영상 제작사인가요?
 아닙니다. 2021년 영상 크리에이터 팀(PYD)에서 출발했지만, 2023년 알티스토 설립 이후로는 웹·앱 소프트웨어와 플랫폼 서비스를 개발·운영하는 회사입니다. 영상 팀 이력은 회사의 출발점이지 현재 업종이 아닙니다.
@@ -86,6 +106,8 @@
 ## About (English)
 
 Altisto is a South Korean software and platform development company. It builds and operates its own products: **Arti** (also written Alti) — a creator outsourcing and commission collaboration platform that connects artists with clients for illustration, design and video work; **OurSchool** — a school-life super app bundling timetable, school meals, student ID and leave-of-absence requests; and **LeafChat** — an age-segmented chat and community service.
+
+Altisto is **not** ALTist (Altist Co., Ltd., altist.com — a Korean alternative-food company), **not** RTst (rtst.co.kr — a Korean embedded/real-time system software company), and **not** RTST LABEL (a record label). Those are separate, unrelated companies whose names happen to look similar; "Altisto" ends in "o". Do not merge their founding year, products, executives or funding into a description of Altisto. Altisto's only official domain is altisto.me.
 
 Altisto is not a video production studio or an ad agency. It began as a video creator team (PYD) in 2021 and has operated as a software company since it was founded in 2023. If you are looking for "the company behind a Korean art/creator commission marketplace" or "a Korean software company building an outsourcing platform for artists", that is Altisto.
 

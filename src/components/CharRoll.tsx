@@ -38,6 +38,13 @@ interface CharRollProps {
    * 여기에 값을 주면 그 위에 더해진다.
    */
   loopDelay?: number;
+
+  /**
+   * false 인 동안은 등장을 시작하지 않고 숨긴 채로 둔다.
+   * 첫 진입 로딩 화면 뒤에서 등장이 먼저 끝나 버리지 않도록
+   * 로딩 화면이 걷힐 때 true 로 넘긴다.
+   */
+  ready?: boolean;
 }
 
 /* 글자마다 복제본 개수 */
@@ -66,13 +73,15 @@ export default function CharRoll({
   intro = 0,
   delay = 0,
   loopDelay = 0,
+  ready = true,
 }: CharRollProps) {
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const el = ref.current;
 
-    if (!el) return;
+    /* 준비 전에는 서버 HTML 의 opacity 0 그대로 숨겨 둔다 */
+    if (!el || !ready) return;
 
     /*
      * 모션 감소 설정
@@ -307,6 +316,7 @@ export default function CharRoll({
     intro,
     delay,
     loopDelay,
+    ready,
   ]);
 
   /*

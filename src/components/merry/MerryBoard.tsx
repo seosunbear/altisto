@@ -1,5 +1,4 @@
-import Image from 'next/image';
-
+import RevealImage from './RevealImage';
 import { FULL_BODY, PORTRAIT } from './data';
 import { Cassette, Confetti, Notes, RetroWindow, RibbonBanner, StarBadge, Streamers } from './stickers';
 
@@ -44,14 +43,15 @@ export default function MerryBoard() {
         <Confetti />
 
         <div className="relative mx-auto -mt-[9cqw] w-[76%]">
-          <Image
+          {/* 다 받아진 뒤에만 떠오른다 — 반쯤 그려진 채로 보이지 않게 */}
+          <RevealImage
             src={FULL_BODY}
             alt="분홍빛 눈에 은발을 한 알티스토 마스코트 메리가 한 손을 들어 인사하는 전신 일러스트"
             width={1024}
             height={1536}
             priority
             sizes="(min-width: 1024px) 40vw, 80vw"
-            className="merry-up h-auto w-full select-none"
+            className="h-auto w-full select-none"
           />
         </div>
 
@@ -72,7 +72,8 @@ export default function MerryBoard() {
           className="merry-pop-tilt absolute -right-[2cqw] bottom-[28%] w-[32cqw]"
           style={{ ['--k-tilt' as string]: '3deg', animationDelay: '0.5s' }}
         >
-          <Image
+          <RevealImage
+            fade
             src={PORTRAIT}
             alt=""
             aria-hidden
