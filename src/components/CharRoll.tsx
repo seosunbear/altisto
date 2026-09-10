@@ -58,7 +58,7 @@ export default function CharRoll({
   text,
   className,
   duration = 2,
-  hold = 2.4,
+  hold = 1.6,
   scatter = 0.012,
   intro = 0,
   delay = 0,
@@ -161,7 +161,7 @@ export default function CharRoll({
      */
 
     /*
-     * 모바일에서는 무한 롤링을 돌리지 않는다.
+     * 터치 기기에서는 무한 롤링을 돌리지 않는다.
      *
      * 이 컴포넌트가 놓인 히어로는 ScrollTrigger 로 2350px 동안
      * 핀이 걸려 있어서, 스크롤하는 내내 화면 안에 남아 있다.
@@ -169,9 +169,12 @@ export default function CharRoll({
      * 그동안 글자 수만큼의 transform 트윈이 계속 돌면 핀 스크럽과
      * 같은 프레임을 나눠 쓰게 돼 스크롤이 끊긴다.
      * 등장 애니메이션까지만 보여주고 롤링은 생략한다.
+     *
+     * 판정은 폭이 아니라 입력 방식으로 한다. max-width:1023px 로
+     * 잡으면 창을 좁게 쓰는 데스크톱에서도 롤링이 통째로 꺼진다.
      */
     const loopEnabled = !window.matchMedia(
-      '(max-width: 1023px)',
+      '(hover: none) and (pointer: coarse)',
     ).matches;
 
     const loop =
@@ -253,9 +256,17 @@ export default function CharRoll({
      * 0.2초
      */
     if (loopEnabled) {
+      /*
+       * 등장이 끝난 뒤부터 굴린다.
+       *
+       * 예전에는 0(= 등장과 같은 시점)에 붙어 있었다. 그러면 첫
+       * 바퀴가 글자들이 화면 밖에서 날아 들어오는 동안(opacity 0)
+       * 다 지나가 버려서, 처음 보는 사람에게는 롤링이 한 번도 안
+       * 돈 것처럼 보인다.
+       */
       tl.add(
         loop,
-        delay + loopDelay,
+        intro + INTRO_DURATION + delay + loopDelay,
       );
     } else {
       /* 루트 타임라인에 자동으로 붙으므로, 안 쓸 거면 명시적으로 없앤다.
