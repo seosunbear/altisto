@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next'
 
+import { SITE_URL } from '@/lib/site'
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
@@ -37,6 +39,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: 'https://altisto.me/sitemap.xml',
+    sitemap: `${SITE_URL}/sitemap.xml`,
   }
 }

@@ -30,6 +30,23 @@ export const metadata: Metadata = {
   authors: [{ name: "알티스토", url: SITE_URL }],
   creator: "알티스토",
   publisher: "알티스토",
+  /* 검색엔진 소유 확인 태그. 값은 코드가 아니라 Vercel 환경변수로 넣는다
+     (구글 서치콘솔 / 네이버 서치어드바이저 / 빙 웹마스터에서 발급).
+     비어 있으면 태그 자체를 내보내지 않는다. 정적 페이지라 값을 넣은 뒤
+     재배포해야 반영된다. */
+  verification: {
+    ...(process.env.GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+      : {}),
+    other: {
+      ...(process.env.NAVER_SITE_VERIFICATION
+        ? { "naver-site-verification": process.env.NAVER_SITE_VERIFICATION }
+        : {}),
+      ...(process.env.BING_SITE_VERIFICATION
+        ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION }
+        : {}),
+    },
+  },
   robots: {
     index: true,
     follow: true,

@@ -31,6 +31,14 @@ export default function HomePage() {
 
   return (
     <main className="flex-1">
+      {/* 홈의 주 제목 — 화면에는 나오지 않는다.
+          히어로 문구는 롤링 애니메이션(CharRoll)이 글자마다 복제본을 DOM 에
+          깔아 두는 구조라, 그걸 h1 로 쓰면 크롤러에게 '콘콘텐텐츠츠…'로
+          읽힌다. 그래서 애니메이션은 장식으로 두고, 같은 문장을 깨끗한
+          텍스트로 한 번 더 적는다. 화면에 보이는 문구 그대로라 숨긴 키워드가
+          아니다. */}
+      <h1 className="sr-only">알티스토(Altisto) — 콘텐츠 그 이상의 가치를 만듭니다</h1>
+
       {/* 구조화 데이터 — 화면에는 아무것도 그리지 않는다 */}
       <PageSchema
         path="/"
