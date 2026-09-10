@@ -1028,7 +1028,7 @@ export default function MistralGrid() {
                 <CharRoll
                   text="가치를 만듭니다"
                   intro={0.5}
-                  loopDelay={0.5}
+                  loopDelay={0}
                   className="
                     mt-2
                     block

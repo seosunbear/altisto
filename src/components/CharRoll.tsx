@@ -24,19 +24,18 @@ interface CharRollProps {
   intro?: number;
 
   /**
-   * 처음 등장한 뒤 첫 롤링을 시작하기까지의 시간
+   * 등장이 시작된 뒤 첫 롤링을 시작하기까지의 시간.
+   * 0 이면 날아 들어오면서 함께 구른다.
    */
   delay?: number;
 
   /**
-   * 반복 루프 자체의 시작 지연.
+   * 반복 루프만 추가로 늦추는 시간.
    *
-   * 예:
-   * 첫 번째 줄 = 0
-   * 두 번째 줄 = 0.2
-   *
-   * 그러면 매 반복마다
-   * 첫 번째 줄 → 0.2초 → 두 번째 줄
+   * 줄 사이 시차는 intro 가 이미 만든다.
+   * (반복도 등장 시점을 기준으로 이어지므로
+   *  intro 를 0.5 차이로 주면 반복도 0.5 차이로 돈다.)
+   * 여기에 값을 주면 그 위에 더해진다.
    */
   loopDelay?: number;
 }
@@ -53,6 +52,10 @@ const BLEED_X = '0.04em';
 
 /* 처음 등장하는 시간 */
 const INTRO_DURATION = 1.1;
+
+/* 등장과 함께 도는 첫 바퀴 시간.
+   등장보다 조금 길게 잡아 글자가 멈춘 직후까지 릴이 감속하며 돌게 한다. */
+const FIRST_ROLL_DURATION = 1.4;
 
 export default function CharRoll({
   text,
@@ -156,26 +159,23 @@ export default function CharRoll({
 
     /*
      * =====================================================
-     * 반복 롤링
+     * 롤링
      * =====================================================
-     */
-
-    /*
-     * 터치 기기에서는 무한 롤링을 돌리지 않는다.
      *
-     * 이 컴포넌트가 놓인 히어로는 ScrollTrigger 로 2350px 동안
-     * 핀이 걸려 있어서, 스크롤하는 내내 화면 안에 남아 있다.
-     * (IntersectionObserver 가 꺼줄 틈이 없다.)
-     * 그동안 글자 수만큼의 transform 트윈이 계속 돌면 핀 스크럽과
-     * 같은 프레임을 나눠 쓰게 돼 스크롤이 끊긴다.
-     * 등장 애니메이션까지만 보여주고 롤링은 생략한다.
+     * 첫 바퀴는 등장과 한 몸으로 돈다. 줄이 날아 들어오는 동안
+     * 글자들이 이미 구르고 있다가, 자리에 닿으면서 감속해 멈춘다.
+     * (슬롯 릴이 멈춰 서는 느낌)
      *
-     * 판정은 폭이 아니라 입력 방식으로 한다. max-width:1023px 로
-     * 잡으면 창을 좁게 쓰는 데스크톱에서도 롤링이 통째로 꺼진다.
+     * 반복 루프를 그냥 등장 시점에 붙이면 안 된다. 루프의 ease 는
+     * power4.inOut 이라 처음 0.6초가 거의 제자리여서, 실제로 굴러가는
+     * 구간은 글자가 다 들어온 뒤에 온다. 결국 '들어온 다음 구르는'
+     * 것으로 보인다. 그래서 첫 바퀴만 등장과 같은 계열의 out ease 로
+     * 따로 만든다.
+     *
+     * 터치 기기도 똑같이 굴린다. 모바일에서 헤드라인은 핀 스크럽을
+     * 따라 clip 영역 밖으로 밀려나는데, 그러면 IntersectionObserver
+     * 가 타임라인을 멈춘다. 글자 14개 transform 이라 비용도 작다.
      */
-    const loopEnabled = !window.matchMedia(
-      '(hover: none) and (pointer: coarse)',
-    ).matches;
 
     const loop =
       gsap.timeline({
@@ -187,11 +187,13 @@ export default function CharRoll({
      * 랜덤 시차와 상관없이
      * 한 바퀴 길이는 고정
      */
-    const loopDuration =
+    const maxScatter =
       (rolls.length - 1) *
-        5 *
-        scatter +
-      duration;
+      5 *
+      scatter;
+
+    const loopDuration =
+      maxScatter + duration;
 
     loop.to(
       {},
@@ -201,6 +203,10 @@ export default function CharRoll({
       0,
     );
 
+    /* 첫 바퀴가 시작되는 시점 */
+    const firstRollAt =
+      intro + delay;
+
     /*
      * 글자 하나씩 롤링
      */
@@ -208,6 +214,9 @@ export default function CharRoll({
       const n = Number(
         roll.dataset.copies,
       );
+
+      const to =
+        STEP * (n - 1);
 
       /*
        * 오른쪽 글자부터 시작해서
@@ -221,14 +230,30 @@ export default function CharRoll({
           )) *
         scatter;
 
+      /* 첫 바퀴 — 등장과 함께 */
+      tl.fromTo(
+        roll,
+        {
+          xPercent: 0,
+        },
+        {
+          xPercent: to,
+          duration:
+            FIRST_ROLL_DURATION,
+          ease: 'power3.out',
+        },
+        firstRollAt + start,
+      );
+
+      /* 반복 — 끝은 마지막 복제본(같은 글자)이라
+         다음 바퀴가 0 으로 되돌아가도 티가 안 난다 */
       loop.fromTo(
         roll,
         {
           xPercent: 0,
         },
         {
-          xPercent:
-            STEP * (n - 1),
+          xPercent: to,
           duration,
           ease: 'power4.inOut',
         },
@@ -237,42 +262,17 @@ export default function CharRoll({
     });
 
     /*
-     * =====================================================
-     * 반복 롤링 시작 위치
-     * =====================================================
-     *
-     * delay:
-     *   처음 등장 후 롤링 시작까지 기다림
-     *
-     * loopDelay:
-     *   두 번째 줄 자체를 늦춤
-     *
-     * 따라서:
-     *
-     * 첫 번째
-     * 0초
-     *
-     * 두 번째
-     * 0.2초
+     * 반복은 첫 바퀴가 끝나고 hold 만큼 쉰 뒤부터.
+     * 반복 루프 안의 리듬(구르기 → hold → 구르기)과 같은 간격이다.
      */
-    if (loopEnabled) {
-      /*
-       * 등장이 끝난 뒤부터 굴린다.
-       *
-       * 예전에는 0(= 등장과 같은 시점)에 붙어 있었다. 그러면 첫
-       * 바퀴가 글자들이 화면 밖에서 날아 들어오는 동안(opacity 0)
-       * 다 지나가 버려서, 처음 보는 사람에게는 롤링이 한 번도 안
-       * 돈 것처럼 보인다.
-       */
-      tl.add(
-        loop,
-        intro + INTRO_DURATION + delay + loopDelay,
-      );
-    } else {
-      /* 루트 타임라인에 자동으로 붙으므로, 안 쓸 거면 명시적으로 없앤다.
-         아직 한 프레임도 렌더되기 전이라 글자 위치는 그대로 남는다. */
-      loop.kill();
-    }
+    tl.add(
+      loop,
+      firstRollAt +
+        maxScatter +
+        FIRST_ROLL_DURATION +
+        hold +
+        loopDelay,
+    );
 
     /*
      * =====================================================
@@ -320,6 +320,12 @@ export default function CharRoll({
     <span
       ref={ref}
       className={className}
+      /* 서버 HTML 단계부터 숨겨 둔다. 안 그러면 하이드레이션 전까지
+         글자가 제자리에 먼저 보였다가 사라진 뒤 날아 들어온다.
+         (모션 감소 설정이면 effect 에서 바로 1 로 돌린다) */
+      style={{
+        opacity: 0,
+      }}
     >
       {/* 스크린리더용 원문 */}
       <span className="sr-only">
