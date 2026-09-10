@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ARTI_ID, LEAFCHAT_ID, MERI_ID, MERI_IMAGE_ID, MERI_INSTAGRAM, ORG_ID, OURSCHOOL_ID, SITE_ID, SITE_URL } from "@/lib/site";
+import { ARTI_ID, LEAFCHAT_ID, MERI_ID, MERI_IMAGE_ID, MERI_INSTAGRAM, ORG_ID, ORG_INSTAGRAM, OURSCHOOL_ID, SITE_ID, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -98,6 +98,9 @@ const jsonLd = {
       url: SITE_URL,
       logo: `${SITE_URL}/og.jpg`,
       email: "connect@altisto.me",
+      /* 공식 외부 계정 — '이 계정 = 이 사이트의 회사'를 못 박는 가장 강한 신호.
+         개인 계정(메리 인스타)은 넣지 않는다. site.ts 주석 참고 */
+      sameAs: [ORG_INSTAGRAM],
       description:
         "알티스토(Altisto)는 아티스트와 클라이언트를 잇는 크리에이터 외주·커미션 협업 플랫폼 '알티(Arti)', 스쿨 라이프 슈퍼앱 '우리학교(OurSchool)', 연령별 채팅·커뮤니티 '리프챗(LeafChat)'을 직접 개발·운영하는 소프트웨어 및 플랫폼 개발사입니다.",
       /* 오분류 교정용.

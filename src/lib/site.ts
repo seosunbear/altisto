@@ -20,6 +20,12 @@ export const LEAFCHAT_ID = `${SITE_URL}/services#leafchat`;
 export const MERI_ID = `${SITE_URL}/merry#meri`;
 export const MERI_IMAGE_ID = `${SITE_URL}/merry#image`;
 
+/* 회사 공식 인스타그램. Organization.sameAs 와 푸터 링크로 사이트와 잇는다.
+   이게 끊겨 있으면 답변 엔진이 이 계정을 이름이 비슷한 '알티스트'에
+   붙여 버린다(실제로 Gemini 가 그렇게 소개했다). 계정 소개란에도
+   www.altisto.me 를 걸어 양쪽에서 서로 가리키게 해야 한다. */
+export const ORG_INSTAGRAM = 'https://www.instagram.com/altisto.official/';
+
 /* 마스코트를 올리는 인스타그램. 구조화 데이터의 sameAs 로 걸어서
    '사이트의 메리'와 '인스타의 메리'가 같은 엔티티임을 못 박는다.
 

@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Mail } from 'lucide-react';
+import { ORG_INSTAGRAM } from '@/lib/site';
 
 const services = [
   { label: '알티', href: '/services' },
@@ -75,6 +76,10 @@ export default function Footer() {
               className={`inline-flex items-center gap-1.5 ${linkCls}`}>
               <Mail size={13} />
               connect@altisto.me
+            </a>
+            {/* 공식 인스타그램 — 사이트와 계정을 잇는 보이는 링크 (site.ts 주석 참고) */}
+            <a href={ORG_INSTAGRAM} target="_blank" rel="noopener" className={`mt-2 block ${linkCls}`}>
+              Instagram @altisto.official
             </a>
             <p className={`mt-3 text-[12px] ${mutedCls}`}>영업일 기준 24시간 이내 응답</p>
           </div>
