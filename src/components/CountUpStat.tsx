@@ -45,13 +45,15 @@ export default function CountUpStat({ to, suffix = '', label, delay = 0 }: Count
       transition={inView ? { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] } : { duration: 0 }}
     >
       {/* SSR에는 최종 수치를 그대로 노출 — 카운트업은 클라이언트에서 0부터 다시 시작 */}
+      {/* 글자 크기는 화면 폭에 따라 이어서 커진다 — 모바일 최솟값은 예전 그대로,
+          넓은 화면에서만 수치가 커진다(1440px 에서 약 2rem) */}
       <p
         ref={numRef}
-        className="text-[1.6rem] font-bold leading-none tracking-tight text-white tabular-nums md:text-[1.75rem]"
+        className="text-[clamp(1.6rem,1rem+1.1vw,2rem)] font-bold leading-none tracking-tight text-white tabular-nums"
       >
         {to.toLocaleString()}{suffix}
       </p>
-      <p className="mt-2 text-[11px] font-medium text-white/50 md:text-[12px]">{label}</p>
+      <p className="mt-2 text-[clamp(11px,0.6rem+0.3vw,13px)] font-medium text-white/50">{label}</p>
     </motion.div>
   )
 }

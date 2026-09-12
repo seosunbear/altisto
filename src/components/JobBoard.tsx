@@ -4,6 +4,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, ChevronDown, Search } from 'lucide-react'
 import { jobs, teamOptions, typeOptions } from '@/data/jobs'
+import { localePath, type Locale } from '@/i18n/config'
+import type { Dictionary } from '@/i18n/dictionaries/ko'
 
 function Dropdown({
   placeholder,
@@ -61,7 +63,13 @@ function Dropdown({
   )
 }
 
-export default function JobBoard() {
+export default function JobBoard({
+  locale,
+  t,
+}: {
+  locale: Locale
+  t: Dictionary['career']['board']
+}) {
   const [team, setTeam] = useState('전체')
   const [type, setType] = useState('전체')
   const [query, setQuery] = useState('')
@@ -88,14 +96,14 @@ export default function JobBoard() {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="직무 또는 직군을 검색해 보세요"
+            placeholder={t.searchPlaceholder}
             className="w-full rounded-2xl border border-[#E5E8EB] bg-[#F9FAFB] py-3 pr-5 text-[15px] text-[#191F28] placeholder:text-[#8B95A1] transition-colors focus:border-[#3182F6] focus:bg-white focus:outline-none"
             style={{ paddingLeft: '2.75rem' }}
           />
         </div>
 
-        <Dropdown placeholder="모든 직군" value={team} options={teamOptions} onChange={setTeam} />
-        <Dropdown placeholder="고용형태" value={type} options={typeOptions} onChange={setType} />
+        <Dropdown placeholder={t.allTeams} value={team} options={teamOptions} onChange={setTeam} />
+        <Dropdown placeholder={t.allTypes} value={type} options={typeOptions} onChange={setType} />
         {dirty && (
           <button
             onClick={() => {
@@ -105,14 +113,16 @@ export default function JobBoard() {
             }}
             className="ml-0.5 shrink-0 text-[13px] font-medium text-[#8B95A1] underline-offset-4 hover:text-[#4E5968] hover:underline"
           >
-            초기화
+            {t.reset}
           </button>
         )}
       </div>
 
       {/* 카운트 */}
       <p className="mt-12 mb-3 text-[17px] font-bold text-[#191F28]">
-        <span className="text-[#3182F6]">{filtered.length}</span>개의 포지션이 열려있어요
+        {t.countBefore}
+        <span className="text-[#3182F6]">{filtered.length}</span>
+        {filtered.length === 1 ? t.countAfter.one : t.countAfter.other}
       </p>
 
       {/* 리스트 */}
@@ -120,7 +130,7 @@ export default function JobBoard() {
         {filtered.map((j) => (
           <li key={j.title} className="border-b border-[#F2F4F6]">
             <Link
-              href="/contact"
+              href={localePath(locale, '/contact')}
               className="group flex items-center justify-between gap-4 rounded-2xl px-2 py-7 transition-colors hover:bg-[#F9FAFB] md:px-5"
             >
               <div className="min-w-0">
@@ -146,7 +156,7 @@ export default function JobBoard() {
 
       {filtered.length === 0 && (
         <p className="py-20 text-center text-[15px] text-[#8B95A1]">
-          {jobs.length === 0 ? '현재 모집 중인 포지션이 없어요' : '조건에 맞는 포지션이 없어요'}
+          {jobs.length === 0 ? t.noJobs : t.noMatch}
         </p>
       )}
     </div>

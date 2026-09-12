@@ -13,15 +13,26 @@
    보조기술에서 숨긴다. 두 벌이 다 읽히면 이름이 두 번 들린다.
    ────────────────────────────────────────────────────────── */
 
-export default function MerryName({ className }: { className?: string }) {
+export default function MerryName({
+  name,
+  sub,
+  className,
+}: {
+  /** 큰 이름 — 그 페이지 언어의 표기 */
+  name: string;
+  /** 아래 작은 다른 표기 */
+  sub: string;
+  className?: string;
+}) {
   return (
     <div aria-hidden className={className}>
-      {/* 두 줄이 한 덩어리로 떠오른다 */}
+      {/* 두 줄이 한 덩어리로 떠오른다.
+          자간은 언어별 변수 — 일본어 가나는 전각이라 글자 사이가 벌어진다(globals.css) */}
       <p
-        className="merry-up font-[family-name:var(--font-round)] text-[clamp(2rem,9vw,3.5rem)] leading-none text-[var(--k-ink)]"
+        className="merry-up font-[family-name:var(--font-round)] [font-weight:var(--font-round-weight)] [letter-spacing:var(--font-round-name-tracking)] text-[clamp(2rem,9vw,3.5rem)] leading-none text-[var(--k-ink)]"
         style={{ animationDelay: '0.2s' }}
       >
-        메리
+        {name}
       </p>
       {/* Jua 는 글자 아래로 여백이 남는 서체라, leading-none 만으로는
           붙지 않는다. 음수 마진으로 한 번 더 끌어올린다. */}
@@ -29,7 +40,7 @@ export default function MerryName({ className }: { className?: string }) {
         className="merry-up -mt-1 font-[family-name:var(--font-display)] text-[clamp(0.7rem,3vw,0.875rem)] font-medium lowercase leading-none text-[var(--k-pink-d)]"
         style={{ letterSpacing: '0.3em', animationDelay: '0.28s' }}
       >
-        meri
+        {sub}
       </p>
     </div>
   );

@@ -3,43 +3,23 @@
 import { useState } from 'react'
 import { Rocket, TrendingUp, MessageCircle, ArrowRight } from 'lucide-react'
 
+import type { Dictionary } from '@/i18n/dictionaries/ko'
+
+type ContactFormText = Dictionary['contact']['form']
+
+/* 아이콘·색만 여기 둔다. 이름과 설명은 언어별 사전(contact.form.categories) */
 const categories = [
-  {
-    id: 'service',
-    icon: Rocket,
-    label: '서비스 도입',
-    desc: '우리학교 도입 문의',
-    color: '#1d4ed8',
-    bg: '#eff6ff',
-  },
-  {
-    id: 'invest',
-    icon: TrendingUp,
-    label: '투자',
-    desc: '투자 제안',
-    color: '#7c3aed',
-    bg: '#f5f3ff',
-  },
-  {
-    id: 'etc',
-    icon: MessageCircle,
-    label: '기타 문의',
-    desc: '채용·언론·그 외 모든 문의',
-    color: '#0891b2',
-    bg: '#ecfeff',
-  },
+  { id: 'service', icon: Rocket, color: '#1d4ed8', bg: '#eff6ff' },
+  { id: 'invest', icon: TrendingUp, color: '#7c3aed', bg: '#f5f3ff' },
+  { id: 'etc', icon: MessageCircle, color: '#0891b2', bg: '#ecfeff' },
 ] as const
 
-const CATEGORY_LABEL: Record<string, string> = {
-  service: '서비스 도입',
-  invest: '투자',
-  etc: '기타 문의',
-}
+type CategoryId = (typeof categories)[number]['id']
 
 const MAIL = 'connect@altisto.me'
 
-export default function ContactForm() {
-  const [category, setCategory] = useState<string>('service')
+export default function ContactForm({ t }: { t: ContactFormText }) {
+  const [category, setCategory] = useState<CategoryId>('service')
   const [name, setName]         = useState('')
   const [company, setCompany]   = useState('')
   const [email, setEmail]       = useState('')
@@ -51,14 +31,15 @@ export default function ContactForm() {
     e.preventDefault()
     if (!valid) return
 
-    const subject = `[${CATEGORY_LABEL[category]}] ${name}님의 문의`
+    const label = t.categories[category].label
+    const subject = t.mail.subject.replace('{category}', label).replace('{name}', name)
     const body = [
-      `문의 유형: ${CATEGORY_LABEL[category]}`,
-      `이름: ${name}`,
-      company.trim() ? `회사/소속: ${company}` : null,
-      `회신 이메일: ${email}`,
+      `${t.mail.category}: ${label}`,
+      `${t.mail.name}: ${name}`,
+      company.trim() ? `${t.mail.company}: ${company}` : null,
+      `${t.mail.email}: ${email}`,
       '',
-      '── 문의 내용 ──',
+      t.mail.divider,
       message,
     ]
       .filter(Boolean)
@@ -80,7 +61,7 @@ export default function ContactForm() {
       {/* 1. 문의 유형 선택 */}
       <fieldset className="mb-8">
         <legend className="mb-3 text-[12px] font-semibold text-[#374151]">
-          어떤 문의이신가요?
+          {t.legend}
         </legend>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           {categories.map((c) => {
@@ -105,8 +86,8 @@ export default function ContactForm() {
                   <c.icon size={18} style={{ color: c.color }} strokeWidth={1.9} />
                 </div>
                 <div>
-                  <p className="text-[14px] font-bold text-[#0d1117]">{c.label}</p>
-                  <p className="mt-0.5 text-[11px] leading-[1.5] text-[#6b7280]">{c.desc}</p>
+                  <p className="text-[14px] font-bold text-[#0d1117]">{t.categories[c.id].label}</p>
+                  <p className="mt-0.5 text-[11px] leading-[1.5] text-[#6b7280]">{t.categories[c.id].desc}</p>
                 </div>
               </button>
             )
@@ -118,28 +99,28 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="cf-name" className="mb-1.5 block text-[12px] font-semibold text-[#374151]">
-            이름 <span className="text-[#1d4ed8]">*</span>
+            {t.name} <span className="text-[#1d4ed8]">*</span>
           </label>
           <input
             id="cf-name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="홍길동"
+            placeholder={t.namePlaceholder}
             className={inputCls}
             required
           />
         </div>
         <div>
           <label htmlFor="cf-company" className="mb-1.5 block text-[12px] font-semibold text-[#374151]">
-            회사 / 소속 <span className="text-[#9ca3af]">(선택)</span>
+            {t.company} <span className="text-[#9ca3af]">{t.optional}</span>
           </label>
           <input
             id="cf-company"
             type="text"
             value={company}
             onChange={(e) => setCompany(e.target.value)}
-            placeholder="알티스토"
+            placeholder={t.companyPlaceholder}
             className={inputCls}
           />
         </div>
@@ -147,7 +128,7 @@ export default function ContactForm() {
 
       <div className="mt-4">
         <label htmlFor="cf-email" className="mb-1.5 block text-[12px] font-semibold text-[#374151]">
-          회신받을 이메일 <span className="text-[#1d4ed8]">*</span>
+          {t.email} <span className="text-[#1d4ed8]">*</span>
         </label>
         <input
           id="cf-email"
@@ -162,13 +143,13 @@ export default function ContactForm() {
 
       <div className="mt-4">
         <label htmlFor="cf-message" className="mb-1.5 block text-[12px] font-semibold text-[#374151]">
-          문의 내용 <span className="text-[#1d4ed8]">*</span>
+          {t.message} <span className="text-[#1d4ed8]">*</span>
         </label>
         <textarea
           id="cf-message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="문의하실 내용을 자유롭게 작성해 주세요."
+          placeholder={t.messagePlaceholder}
           rows={5}
           className={inputCls + ' resize-y min-h-[120px]'}
           required
@@ -182,12 +163,12 @@ export default function ContactForm() {
           disabled={!valid}
           className="group inline-flex items-center gap-2 rounded-xl bg-[#0d1117] px-7 py-3.5 text-[14px] font-semibold text-white transition-colors duration-300 hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-[#0d1117]"
         >
-          문의 보내기
+          {t.submit}
           <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-0.5" />
         </button>
         <p className="text-[12px] leading-[1.6] text-[#9ca3af]">
-          버튼을 누르면 메일 앱이 열립니다.<br className="hidden sm:block" />
-          직접 보내시려면{' '}
+          {t.mailHint}<br className="hidden sm:block" />
+          {t.mailDirect}{' '}
           <a href={`mailto:${MAIL}`} className="font-medium text-[#1d4ed8] hover:underline">
             {MAIL}
           </a>

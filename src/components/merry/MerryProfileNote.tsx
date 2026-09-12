@@ -1,5 +1,5 @@
 import MerryName from './MerryName';
-import { PROFILE } from './data';
+import type { ProfileRow } from './data';
 
 /* ──────────────────────────────────────────────────────────
    프로필 쪽지 — 보드 옆에 붙이는 모눈종이 카드.
@@ -13,14 +13,40 @@ import { PROFILE } from './data';
    넓은 화면에서는 보드 오른쪽 절반, 좁은 화면에서는 보드 아래.
    ────────────────────────────────────────────────────────── */
 
-export default function MerryProfileNote() {
+/* 이름 칸 — 'メリ MERI' 처럼 앞 단어가 그 언어 표기다. 큰 이름과 같은 자간
+   (--font-round-name-tracking, 일본어만 값이 있다)을 앞 단어 글자 사이에 준다.
+   마지막 글자 뒤에는 2/3 만 준다. リ 오른쪽 여백(0.29em)과 띄어쓰기를 합친
+   'MERI' 까지 잉크 간격이 0.64em 인데, 전부 주면 0.30em 로 붙어 보이고
+   2/3 면 0.42em — 한글판 '메리 MERI' 와 비슷해진다.
+   변수가 normal(한·영)이면 calc 가 무효가 되어 그냥 기본 자간이다. */
+function NameValue({ value }: { value: string }) {
+  const [head, ...tail] = value.split(' ');
+  const chars = Array.from(head);
+  return (
+    <>
+      <span className="[letter-spacing:var(--font-round-name-tracking)]">{chars.slice(0, -1).join('')}</span>
+      <span className="[letter-spacing:calc(var(--font-round-name-tracking)*2/3)]">{chars.at(-1)}</span>
+      {tail.length ? ` ${tail.join(' ')}` : ''}
+    </>
+  );
+}
+
+export default function MerryProfileNote({
+  name,
+  nameSub,
+  profile,
+}: {
+  name: string;
+  nameSub: string;
+  profile: ProfileRow[];
+}) {
   return (
     /* 좁은 화면에서는 보드와 같은 상자를 쓴다. 보드는 뿌리에 px-6 을 두고
        그 안쪽에 모눈 판을 깔므로, 여기도 같은 최대 폭과 같은 좌우 여백을
        줘야 두 카드의 테두리가 나란히 선다. 넓은 화면에서는 제 칸을 채운다. */
     <div className="mx-auto flex w-full max-w-[620px] flex-col px-6 lg:max-w-none lg:px-0">
       {/* 이름 — 카드 위. 좁은 화면에서는 page.tsx 가 맨 꼭대기에 따로 세운다 */}
-      <MerryName className="hidden lg:block" />
+      <MerryName name={name} sub={nameSub} className="hidden lg:block" />
 
       {/* 좁은 화면에서는 보드 아래에 붙으므로 위쪽을 띄운다. 보드의 리본
           배너가 판 밖으로 흘러내려 있어서, 그리드 gap 만으로는 테이프와
@@ -36,7 +62,7 @@ export default function MerryProfileNote() {
           {/* Jua 는 한 굵기뿐이라 font-semibold 를 주면 브라우저가 굵기를
               흉내 내 획이 뭉갠다. 굵기를 지정하지 않고 자간만 벌린다. */}
           <p
-            className="merry-up font-[family-name:var(--font-round)] text-[clamp(0.8rem,3.2vw,0.9375rem)] uppercase leading-none text-[var(--k-pink-d)]"
+            className="merry-up font-[family-name:var(--font-round)] [font-weight:var(--font-round-weight)] text-[clamp(0.8rem,3.2vw,0.9375rem)] uppercase leading-none text-[var(--k-pink-d)]"
             style={{ letterSpacing: '0.24em', animationDelay: '0.5s' }}
           >
             Profile
@@ -46,7 +72,7 @@ export default function MerryProfileNote() {
               벌어진다. 보드가 커지면 이 간격도 같이 벌어지니, 위아래 패딩
               (lg:py-16)으로 남는 높이를 흡수해 행 사이를 조인다. */}
           <dl className="mt-6 flex flex-1 flex-col justify-between gap-1">
-            {PROFILE.map((row, i) => (
+            {profile.map((row, i) => (
               /* 행은 위에서부터 0.07s 씩 밀려 붙는다 */
               <div
                 key={row.label}
@@ -66,8 +92,8 @@ export default function MerryProfileNote() {
                   className="h-0 flex-1 translate-y-[-3px] border-b-[3px] border-dotted border-[var(--k-pink)]"
                 />
                 {/* 값도 둥근 서체(Jua). 한 굵기뿐이라 font-bold 는 주지 않는다 */}
-                <dd className="font-[family-name:var(--font-round)] text-[clamp(0.95rem,4vw,1.1875rem)] leading-none text-[var(--k-ink)]">
-                  {row.value}
+                <dd className="font-[family-name:var(--font-round)] [font-weight:var(--font-round-weight)] text-[clamp(0.95rem,4vw,1.1875rem)] leading-none text-[var(--k-ink)]">
+                  {row.label === 'NAME' ? <NameValue value={row.value} /> : row.value}
                 </dd>
               </div>
             ))}

@@ -6,35 +6,17 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import StarTrail from '@/components/StarTrail';
 import CharRoll from '@/components/CharRoll';
 import LoadingScreen from '@/components/LoadingScreen';
+import type { MottoLine } from '@/i18n/dictionaries/ko';
 
 gsap.registerPlugin(ScrollTrigger);
 
 /* =========================================================
    MOTTO
+
+   문구는 언어별 사전(i18n/dictionaries)에서 props 로 받는다.
    ========================================================= */
 
-const MOTTO = [
-  { text: 'MISSION', kind: 'label' },
-
-  { text: '세계 82억 명,', kind: 'lead', mark: ['82억'] },
-  { text: '모든 관객을', kind: 'lead' },
-  { text: '사로잡아라', kind: 'lead' },
-
-  { text: '저희만의', kind: 'lead', gap: true },
-  { text: '다양한 콘텐츠로', kind: 'lead', mark: ['콘텐츠'] },
-  { text: '관객을 사로잡는것', kind: 'lead' },
-  { text: '그것이 저희의', kind: 'lead', gap: true },
-  {
-    text: '목표이자 주어진 미션입니다',
-    kind: 'lead',
-    mark: ['목표', '미션'],
-  },
-] as const;
-
-const MOTTO_CLASS: Record<
-  (typeof MOTTO)[number]['kind'],
-  string
-> = {
+const MOTTO_CLASS = {
   label:
     'mb-3 text-[18px] font-extrabold tracking-[0.1em] text-white',
 
@@ -45,14 +27,18 @@ const MOTTO_CLASS: Record<
 
 /* =========================================================
    HIGHLIGHT COLORS
+
+   형광펜은 문단 전체에서 나오는 순서대로 이 색을 받는다
+   (숫자 → 콘텐츠 → 목표 → 미션). 단어가 아니라 순서로 거는 이유는
+   언어마다 단어가 달라서다.
    ========================================================= */
 
-const MARK_COLOR: Record<string, string> = {
-  '82억': 'bg-[#93c5fd]',
-  '콘텐츠': 'bg-[#c4b5fd]',
-  '목표': 'bg-[#fed7aa]',
-  '미션': 'bg-[#a5f3fc]',
-};
+const MARK_COLORS = [
+  'bg-[#93c5fd]',
+  'bg-[#c4b5fd]',
+  'bg-[#fed7aa]',
+  'bg-[#a5f3fc]',
+];
 
 const MARK_PAD_OPEN = {
   paddingLeft: '0.3em',
@@ -68,14 +54,18 @@ const MARK_PAD_SHUT = {
    MOTTO LINE RENDER
    ========================================================= */
 
+/* '8.2 billion' 의 '.' 처럼 정규식 기호가 섞인 단어도 글자 그대로 찾게 */
+const escapeRegExp = (v: string) => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 function renderLine(
   text: string,
-  marks?: readonly string[],
+  marks: readonly string[] | undefined,
+  colorOf: (mark: string) => string,
 ) {
   if (!marks?.length) return text;
 
   const parts = text.split(
-    new RegExp(`(${marks.join('|')})`, 'g'),
+    new RegExp(`(${marks.map(escapeRegExp).join('|')})`, 'g'),
   );
 
   return parts.map((part, i) =>
@@ -97,7 +87,7 @@ function renderLine(
             w-0
             overflow-hidden
             rounded-[3px]
-            ${MARK_COLOR[part]}
+            ${colorOf(part)}
           `}
         >
           <span className="absolute left-0 top-0 whitespace-pre text-[#101014]">
@@ -153,7 +143,13 @@ function getMobilePinType(): 'fixed' | 'transform' {
    COMPONENT
    ========================================================= */
 
-export default function MistralGrid() {
+interface MistralGridProps {
+  /** 히어로 롤링 문구 두 줄 — 윗줄이 크고 아랫줄이 작다 */
+  headline: [string, string];
+  motto: { label: string; lines: MottoLine[] };
+}
+
+export default function MistralGrid({ headline, motto }: MistralGridProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
@@ -161,6 +157,7 @@ export default function MistralGrid() {
   const headlineRef = useRef<HTMLDivElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
   const paletteRef = useRef<HTMLDivElement>(null);
+  const paletteTrailRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const mottoRef = useRef<HTMLDivElement>(null);
@@ -328,8 +325,15 @@ export default function MistralGrid() {
       const sweep = sweepRef.current;
 
       if (sweep) {
+        /* 화면 전체를 덮는 큰 SVG 라 SMIL 이 계속 돌면 메인 스레드를
+           잡아먹는다. 플래시가 도는 동안만 움직이고 나머지는 멈춰 둔다. */
+        const sweepSvg = sweep.querySelector('svg');
+        sweepSvg?.pauseAnimations();
+
         const flash = gsap.timeline({
           paused: true,
+          onStart: () => sweepSvg?.unpauseAnimations(),
+          onComplete: () => sweepSvg?.pauseAnimations(),
         });
 
         flash
@@ -807,14 +811,33 @@ export default function MistralGrid() {
 
       /*
        * 유성우
+       *
+       * 모바일 팔레트(left 62% / 폭 38%)는 intro 칸(폭 62%)보다 좁아서
+       * 통째로 밀면 지나간 자리로 intro 칸이 다시 드러난다.
+       * 그렇다고 left·width 를 트윈하면 매 프레임 레이아웃이 다시 잡혀
+       * 버벅인다. 그래서 시작할 때 한 번만 화면 폭 전체로 펴 두고
+       * 62% 오른쪽으로 밀어 원래 자리처럼 보이게 한 뒤, transform 만으로
+       * 0 까지 당긴다. 오른쪽 끝은 늘 화면 밖이라 빈틈이 생기지 않는다.
+       * 유성우는 보이는 왼쪽 38% 칸 안에 두어 원래 위치를 유지한다.
        */
+
+      gsap.set(paletteRef.current, {
+        left: 0,
+        width: '100%',
+        xPercent: 62,
+      });
+
+      gsap.set(paletteTrailRef.current, {
+        right: 'auto',
+        width: '38%',
+      });
 
       tl.to(
         paletteRef.current,
         {
-          xPercent: -100,
+          xPercent: 0,
           ease: 'power1.in',
-          duration: 0.13,
+          duration: 0.2,
         },
         0.18,
       );
@@ -948,6 +971,13 @@ export default function MistralGrid() {
      JSX
      ======================================================= */
 
+  /* 줄마다 형광펜 순번이 몇 번째에서 시작하는지 — 문단 전체에서 이어 센다 */
+  const markStarts = motto.lines.map((_, i) =>
+    motto.lines
+      .slice(0, i)
+      .reduce((n, l) => n + (l.marks?.length ?? 0), 0),
+  );
+
   return (
     <>
     {/* 섹션 밖에 둔다. 핀이 섹션에 transform 을 걸면(iOS) 안쪽의
@@ -1030,7 +1060,7 @@ export default function MistralGrid() {
                 "
               >
                 <CharRoll
-                  text="콘텐츠 그 이상의"
+                  text={headline[0]}
                   intro={0}
                   loopDelay={0}
                   ready={revealed}
@@ -1038,7 +1068,7 @@ export default function MistralGrid() {
                 />
 
                 <CharRoll
-                  text="가치를 만듭니다"
+                  text={headline[1]}
                   intro={0.5}
                   loopDelay={0}
                   ready={revealed}
@@ -1129,6 +1159,7 @@ export default function MistralGrid() {
           "
         >
           <div
+            ref={paletteTrailRef}
             aria-hidden
             className="
               pointer-events-none
@@ -1270,22 +1301,25 @@ export default function MistralGrid() {
           lg:px-10
         "
       >
-        {MOTTO.map((line) => (
-          <p
-            key={line.text}
-            className={`
-              ${MOTTO_CLASS[line.kind]}
-              ${'gap' in line ? 'mt-6' : ''}
-            `}
-          >
-            {renderLine(
-              line.text,
-              'mark' in line
-                ? line.mark
-                : undefined,
-            )}
-          </p>
-        ))}
+        <p className={MOTTO_CLASS.label}>{motto.label}</p>
+
+        {motto.lines.map((line, li) => {
+          const marks = line.marks ?? [];
+          const colorOf = (mark: string) =>
+            MARK_COLORS[(markStarts[li] + marks.indexOf(mark)) % MARK_COLORS.length];
+
+          return (
+            <p
+              key={line.text}
+              className={`
+                ${MOTTO_CLASS.lead}
+                ${line.gap ? 'mt-6' : ''}
+              `}
+            >
+              {renderLine(line.text, line.marks, colorOf)}
+            </p>
+          );
+        })}
       </div>
 
       {/* ===================================================

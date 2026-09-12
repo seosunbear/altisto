@@ -1,26 +1,37 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Check, ChevronDown, Globe, Menu, X } from 'lucide-react';
+import { LOCALE_LABEL, LOCALES, localePath, stripLocale, type Locale } from '@/i18n/config';
+import type { Dictionary } from '@/i18n/dictionaries/ko';
 
-const links = [
-  { label: '서비스', href: '/services' },
-  { label: '메리', href: '/merry' },
-  { label: '채용', href: '/career' },
-  { label: '문의', href: '/contact' },
-];
+const LINK_PATHS = [
+  { key: 'services', path: '/services' },
+  { key: 'merry', path: '/merry' },
+  { key: 'career', path: '/career' },
+  { key: 'contact', path: '/contact' },
+] as const;
 
-export default function Navbar() {
+export default function Navbar({ locale, t }: { locale: Locale; t: Dictionary['nav'] }) {
   const pathname = usePathname();
+  const links = LINK_PATHS.map(l => ({ label: t[l.key], href: localePath(locale, l.path) }));
+
+  /* 언어 전환 — 지금 보고 있는 페이지의 다른 언어판으로 보낸다.
+     루트 레이아웃이 달라 어차피 전체 새로고침이라 <Link> 대신 <a> 를 쓴다
+     (다른 언어판을 미리 받아 두는 prefetch 도 막는다). */
+  const basePath = stripLocale(pathname);
+  const languages = LOCALES.map(l => ({ locale: l, href: localePath(l, basePath), ...LOCALE_LABEL[l] }));
   const [open, setOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const langRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
 
   const [overLight, setOverLight] = useState(false);
 
   // 홈만 어두운 히어로(흰 텍스트), 그 외 페이지는 어바웃처럼 어두운 텍스트.
   // 홈이라도 흰 배경 섹션(data-nav-light) 위를 지날 땐 흰 글자가 묻히므로 어두운 글자로 전환한다.
-  const isHome = pathname === '/';
+  const isHome = pathname === localePath(locale, '/');
   const darkText = !isHome || overLight;
 
   useEffect(() => {
@@ -61,6 +72,23 @@ export default function Navbar() {
     };
   }, [pathname]);
 
+  /* 언어 드롭다운 — 바깥 클릭·Esc 로 닫는다 */
+  useEffect(() => {
+    if (!langOpen) return;
+    const onPointer = (e: PointerEvent) => {
+      if (!langRef.current?.contains(e.target as Node)) setLangOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLangOpen(false);
+    };
+    document.addEventListener('pointerdown', onPointer);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onPointer);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [langOpen]);
+
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -88,10 +116,10 @@ export default function Navbar() {
       <div className="mx-auto flex h-[68px] max-w-screen-xl items-center justify-between px-6 md:px-10">
 
         {/* 로고 */}
-        <Link href="/" onClick={() => setOpen(false)}
+        <Link href={localePath(locale, '/')} onClick={() => setOpen(false)}
           className="flex items-baseline gap-1.5 select-none group">
           <span className={`text-[17px] font-bold tracking-tight transition-colors duration-300 ${darkText ? 'text-[#0d1117]' : 'text-white'}`}>Altisto</span>
-          {pathname === '/career' && (
+          {pathname === localePath(locale, '/career') && (
             <span className={`text-[17px] font-light tracking-tight transition-colors duration-300 ${darkText ? 'text-[#0d1117]' : 'text-white'}`}>careers</span>
           )}
         </Link>
@@ -114,12 +142,66 @@ export default function Navbar() {
               </Link>
             );
           })}
+
+          {/* 언어 전환 — 링크 줄 끝의 드롭다운 */}
+          <div
+            ref={langRef}
+            className={`relative ml-2 border-l pl-3 transition-colors duration-300 ${darkText ? 'border-[#e5e7eb]' : 'border-white/20'}`}
+          >
+            <button
+              type="button"
+              onClick={() => setLangOpen(v => !v)}
+              aria-haspopup="true"
+              aria-expanded={langOpen}
+              aria-label={`${t.language}: ${LOCALE_LABEL[locale].native}`}
+              className={`flex items-center gap-1.5 rounded-md px-2 py-1.5 text-[12px] font-semibold tracking-[0.06em] transition-colors duration-300 ${
+                darkText
+                  ? 'text-[#0d1117] hover:bg-black/5'
+                  : 'text-white hover:bg-white/10'
+              }`}
+            >
+              <Globe size={14} strokeWidth={2} aria-hidden />
+              {LOCALE_LABEL[locale].short}
+              <ChevronDown size={13} strokeWidth={2.25} aria-hidden
+                className={`transition-transform duration-200 ${langOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {/* 닫혀 있어도 DOM 에 남겨 둔다 — invisible 이라 탭 순서·스크린리더에서는 빠진다 */}
+            <div
+              role="group"
+              aria-label={t.language}
+              className={`absolute right-0 top-[calc(100%+8px)] min-w-[148px] origin-top-right rounded-xl border border-[#e5e7eb] bg-white p-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-[opacity,transform,visibility] ${
+                langOpen
+                  ? 'visible scale-100 opacity-100 duration-150 ease-out'
+                  : 'invisible scale-[0.97] opacity-0 duration-100 ease-in'
+              }`}
+            >
+              {languages.map(l => {
+                const current = l.locale === locale;
+                return (
+                  <a key={l.locale} href={l.href} hrefLang={l.locale} lang={l.locale}
+                    aria-current={current ? 'true' : undefined}
+                    onClick={() => setLangOpen(false)}
+                    className={`flex items-center justify-between gap-4 rounded-lg px-3 py-2 text-[13px] transition-colors ${
+                      current
+                        ? 'font-semibold text-[#0d1117]'
+                        : 'font-medium text-[#6b7280] hover:bg-[#f3f4f6] hover:text-[#0d1117]'
+                    }`}>
+                    <span>{l.native}</span>
+                    {current
+                      ? <Check size={14} strokeWidth={2.5} aria-hidden />
+                      : <span className="text-[11px] font-semibold tracking-[0.06em] text-[#9ca3af]">{l.short}</span>}
+                  </a>
+                );
+              })}
+            </div>
+          </div>
         </nav>
 
         {/* 모바일 햄버거 */}
         <button onClick={() => setOpen(v => !v)}
           className="grid h-9 w-9 place-items-center md:hidden rounded-lg hover:bg-black/5 transition-colors"
-          aria-label="메뉴 열기">
+          aria-label={t.openMenu}>
           {open ? <X size={20} className={darkText ? 'text-[#0d1117]' : 'text-white'} /> : <Menu size={20} className={darkText ? 'text-[#0d1117]' : 'text-white'} />}
         </button>
       </div>
@@ -143,7 +225,7 @@ export default function Navbar() {
       <div className="flex h-[68px] items-center justify-end px-4">
         <button onClick={() => setOpen(false)}
           className="grid h-9 w-9 place-items-center rounded-lg hover:bg-black/5 transition-colors"
-          aria-label="메뉴 닫기">
+          aria-label={t.closeMenu}>
           <X size={20} className="text-[#0d1117]" />
         </button>
       </div>
@@ -162,6 +244,24 @@ export default function Navbar() {
           );
         })}
       </nav>
+
+      {/* 언어 전환 — 드로어 아래쪽, 각 언어를 그 언어 이름으로 */}
+      <div className="mx-6 mt-6 border-t border-[#e5e7eb] px-3 pt-5">
+        <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.15em] text-[#9ca3af]">{t.language}</p>
+        <div role="group" aria-label={t.language} className="flex flex-wrap gap-2">
+          {languages.map(l => (
+            <a key={l.locale} href={l.href} hrefLang={l.locale} lang={l.locale}
+              aria-current={l.locale === locale ? 'true' : undefined}
+              className={`rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
+                l.locale === locale
+                  ? 'border-[#0d1117] bg-[#0d1117] text-white'
+                  : 'border-[#e5e7eb] text-[#6b7280] hover:border-[#0d1117] hover:text-[#0d1117]'
+              }`}>
+              {l.native}
+            </a>
+          ))}
+        </div>
+      </div>
     </aside>
     </>
   );

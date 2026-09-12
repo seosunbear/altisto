@@ -71,7 +71,9 @@ export default function GrowthChart() {
         <defs>
           <linearGradient id="growth-area" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%"   stopColor="#3b82f6" stopOpacity="0.22" />
-            <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+            {/* 100% 가 아니라 88% 에서 다 사라지게 — PC 는 그래프를 아래로 내려서
+                아래 끝이 섹션 바닥에 잘리는데, 거기서 옅은 경계선이 비치지 않도록 */}
+            <stop offset="88%"  stopColor="#3b82f6" stopOpacity="0" />
           </linearGradient>
         </defs>
 

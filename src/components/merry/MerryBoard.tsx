@@ -22,7 +22,7 @@ import { Cassette, Confetti, Notes, RetroWindow, RibbonBanner, StarBadge, Stream
    본문 글자만 px 로 두어 어느 폭에서도 읽히는 크기를 유지한다.
    ────────────────────────────────────────────────────────── */
 
-export default function MerryBoard() {
+export default function MerryBoard({ illustrationAlt }: { illustrationAlt: string }) {
   return (
     <div /* 스티커가 판 밖으로 삐져나오게 붙으므로 좌우에 여백을 둔다.
          바닥은 자르지 않는다 — 리본 배너가 판 아래로 흘러내려야 한다.
@@ -46,7 +46,7 @@ export default function MerryBoard() {
           {/* 다 받아진 뒤에만 떠오른다 — 반쯤 그려진 채로 보이지 않게 */}
           <RevealImage
             src={FULL_BODY}
-            alt="분홍빛 눈에 은발을 한 알티스토 마스코트 메리가 한 손을 들어 인사하는 전신 일러스트"
+            alt={illustrationAlt}
             width={1024}
             height={1536}
             priority

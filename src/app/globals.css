@@ -175,9 +175,31 @@
     overflow-x: hidden;
   }
 
+  /* 일본어판 — 라틴은 같은 서체를 쓰고, 가나·한자는 일본어 고딕으로 받는다.
+     지정이 없으면 윈도우에서 한자가 중국어·한국어 글꼴로 섞여 나온다. */
+  html:lang(ja) body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+      "Helvetica Neue", Arial, "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+      "Yu Gothic", Meiryo, sans-serif;
+  }
+
   ::selection {
     background: rgba(29, 78, 216, 0.14);
   }
+}
+
+/* ── 일본어 줄바꿈 ──
+   일본어는 띄어쓰기가 없어서 기본 줄바꿈이 'コラボレ / ーション' 처럼
+   단어 한가운데서 끊긴다. 지원하는 브라우저(크롬)는 문절 단위(auto-phrase)로
+   끊고, 나머지는 보통 줄바꿈 그대로 둔다.
+   break-keep(keep-all)은 한국어 어절을 지키려고 붙인 것인데, 일본어에
+   걸리면 문장 전체가 한 덩어리가 되어 화면 밖으로 넘친다. 그래서 같이
+   풀어 준다. 레이어 밖에 둬서 유틸리티를 이긴다. */
+html:lang(ja) body,
+:lang(ja) .break-keep {
+  word-break: normal;
+  word-break: auto-phrase;
+  overflow-wrap: break-word;
 }
 
 /* ── 우하단 픽셀 별 반짝임 ── */
@@ -215,6 +237,31 @@
   --font-script: "Dancing Script", "Snell Roundhand", cursive;
   --font-kr: "Gothic A1", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-round: "Jua", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  /* Jua 는 굵기가 하나라 400 그대로 둔다(더 주면 브라우저가 흉내 내 뭉갠다) */
+  --font-round-weight: 400;
+  /* 큰 이름(MerryName) 자간 */
+  --font-round-name-tracking: normal;
+}
+
+/* 영어판 — 둥근 서체 자리도 Fredoka 로. 한글 서체는 받지 않는다 */
+.merry-fonts:lang(en) {
+  --font-kr: "Fredoka", "Avenir Next", "Helvetica Neue", sans-serif;
+  --font-round: "Fredoka", "Avenir Next", "Helvetica Neue", sans-serif;
+  /* Fredoka 400 은 Jua 옆에 두면 가늘다. 받아 둔 범위(400..600)의 위쪽으로 */
+  --font-round-weight: 600;
+}
+
+/* 일본어판 — Jua·Gothic A1 에는 가나가 없다. 둥근 자리는 Zen Maru Gothic,
+   본문은 시스템 일본어 고딕 */
+.merry-fonts:lang(ja) {
+  --font-kr: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  --font-round: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", sans-serif;
+  /* Zen Maru Gothic 은 700 하나만 받는다 */
+  --font-round-weight: 700;
+  /* 가나는 전각 상자 한가운데 그려져서 メ·リ 사이 잉크 간격이 0.45em 이다
+     (한글 Jua 메·리 는 0.05em). 구글 폰트판 둥근 일본어 서체는 전부 palt
+     (비례 폭)가 빠져 있어 자간으로 좁힌다 — 간격 약 0.11em 이 남는다. */
+  --font-round-name-tracking: -0.34em;
 }
 
 /* 팔레트 — 흰 종이, 연분홍 보드, 파스텔 스티커, 남색 글자 */

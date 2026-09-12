@@ -24,6 +24,18 @@ const nextConfig: NextConfig = {
         : false,
   },
 
+  /* 한국어는 접두사 없는 주소가 정본이다(src/i18n/config.ts).
+     /ko/… 로 들어오면 정본으로 돌려 같은 문서가 두 주소로 색인되지 않게 하고,
+     일본어판을 /jp 로 짐작해 들어오는 경우는 /ja 로 보낸다. */
+  async redirects() {
+    return [
+      { source: "/ko", destination: "/", permanent: true },
+      { source: "/ko/:path*", destination: "/:path*", permanent: true },
+      { source: "/jp", destination: "/ja", permanent: true },
+      { source: "/jp/:path*", destination: "/ja/:path*", permanent: true },
+    ];
+  },
+
   async headers() {
     return [
       {

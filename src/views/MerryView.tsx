@@ -124,7 +124,7 @@ export default function MerryView({ locale }: { locale: Locale }) {
               className="absolute -top-2.5 left-1/2 h-5 w-16 -translate-x-1/2 -rotate-3 bg-[var(--k-cream)]/70 sm:-top-3 sm:h-6 sm:w-24"
             />
 
-            <p className="font-[family-name:var(--font-round)] text-[clamp(1.05rem,4.6vw,1.6rem)] leading-[1.45] text-[var(--k-ink)]">
+            <p className="font-[family-name:var(--font-round)] [font-weight:var(--font-round-weight)] text-[clamp(1.05rem,4.6vw,1.6rem)] leading-[1.45] text-[var(--k-ink)]">
               {mr.invite}
             </p>
 

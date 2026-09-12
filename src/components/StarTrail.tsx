@@ -45,6 +45,10 @@ interface StarTrailProps {
   /** 별 색을 덮어쓴다 — 밝은 배경 위에 올릴 때 쓴다.
       문자열 하나면 열 개 전부 같은 색, 배열이면 앞에서부터 하나씩 */
   colors?: string | readonly string[];
+  /** 별 크기 배율. 경로(흩어지는 범위)는 그대로 두고 별 모양만 줄이거나 키운다 */
+  starScale?: number;
+  /** 시간 배율. 2 면 별이 두 배 느리게 지나간다(시작 간격도 같이 늘어난다) */
+  durationScale?: number;
 }
 
 export default function StarTrail({
@@ -52,9 +56,12 @@ export default function StarTrail({
   width = BASE_W,
   height = BASE_H,
   colors,
+  starScale = 1,
+  durationScale = 1,
 }: StarTrailProps) {
   const sx = width / BASE_W;
   const sy = height / BASE_H;
+  const time = (s: string) => `${parseFloat(s) * durationScale}s`;
 
   return (
     <svg
@@ -72,16 +79,23 @@ export default function StarTrail({
       </defs>
 
       {STARS.map((star, i) => (
-        <path key={i} d={star.d} fill={typeof colors === 'string' ? colors : colors?.[i] ?? star.fill}>
-          <animateMotion dur={star.dur} begin={star.begin} repeatCount="indefinite" rotate="auto">
+        <path
+          key={i}
+          d={star.d}
+          fill={typeof colors === 'string' ? colors : colors?.[i] ?? star.fill}
+          /* 별 모양은 원점(0,0) 중심이라 scale 이 제자리에서 줄어든다.
+             animateMotion 의 이동은 이 transform 바깥에 붙어 경로엔 영향이 없다 */
+          transform={starScale === 1 ? undefined : `scale(${starScale})`}
+        >
+          <animateMotion dur={time(star.dur)} begin={time(star.begin)} repeatCount="indefinite" rotate="auto">
             <mpath href={`#${idPrefix}-cp${star.lane}`} />
           </animateMotion>
           <animate
             attributeName="opacity"
             values={`0;${star.peak};${star.peak};0`}
             keyTimes="0;0.07;0.88;1"
-            dur={star.dur}
-            begin={star.begin}
+            dur={time(star.dur)}
+            begin={time(star.begin)}
             repeatCount="indefinite"
           />
         </path>

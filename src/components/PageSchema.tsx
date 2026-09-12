@@ -1,4 +1,5 @@
 import { ORG_ID, SITE_ID, SITE_URL } from '@/lib/site';
+import { localePath, SCHEMA_LANG, type Locale } from '@/i18n/config';
 
 /* ──────────────────────────────────────────────────────────
    페이지 단위 구조화 데이터.
@@ -14,6 +15,7 @@ import { ORG_ID, SITE_ID, SITE_URL } from '@/lib/site';
 type Crumb = { name: string; path: string };
 
 export default function PageSchema({
+  locale,
   path,
   name,
   description,
@@ -21,7 +23,8 @@ export default function PageSchema({
   mentions = [],
   mainEntity,
 }: {
-  /** 사이트 루트 기준 경로. 예: '/services' */
+  locale: Locale;
+  /** 언어 접두사를 뺀 사이트 루트 기준 경로. 예: '/services' */
   path: string;
   name: string;
   description: string;
@@ -32,7 +35,7 @@ export default function PageSchema({
       엔티티 하나를 통째로 다룰 때만 쓴다. */
   mainEntity?: string;
 }) {
-  const url = `${SITE_URL}${path}`;
+  const url = `${SITE_URL}${localePath(locale, path)}`;
 
   const graph: Record<string, unknown>[] = [
     {
@@ -41,7 +44,7 @@ export default function PageSchema({
       url,
       name,
       description,
-      inLanguage: 'ko-KR',
+      inLanguage: SCHEMA_LANG[locale],
       isPartOf: { '@id': SITE_ID },
       about: { '@id': ORG_ID },
       publisher: { '@id': ORG_ID },
@@ -59,7 +62,7 @@ export default function PageSchema({
         '@type': 'ListItem',
         position: i + 1,
         name: c.name,
-        item: `${SITE_URL}${c.path}`,
+        item: `${SITE_URL}${localePath(locale, c.path)}`,
       })),
     });
   }

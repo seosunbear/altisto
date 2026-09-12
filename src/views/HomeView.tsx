@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 
 import GsapReveal from '@/components/GsapReveal';
 import MilestonesTimeline from '@/components/MilestonesTimeline';
 import MistralGrid from '@/components/mixtral';
 import GrowthChart from '@/components/GrowthChart';
 import CountUpStat from '@/components/CountUpStat';
+import SecurityShowcase from '@/components/SecurityShowcase';
 import PageSchema from '@/components/PageSchema';
 import { ARTI_ID, LEAFCHAT_ID, OURSCHOOL_ID } from '@/lib/site';
 import Lines from '@/i18n/Lines';
@@ -26,9 +26,10 @@ const CONTAINER = 'relative z-10 mx-auto max-w-screen-xl mt-10 md:mt-0';
 const HEADING =
   'text-[clamp(1.6rem,3.4vw,2.6rem)] font-extrabold leading-[1.2] tracking-tight';
 
-/* 그래프 섹션은 수치가 주인공이라 제목을 한 단계 낮춘다 */
+/* 그래프 섹션은 수치가 주인공이라 제목을 한 단계 낮춘다.
+   최솟값(1.3rem)은 모바일 크기 그대로, PC 에서 커지는 폭만 줄였다 */
 const HEADING_SM =
-  'text-[clamp(1.3rem,2.4vw,1.9rem)] font-extrabold leading-[1.25] tracking-tight';
+  'text-[clamp(1.3rem,1.8vw,1.6rem)] font-extrabold leading-[1.25] tracking-tight';
 
 
 export default function HomeView({ locale }: { locale: Locale }) {
@@ -79,11 +80,19 @@ export default function HomeView({ locale }: { locale: Locale }) {
           md:pt-30
           md:pb-[420px]
           h-[700px]
+          md:h-[780px]
         "
       >
 
         {/* 그래프는 섹션 아래쪽 고정 높이 띠 — 글자 영역과 겹치지 않는 선에서 최대한 붙인다.
-            아래 패딩 = 이 높이(여유분 없이 딱 맞춤). 높이를 바꾸면 패딩도 같이 바꿔야 한다 */}
+            아래 패딩 = 이 높이(여유분 없이 딱 맞춤). 높이를 바꾸면 패딩도 같이 바꿔야 한다.
+
+            PC 는 700px 높이로 그리고 140px 내려서 글과 띄운다. 섹션은 780px.
+            선의 가장 낮은 점이 그래프 높이의 86%(y 430/500)라
+            140 + 700 × 0.86 = 742px — 섹션 바닥(780) 안에 남는다.
+            채우기는 88% 지점(756px)에서 다 사라져 바닥 경계가 비치지 않는다.
+            더 내리려면 섹션 높이(md:h-[780px])도 같이 늘려야 한다. 예전엔
+            880px 고정이라 선의 왼쪽 시작점과 가운데 골짜기가 바닥에서 잘렸다. */}
 
         <div
           aria-hidden
@@ -92,16 +101,16 @@ export default function HomeView({ locale }: { locale: Locale }) {
             absolute
             inset-x-0
             top-100
-            md:top-0
+            md:top-[140px]
             h-[300px]
-            md:h-[880px]
+            md:h-[700px]
           "
         >
           <GrowthChart />
         </div>
 
 
-        <div className={`${CONTAINER} mt-0 md:mt-24`} >
+        <div className={`${CONTAINER} mt-0 md:mt-8`} >
 
           <GsapReveal type="fade-up" delay={0.12}>
             <h2 className={`mb-1 ${HEADING_SM} text-white`}>
@@ -115,8 +124,7 @@ export default function HomeView({ locale }: { locale: Locale }) {
                 mb-5
                 max-w-md
                 break-keep
-                text-[10px]
-                md:text-[14px]
+                text-[clamp(10px,0.55rem+0.35vw,14px)]
                 leading-[1.7]
                 text-white/60
               "
@@ -155,6 +163,7 @@ export default function HomeView({ locale }: { locale: Locale }) {
      <section
   className="
     relative
+    overflow-hidden
     bg-[#0a0a0f]
     px-6
     py-28
@@ -209,45 +218,8 @@ export default function HomeView({ locale }: { locale: Locale }) {
     </div>
 
 
-    {/* IMAGE */}
-    <GsapReveal
-      type="clip-up"
-      duration={1.2}
-      start="top 92%"
-    >
-      <div
-        className="
-          mx-auto
-          max-w-[1120px]
-        "
-      >
-        <div
-          className="
-  relative
-  mx-auto
-  aspect-square
-  w-full
-  max-w-[410px]
-  overflow-hidden
-  rounded-2xl
-  md:rounded-3xl
-"
-        >
-          <Image
-            src="/altistosecurities.jpg"
-            alt={home.security.imageAlt}
-            fill
-            sizes="
-              (min-width: 1360px) 1120px,
-              (min-width: 768px) calc(100vw - 80px),
-              calc(100vw - 48px)
-            "
-            quality={90}
-            className="object-cover"
-          />
-        </div>
-      </div>
-    </GsapReveal>
+    {/* IMAGE + 양옆 윤곽선 카드 — 등장 연출은 SecurityShowcase 한 타임라인에 묶여 있다 */}
+    <SecurityShowcase alt={home.security.imageAlt} />
 
   </div>
 </section>
