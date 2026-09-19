@@ -95,7 +95,7 @@ export default function ServicesView({ locale }: { locale: Locale }) {
 
             <div>
               <GsapReveal type="fade-up" delay={0.1}>
-                <a href="https://rti-eight.vercel.app/" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.alti.work/" target="_blank" rel="noopener noreferrer"
                   className="group inline-flex items-center gap-2.5 text-[15px] font-bold text-[#0d1117]">
                   <span className="border-b-2 border-[#0d1117] pb-0.5 transition-colors group-hover:border-[#f472b6] group-hover:text-[#f472b6]">
                     {sv.arti.cta}

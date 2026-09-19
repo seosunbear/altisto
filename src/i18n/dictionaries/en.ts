@@ -40,8 +40,8 @@ export const en: Dictionary = {
     ],
     areaServed: 'South Korea',
     arti: {
-      name: 'Arti',
-      alternateName: ['알티', 'Alti', 'Arti (알티)'],
+      name: 'Alti',
+      alternateName: ['알티', 'Alti', 'Alti (알티)'],
       subCategory: 'Creator outsourcing and commission marketplace',
       description:
         'A creator outsourcing and commission collaboration platform that connects artists with clients. Clients commission creative work such as illustration, design and video, and artists take it on.',
